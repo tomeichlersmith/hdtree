@@ -47,6 +47,7 @@ cmake --build build --target install
 - Add Tree interface for holding Branches
 - Maybe move buffer into Branches?
 - More tests and docs
+- exception class for better downstream exception handling
 - Look into parallel read
 
 ## Table of Contents

@@ -1,9 +1,9 @@
-#include "hdtree/h5/Reader.h"
+#include "hdtree/Reader.h"
 
 #include "hdtree/Constants.h"
-#include "hdtree/Data.h"
+#include "hdtree/branch/Branch.h"
 
-namespace hdtree::h5 {
+namespace hdtree {
 
 Reader::Reader(const std::string& name) 
   : file_{name},
@@ -133,7 +133,7 @@ Reader::MirrorObject::MirrorObject(const std::string& path, Reader& reader)
     } else if (type == HighFive::create_datatype<hdtree::Bool>()) {
       data_ = std::make_unique<io::Data<bool>>(path);
     } else {
-      throw Exception("UnknownDS","Unable to deduce C++ type from H5 type during a copy\n"
+      throw std::runtime_error("HDTreeUnknownDS: Unable to deduce C++ type from H5 type during a copy\n"
         "    User could avoid this issue simply by accessing the event object within some processor during the first event.", 
         false);
     }

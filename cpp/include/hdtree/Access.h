@@ -1,7 +1,7 @@
 #ifndef HDTREE_ACCESS_H
 #define HDTREE_ACCESS_H
 
-#include "fire/version/Version.h"
+#include "hdtree/Version.h"
 
 namespace hdtree {
 

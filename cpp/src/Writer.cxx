@@ -10,7 +10,7 @@ Writer::Writer(const int& event_limit, const config::Parameters& ps)
           std::vector<std::size_t>({HighFive::DataSpace::UNLIMITED})) {
   auto filename{ps.get<std::string>("name")};
   if (filename.empty()) {
-    throw fire::Exception("NoOutputFile",
+    throw std::runtime_error("NoOutputFile",
         "No output file was provided to fire\n"
         "         Use `p.output_file = 'my-file.h5'` in your python config.",
         false);

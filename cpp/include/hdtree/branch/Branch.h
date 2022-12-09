@@ -5,8 +5,8 @@
 #include <type_traits>
 #include <vector>
 #include <map>
+#include <exception>
 
-#include "fire/exception/Exception.h"
 #include "hdtree/Access.h"
 #include "hdtree/AbstractBranch.h"
 #include "hdtree/Writer.h"
@@ -125,7 +125,7 @@ class Branch : public AbstractBranch<DataType> {
    * types since the issue is (probably) not coming from serialization
    * of the container.
    *
-   * @throw Exception if HighFive is unable to load any of the members.
+   * @throw std::runtime_error if HighFive is unable to load any of the members.
    *
    * @param[in] f file to load from
    */
@@ -135,13 +135,13 @@ class Branch : public AbstractBranch<DataType> {
     const auto& [memt, memv] = this->save_type_;
     const auto& [diskt, diskv] = f.type(this->path_);
     std::stringstream ss;
-    ss << "Data at " << this->path_ << " could not be loaded into "
+    ss << "HDTreeBadType: Data at " << this->path_ << " could not be loaded into "
         << memt  << " (version " << memv << ") from the type it was written as " 
         << diskt << " (version " << diskv << ")\n"
         "  Check that your implementation of attach can handle any "
         "previous versions of your class you are trying to read.\n"
         "  H5 Error:\n" << e.what();
-    throw Exception("BadType",ss.str(), false);
+    throw std::runtime_error(ss.str());
   }
 
   /*
@@ -174,11 +174,11 @@ class Branch : public AbstractBranch<DataType> {
   template <typename MemberType>
   void attach(const std::string& name, MemberType& m, SaveLoad sl = SaveLoad::Both) {
     if (name == constants::SIZE_NAME) {
-      throw Exception("BadName",
-          "The member name '"+constants::SIZE_NAME+"' is not allowed due to "
+      throw std::runtime_error(
+          "HDTreeBadName: The member name '"+constants::SIZE_NAME+"' is not allowed due to "
           "its use in the serialization of variable length types.\n"
           "    Please give your member a more detailed name corresponding to "
-          "your class", false);
+          "your class");
     }
     bool save{false}, load{false};
     Reader* input_file{input_file_};
