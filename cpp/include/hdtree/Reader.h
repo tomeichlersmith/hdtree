@@ -4,8 +4,8 @@
 // using HighFive
 #include <highfive/H5File.hpp>
 
-#include "fire/io/Reader.h"
-#include "fire/io/Atomic.h"
+#include "hdtree/Reader.h"
+#include "hdtree/Atomic.h"
 
 namespace hdtree::h5 {
 

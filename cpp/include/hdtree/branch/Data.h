@@ -7,13 +7,13 @@
 #include <map>
 
 #include "fire/exception/Exception.h"
-#include "fire/io/Access.h"
-#include "fire/io/AbstractData.h"
-#include "fire/io/Writer.h"
-#include "fire/io/Constants.h"
-#include "fire/io/h5/Reader.h"
+#include "hdtree/Access.h"
+#include "hdtree/AbstractData.h"
+#include "hdtree/Writer.h"
+#include "hdtree/Constants.h"
+#include "hdtree/h5/Reader.h"
 #ifdef fire_USE_ROOT
-#include "fire/io/root/Reader.h"
+#include "hdtree/root/Reader.h"
 #endif
 
 /**

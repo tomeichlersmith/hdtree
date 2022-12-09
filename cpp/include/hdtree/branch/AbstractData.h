@@ -6,7 +6,7 @@
 #include <boost/core/demangle.hpp> // for demangling
 
 #include "fire/version/Version.h"
-#include "fire/io/ClassVersion.h"
+#include "hdtree/ClassVersion.h"
 
 namespace hdtree {
 

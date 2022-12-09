@@ -1,6 +1,6 @@
-#include "fire/io/Writer.h"
+#include "hdtree/Writer.h"
 
-#include "fire/io/Constants.h"
+#include "hdtree/Constants.h"
 
 namespace hdtree {
 

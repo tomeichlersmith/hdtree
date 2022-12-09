@@ -1,4 +1,4 @@
-#include "fire/io/Atomic.h"
+#include "hdtree/Atomic.h"
 
 namespace hdtree {
 

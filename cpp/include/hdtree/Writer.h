@@ -5,8 +5,8 @@
 #include <highfive/H5File.hpp>
 
 #include "fire/config/Parameters.h"
-#include "fire/io/Atomic.h"
-#include "fire/io/Constants.h"
+#include "hdtree/Atomic.h"
+#include "hdtree/Constants.h"
 
 namespace hdtree {
 
