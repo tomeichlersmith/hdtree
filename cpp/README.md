@@ -6,8 +6,15 @@ hdtree-cpp is a C++17 library with support for
 - schema evolution of user-defined structures stored in branches of the HDTree
 
 ## Installation
+### Depedencies
+- HDF5
+- HighFive
+- Boost (for demangling, plans to make optional)
+
 ```
-cmake -B build -S . -DCMAKE_INSTALL_PREFIX=<prefix>
+cmake -B build -S . \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX=<prefix>
 cmake --build build --target test
 cmake --build build --target install
 ```

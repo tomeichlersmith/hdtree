@@ -32,11 +32,11 @@ add_library(HDTree SHARED
   src/Atomic.cxx
   src/Reader.cxx
   src/Writer.cxx)
-target_include_directories(version
-  INTERFACE
-  "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>"
+target_include_directories(HDTree PUBLIC 
+  "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
   "$<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>"
   )
+target_link_libraries(HDTree PUBLIC HighFive)
 
 # Compiling the HDTree library requires features introduced by the cxx 17 standard.
 set_target_properties(HDTree
@@ -60,7 +60,6 @@ install(DIRECTORY include/ DESTINATION include/ FILES_MATCHING PATTERN "*.h")
 # install the export file
 install(EXPORT HDTreeTargets
   FILE HDTreeTargets.cmake
-  NAMESPACE HDTree::
   DESTINATION lib/cmake/HDTree)
 
 include(CMakePackageConfigHelpers)
@@ -73,8 +72,7 @@ write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/HDTreeConfigVersio
 install(FILES
       "${CMAKE_CURRENT_BINARY_DIR}/HDTreeConfig.cmake"
       "${CMAKE_CURRENT_BINARY_DIR}/HDTreeConfigVersion.cmake"
-      DESTINATION lib/cmake/fire
-      )
+      DESTINATION lib/cmake/HDTree)
 
 include(CTest)
 if (BUILD_TESTING)
