@@ -2,7 +2,7 @@
 
 #include "fire/io/Constants.h"
 
-namespace fire::io {
+namespace hdtree {
 
 Writer::Writer(const int& event_limit, const config::Parameters& ps)
     : create_props_{},

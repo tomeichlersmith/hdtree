@@ -3,12 +3,12 @@
  * Definitions for names of structures required by
  * serialization methods.
  */
-#ifndef FIRE_IO_CONSTANTS_H
-#define FIRE_IO_CONSTANTS_H
+#ifndef HDTREE_CONSTANTS_H
+#define HDTREE_CONSTANTS_H
 
 #include <string>
 
-namespace fire::io {
+namespace hdtree {
 
 /**
  * Structure constants vital to serialization method

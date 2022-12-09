@@ -1,5 +1,5 @@
-#ifndef FIRE_IO_DATA_H
-#define FIRE_IO_DATA_H
+#ifndef HDTREE_DATA_H
+#define HDTREE_DATA_H
 
 #include <memory>
 #include <type_traits>
@@ -26,12 +26,12 @@
  *
  * ## Access Pattern
  *
- * Below is a sketch of how the various fire::io::Data template classes
+ * Below is a sketch of how the various hdtree::Data template classes
  * interact with each other and the broader fire ecosystem.
  *
  * @image html fire_io_Data_AccessPattern.svg
  */
-namespace fire::io {
+namespace hdtree {
 
 // need implementation here so we can use the fully defined input file `type` function
 template <typename DataType>
@@ -57,7 +57,7 @@ AbstractData<DataType>::AbstractData(const std::string& path, Reader* input_file
  * method.
  *
  * More complete documentation is kept in the documentation
- * of the fire::io namespace; nevertheless, a short example
+ * of the hdtree namespace; nevertheless, a short example
  * is kept here.
  *
  * ```cpp
@@ -67,7 +67,7 @@ AbstractData<DataType>::AbstractData(const std::string& path, Reader* input_file
  *   MyData() = default; // required by serialization technique
  *   // other public members
  *  private:
- *   friend class fire::io::access;
+ *   friend class hdtree::access;
  *   template<typename Data>
  *   void attach(Data& d) {
  *     d.attach("my_double",my_double_);
@@ -115,7 +115,7 @@ class Data : public AbstractData<DataType> {
    */
   explicit Data(const std::string& path, Reader* input_file = nullptr, DataType* handle = nullptr)
       : AbstractData<DataType>(path, input_file, handle), input_file_{input_file} {
-    fire::io::access::connect(*this->handle_, *this);
+    hdtree::access::connect(*this->handle_, *this);
   }
 
   /**
@@ -489,7 +489,7 @@ class Data<std::map<KeyType,ValType>>
   Data<ValType> vals_;
 };  // Data<std::map>
 
-}  // namespace fire::io
+}  // namespace hdtree
   
 #endif  // FIRE_H5_DATASET_H
 

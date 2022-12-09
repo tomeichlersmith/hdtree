@@ -1,7 +1,7 @@
 /** @file Atomic.h */
 
-#ifndef FIRE_IO_ATOMIC_H
-#define FIRE_IO_ATOMIC_H
+#ifndef HDTREE_ATOMIC_H
+#define HDTREE_ATOMIC_H
 
 /**
  * Geant4 does a GLOBAL definition of the keyword TRUE
@@ -16,7 +16,7 @@
 
 #include <highfive/H5DataType.hpp>
 
-namespace fire::io {
+namespace hdtree {
 
 /**
  * HighFive supports many C++ "atomic" types that are used regularly.
@@ -51,7 +51,7 @@ enum class Bool : bool {
  */
 HighFive::EnumType<Bool> create_enum_bool();
 
-}  // namespace fire::io
+}  // namespace hdtree
 
 /**
  * full specialization of HighFive template function
@@ -61,7 +61,7 @@ HighFive::EnumType<Bool> create_enum_bool();
  *
  * The reason we have to _not_ use the macro here is two fold.
  * 1. We need the declaration of this registration to be done in this header 
- *    so that it is accessible by both the fire::io target and the downstream
+ *    so that it is accessible by both the hdtree target and the downstream
  *    fire::framework target.
  * 2. We need to define the registration only once to avoid a duplicate
  *    definition compiler error during the linking step.
@@ -71,6 +71,6 @@ HighFive::EnumType<Bool> create_enum_bool();
  * files of Atomic.
  */
 template<>
-HighFive::DataType HighFive::create_datatype<fire::io::Bool>();
+HighFive::DataType HighFive::create_datatype<hdtree::Bool>();
 
 #endif

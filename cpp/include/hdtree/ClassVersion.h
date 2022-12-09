@@ -3,10 +3,10 @@
  * Serialization class version deduction
  */
 
-#ifndef FIRE_IO_CLASSVERSION_H
-#define FIRE_IO_CLASSVERSION_H
+#ifndef HDTREE_CLASSVERSION_H
+#define HDTREE_CLASSVERSION_H
 
-namespace fire::io {
+namespace hdtree {
 
 /**
  * hide the SFINAE confusing nonsense from the rest of the world
@@ -82,5 +82,5 @@ inline constexpr int class_version = class_version_impl::deducer<T>::version::va
  */
 #define fire_class_version(VERS) using version = std::integral_constant<int,VERS>
 
-#endif  // FIRE_IO_CLASSVERSION_H
+#endif  // HDTREE_CLASSVERSION_H
 

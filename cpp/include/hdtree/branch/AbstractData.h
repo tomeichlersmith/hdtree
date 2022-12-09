@@ -1,5 +1,5 @@
-#ifndef FIRE_IO_ABSTRACTDATA_H
-#define FIRE_IO_ABSTRACTDATA_H
+#ifndef HDTREE_ABSTRACTDATA_H
+#define HDTREE_ABSTRACTDATA_H
 
 #include <string>
 
@@ -8,7 +8,7 @@
 #include "fire/version/Version.h"
 #include "fire/io/ClassVersion.h"
 
-namespace fire::io {
+namespace hdtree {
 
 class Writer;
 class Reader;

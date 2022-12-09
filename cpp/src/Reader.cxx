@@ -3,7 +3,7 @@
 #include "fire/io/Constants.h"
 #include "fire/io/Data.h"
 
-namespace fire::io::h5 {
+namespace hdtree::h5 {
 
 Reader::Reader(const std::string& name) 
   : file_{name},
@@ -15,7 +15,7 @@ Reader::Reader(const std::string& name)
         constants::RUN_HEADER_NAME+"/"+
         constants::NUMBER_NAME)
       .getDimensions().at(0)},
-   ::fire::io::Reader(name) {}
+   ::hdtree::Reader(name) {}
 
 void Reader::load_into(BaseData& d) {
   d.load(*this);
@@ -130,7 +130,7 @@ Reader::MirrorObject::MirrorObject(const std::string& path, Reader& reader)
       data_ = std::make_unique<io::Data<double>>(path);
     } else if (type == HighFive::create_datatype<std::string>()) {
       data_ = std::make_unique<io::Data<std::string>>(path);
-    } else if (type == HighFive::create_datatype<fire::io::Bool>()) {
+    } else if (type == HighFive::create_datatype<hdtree::Bool>()) {
       data_ = std::make_unique<io::Data<bool>>(path);
     } else {
       throw Exception("UnknownDS","Unable to deduce C++ type from H5 type during a copy\n"
@@ -192,9 +192,9 @@ void Reader::MirrorObject::copy(unsigned long int i_entry, unsigned long int n, 
   for (auto& obj  : obj_members_) obj->copy(num_to_advance, num_to_save, output);
 }
 
-}  // namespace fire::io::h5
+}  // namespace hdtree::h5
 
 /// register this reader with the reader factory
 namespace {
-auto v = fire::io::Reader::Factory::get().declare<fire::io::h5::Reader>();
+auto v = hdtree::Reader::Factory::get().declare<fire::io::h5::Reader>();
 }

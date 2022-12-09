@@ -1,5 +1,5 @@
-#ifndef FIRE_IO_H5_WRITER_H
-#define FIRE_IO_H5_WRITER_H
+#ifndef HDTREE_H5_WRITER_H
+#define HDTREE_H5_WRITER_H
 
 // using HighFive
 #include <highfive/H5File.hpp>
@@ -8,7 +8,7 @@
 #include "fire/io/Atomic.h"
 #include "fire/io/Constants.h"
 
-namespace fire::io {
+namespace hdtree {
 
 /**
  * Write the fire DataSets into a deterministic structure
@@ -228,7 +228,7 @@ class Writer {
      * a compile-time choice that handles the std::vector<bool>
      * specialization
      * [bug in HighFive](https://github.com/BlueBrain/HighFive/issues/490).
-     * *and* translates bools into our custom enum fire::io::Bool
+     * *and* translates bools into our custom enum hdtree::Bool
      * which mimics the serialization behavior of the bool type
      * understandable by h5py.
      *

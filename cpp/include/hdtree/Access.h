@@ -1,9 +1,9 @@
-#ifndef FIRE_IO_ACCESS_H
-#define FIRE_IO_ACCESS_H
+#ifndef HDTREE_ACCESS_H
+#define HDTREE_ACCESS_H
 
 #include "fire/version/Version.h"
 
-namespace fire::io {
+namespace hdtree {
 
 /**
  * empty struct for connecting a instance of Data
@@ -16,7 +16,7 @@ namespace fire::io {
  * A class interested in being wrapped by Data
  * should declare this struct as its friend.
  * ```cpp
- * friend class fire::io::access;
+ * friend class hdtree::access;
  * ```
  */
 struct access {
