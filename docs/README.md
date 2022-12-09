@@ -24,3 +24,9 @@ Similarly, a variable-length mapping is flattened into three sub-branches:
 - `keys` : is a branch storing the keys in the mappings
 - `vals` : is a branch storing the values in the mappings
 
+The recursive process of sub-branching continues until atomic[^1] data types are reached.
+Which are the only actual HDF5 DataSets. They are stored in chunked and compressed 
+one dimensional DataSets.
+
+[^1] : integers, floats, and strings
+
