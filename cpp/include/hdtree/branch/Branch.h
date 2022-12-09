@@ -1,5 +1,5 @@
-#ifndef HDTREE_DATA_H
-#define HDTREE_DATA_H
+#ifndef HDTREE_BRANCH_H
+#define HDTREE_BRANCH_H
 
 #include <memory>
 #include <type_traits>
@@ -8,13 +8,10 @@
 
 #include "fire/exception/Exception.h"
 #include "hdtree/Access.h"
-#include "hdtree/AbstractData.h"
+#include "hdtree/AbstractBranch.h"
 #include "hdtree/Writer.h"
 #include "hdtree/Constants.h"
-#include "hdtree/h5/Reader.h"
-#ifdef fire_USE_ROOT
-#include "hdtree/root/Reader.h"
-#endif
+#include "hdtree/Reader.h"
 
 /**
  * serialization to and from HDF5 files
@@ -26,7 +23,7 @@
  *
  * ## Access Pattern
  *
- * Below is a sketch of how the various hdtree::Data template classes
+ * Below is a sketch of how the various hdtree::Branch template classes
  * interact with each other and the broader fire ecosystem.
  *
  * @image html fire_io_Data_AccessPattern.svg
@@ -35,8 +32,8 @@ namespace hdtree {
 
 // need implementation here so we can use the fully defined input file `type` function
 template <typename DataType>
-AbstractData<DataType>::AbstractData(const std::string& path, Reader* input_file, DataType* handle)
-  : BaseData(path), owner_{handle == nullptr} {
+AbstractBranch<DataType>::AbstractBranch(const std::string& path, Reader* input_file, DataType* handle)
+  : BaseBranch(path), owner_{handle == nullptr} {
   if (owner_) {
     handle_ = new DataType;
   } else {
@@ -68,11 +65,11 @@ AbstractData<DataType>::AbstractData(const std::string& path, Reader* input_file
  *   // other public members
  *  private:
  *   friend class hdtree::access;
- *   template<typename Data>
- *   void attach(Data& d) {
- *     d.attach("my_double",my_double_);
- *     if (d.version() < 2) d.rename("old","new",new_);
- *     else d.attach("new",new_);
+ *   template<typename Branch>
+ *   void attach(Branch& b) {
+ *     b.attach("my_double",my_double_);
+ *     if (b.version() < 2) b.rename("old","new",new_);
+ *     else b.attach("new",new_);
  *   }
  *   void clear() {
  *     my_double_ = -1; // reset to default value
@@ -87,7 +84,7 @@ AbstractData<DataType>::AbstractData(const std::string& path, Reader* input_file
  * ```
  */
 template <typename DataType, typename Enable = void>
-class Data : public AbstractData<DataType> {
+class Branch : public AbstractBranch<DataType> {
  public:
   /**
    * Flag how a member variable should be accessed by serialization
@@ -104,17 +101,17 @@ class Data : public AbstractData<DataType> {
   /**
    * Attach ourselves to the input type after construction.
    *
-   * After the intermediate class AbstractData does the
-   * initialization, we call the `void attach(io::Data<DataType>& d)`
+   * After the intermediate class AbstractBranch does the
+   * initialization, we call the `void attach(io::Branch<DataType>& d)`
    * method of the data pointed to by our handle. 
    * This allows us to register its member variables with our own 
-   * io::Data<DataType>::attach method.
+   * io::Branch<DataType>::attach method.
    *
    * @param[in] path full in-file path to the data set for this data
    * @param[in] handle address of object already created (optional)
    */
-  explicit Data(const std::string& path, Reader* input_file = nullptr, DataType* handle = nullptr)
-      : AbstractData<DataType>(path, input_file, handle), input_file_{input_file} {
+  explicit Branch(const std::string& path, Reader* input_file = nullptr, DataType* handle = nullptr)
+      : AbstractBranch<DataType>(path, input_file, handle), input_file_{input_file} {
     hdtree::access::connect(*this->handle_, *this);
   }
 
@@ -132,7 +129,7 @@ class Data : public AbstractData<DataType> {
    *
    * @param[in] f file to load from
    */
-  void load(h5::Reader& f) final override try {
+  void load(Reader& f) final override try {
     for (auto& [save,load,m] : members_) if (load) m->load(f);
   } catch (const HighFive::DataSetException& e) {
     const auto& [memt, memv] = this->save_type_;
@@ -146,16 +143,6 @@ class Data : public AbstractData<DataType> {
         "  H5 Error:\n" << e.what();
     throw Exception("BadType",ss.str(), false);
   }
-
-#ifdef fire_USE_ROOT
-  /**
-   * Loading this dataset from a ROOT file involves giving
-   * it directly to the file immediately.
-   */
-  void load(root::Reader& f) final override {
-    f.load(this->path_, *(this->handle_));
-  }
-#endif
 
   /*
    * Saving this dataset from the file involves simply saving
@@ -175,7 +162,7 @@ class Data : public AbstractData<DataType> {
   /**
    * Attach a member object from the our data handle
    *
-   * We create a new child Data so that we can recursively
+   * We create a new child Branch so that we can recursively
    * handle complex member variable types.
    *
    * @tparam MemberType type of member variable we are attaching
@@ -199,7 +186,7 @@ class Data : public AbstractData<DataType> {
     else if (sl == SaveLoad::SaveOnly) { save = true; input_file = nullptr; }
     else { save = true; load = true; }
     members_.push_back(std::make_tuple(save, load,
-        std::make_unique<Data<MemberType>>(this->path_ + "/" + name, input_file, &m)));
+        std::make_unique<Branch<MemberType>>(this->path_ + "/" + name, input_file, &m)));
   }
 
   /**
@@ -231,13 +218,13 @@ class Data : public AbstractData<DataType> {
    *
    * This is the core of schema evolution.
    */
-  std::vector<std::tuple<bool,bool,std::unique_ptr<BaseData>>> members_;
+  std::vector<std::tuple<bool,bool,std::unique_ptr<BaseBranch>>> members_;
   /// pointer to the input file (if there is one)
   Reader* input_file_;
-};  // Data
+};  // Branch
 
 /**
- * Data wrapper for atomic types
+ * Branch wrapper for atomic types
  *
  * @see io::is_atomic for how we deduce if a type is atomic
  *
@@ -245,40 +232,30 @@ class Data : public AbstractData<DataType> {
  * we can start actually calling the file load and save methods.
  */
 template <typename AtomicType>
-class Data<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
-    : public AbstractData<AtomicType> {
+class Branch<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
+    : public AbstractBranch<AtomicType> {
  public:
   /**
    * We don't do any more initialization except which is handled by the
-   * AbstractData
+   * AbstractBranch
    *
    * @param[in] path full in-file path to set holding this data
    * @param[in] handle pointer to already constructed data object (optional)
    */
-  explicit Data(const std::string& path, Reader* input_file = nullptr, AtomicType* handle = nullptr)
-      : AbstractData<AtomicType>(path, input_file, handle) {}
+  explicit Branch(const std::string& path, Reader* input_file = nullptr, AtomicType* handle = nullptr)
+      : AbstractBranch<AtomicType>(path, input_file, handle) {}
 
   /**
-   * Down to a type that h5::Reader can handle.
+   * Down to a type that Reader can handle.
    *
-   * @see h5::Reader::load for how we read data from
+   * @see Reader::load for how we read data from
    * the file at the input path to our handle.
    *
-   * @param[in] f h5::Reader to load from
+   * @param[in] f Reader to load from
    */
-  void load(h5::Reader& f) final override {
+  void load(Reader& f) final override {
     f.load(this->path_, *(this->handle_));
   }
-
-#ifdef fire_USE_ROOT
-  /**
-   * Loading this dataset from a ROOT file involves giving
-   * it directly to the file immediately.
-   */
-  void load(root::Reader& f) final override {
-    f.load(this->path_, *(this->handle_));
-  }
-#endif
 
   /**
    * Down to a type that io::Writer can handle
@@ -302,7 +279,7 @@ class Data<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
     // atomic types get translated into H5 DataSets
     // in save so we purposefully DO NOTHING here
   }
-};  // Data<AtomicType>
+};  // Branch<AtomicType>
 
 /**
  * Our wrapper around std::vector
@@ -316,8 +293,8 @@ class Data<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
  * @tparam ContentType type of object stored within the std::vector
  */
 template <typename ContentType>
-class Data<std::vector<ContentType>>
-    : public AbstractData<std::vector<ContentType>> {
+class Branch<std::vector<ContentType>>
+    : public AbstractBranch<std::vector<ContentType>> {
   fire_class_version(1);
  public:
   /**
@@ -327,9 +304,9 @@ class Data<std::vector<ContentType>>
    * @param[in] path full in-file path to set holding this data
    * @param[in] handle pointer to object already constructed (optional)
    */
-  explicit Data(const std::string& path, Reader* input_file = nullptr, 
+  explicit Branch(const std::string& path, Reader* input_file = nullptr, 
       std::vector<ContentType>* handle = nullptr)
-      : AbstractData<std::vector<ContentType>>(path, input_file, handle),
+      : AbstractBranch<std::vector<ContentType>>(path, input_file, handle),
         size_{path + "/" + constants::SIZE_NAME, input_file},
         data_{path + "/data", input_file} {}
 
@@ -343,7 +320,7 @@ class Data<std::vector<ContentType>>
    *
    * @param[in] f h5::Reader to load from
    */
-  void load(h5::Reader& f) final override {
+  void load(Reader& f) final override {
     size_.load(f);
     this->handle_->resize(size_.get());
     for (std::size_t i_vec{0}; i_vec < size_.get(); i_vec++) {
@@ -351,16 +328,6 @@ class Data<std::vector<ContentType>>
       (*(this->handle_))[i_vec] = data_.get();
     }
   }
-
-#ifdef fire_USE_ROOT
-  /**
-   * Loading this dataset from a ROOT file involves giving
-   * it directly to the file immediately.
-   */
-  void load(root::Reader& f) final override {
-    f.load(this->path_, *(this->handle_));
-  }
-#endif
 
   /**
    * Save a vector to the output file
@@ -388,10 +355,10 @@ class Data<std::vector<ContentType>>
 
  private:
   /// the data set of sizes of the vectors
-  Data<std::size_t> size_;
+  Branch<std::size_t> size_;
   /// the data set holding the content of all the vectors
-  Data<ContentType> data_;
-};  // Data<std::vector>
+  Branch<ContentType> data_;
+};  // Branch<std::vector>
 
 /**
  * Our wrapper around std::map
@@ -400,14 +367,14 @@ class Data<std::vector<ContentType>>
  * two columns rather than only one.
  *
  * @note We assume the load/save is done sequentially.
- * Similar rational as io::Data<std::vector<ContentType>>
+ * Similar rational as io::Branch<std::vector<ContentType>>
  *
  * @tparam KeyType type that the keys in the map are
  * @tparam ValType type that the vals in the map are
  */
 template <typename KeyType, typename ValType>
-class Data<std::map<KeyType,ValType>>
-    : public AbstractData<std::map<KeyType,ValType>> {
+class Branch<std::map<KeyType,ValType>>
+    : public AbstractBranch<std::map<KeyType,ValType>> {
   fire_class_version(1);
  public:
   /**
@@ -417,9 +384,9 @@ class Data<std::map<KeyType,ValType>>
    * @param[in] path full in-file path to set holding this data
    * @param[in] handle pointer to object already constructed (optional)
    */
-  explicit Data(const std::string& path, Reader* input_file = nullptr, 
+  explicit Branch(const std::string& path, Reader* input_file = nullptr, 
       std::map<KeyType,ValType>* handle = nullptr)
-      : AbstractData<std::map<KeyType,ValType>>(path, input_file, handle),
+      : AbstractBranch<std::map<KeyType,ValType>>(path, input_file, handle),
         size_{path + "/" + constants::SIZE_NAME, input_file},
         keys_{path + "/keys", input_file},
         vals_{path + "/vals", input_file} {}
@@ -434,7 +401,7 @@ class Data<std::map<KeyType,ValType>>
    *
    * @param[in] f h5::Reader to load from
    */
-  void load(h5::Reader& f) final override {
+  void load(Reader& f) final override {
     size_.load(f);
     for (std::size_t i_map{0}; i_map < size_.get(); i_map++) {
       keys_.load(f);
@@ -442,16 +409,6 @@ class Data<std::map<KeyType,ValType>>
       this->handle_->emplace(keys_.get(), vals_.get());
     }
   }
-
-#ifdef fire_USE_ROOT
-  /**
-   * Loading this dataset from a ROOT file involves giving
-   * it directly to the file immediately.
-   */
-  void load(root::Reader& f) final override {
-    f.load(this->path_, *(this->handle_));
-  }
-#endif
 
   /**
    * Save a vector to the output file
@@ -482,14 +439,14 @@ class Data<std::map<KeyType,ValType>>
 
  private:
   /// the data set of sizes of the vectors
-  Data<std::size_t> size_;
+  Branch<std::size_t> size_;
   /// the data set holding the content of all the keys
-  Data<KeyType> keys_;
+  Branch<KeyType> keys_;
   /// the data set holding the content of all the vals
-  Data<ValType> vals_;
-};  // Data<std::map>
+  Branch<ValType> vals_;
+};  // Branch<std::map>
 
 }  // namespace hdtree
   
-#endif  // FIRE_H5_DATASET_H
+#endif  // HDTREE_BRANCH_H
 

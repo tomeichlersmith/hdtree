@@ -1,21 +1,17 @@
-#ifndef HDTREE_ABSTRACTDATA_H
-#define HDTREE_ABSTRACTDATA_H
+#ifndef HDTREE_ABSTRACTBRANCH_H
+#define HDTREE_ABSTRACTBRANCH_H
 
 #include <string>
 
 #include <boost/core/demangle.hpp> // for demangling
 
-#include "fire/version/Version.h"
+#include "hdtree/Version.h"
 #include "hdtree/ClassVersion.h"
 
 namespace hdtree {
 
 class Writer;
 class Reader;
-namespace h5 { class Reader; }
-#ifdef fire_USE_ROOT
-namespace root { class Reader; }
-#endif
 
 /**
  * Empty data base allowing recursion
@@ -27,35 +23,26 @@ namespace root { class Reader; }
  *
  * @note Users should never interact with this class.
  */
-class BaseData {
+class BaseBranch {
  public:
   /**
    * Define the full in-file path to the data set of this data
    *
    * @param[in] path full in-file path to the data set
    */
-  explicit BaseData(const std::string& path) : path_{path} {}
+  explicit BaseBranch(const std::string& path) : path_{path} {}
 
   /**
    * virtual destructor so inherited classes can be properly destructed.
    */
-  virtual ~BaseData() = default;
+  virtual ~BaseBranch() = default;
 
   /**
    * pure virtual method for loading data from the input file
    *
-   * @param[in] f h5::Reader to load from
+   * @param[in] f Reader to load from
    */
-  virtual void load(h5::Reader& f) = 0;
-
-#ifdef fire_USE_ROOT
-  /**
-   * pure virtual method for loading data from the input file
-   *
-   * @param[in] f root::Reader to load from
-   */
-  virtual void load(root::Reader& f) = 0;
-#endif
+  virtual void load(Reader& f) = 0;
 
   /**
    * pure virtual method for saving the current data
@@ -80,7 +67,6 @@ class BaseData {
  protected:
   /// path of data set
   std::string path_;
-
 };
 
 /**
@@ -93,7 +79,7 @@ class BaseData {
  * @tparam DataType type of data being held in this set
  */
 template <typename DataType>
-class AbstractData : public BaseData {
+class AbstractBranch : public BaseBranch {
  public:
   /**
    * Define the dataset path and provide an optional handle
@@ -112,34 +98,25 @@ class AbstractData : public BaseData {
    * @param[in] path full in-file path to the data set
    * @param[in] handle address of object already created (optional)
    */
-  explicit AbstractData(const std::string& path, Reader* input_file = nullptr, 
+  explicit AbstractBranch(const std::string& path, Reader* input_file = nullptr, 
       DataType* handle = nullptr);
 
   /**
    * Delete our object if we own it, otherwise do nothing.
    *
    * @note This is virtual, but I can't think of a good reason to re-implement
-   * this function in downstream Data specializations!
+   * this function in downstream Branch specializations!
    */
-  virtual ~AbstractData() {
+  virtual ~AbstractBranch() {
     if (owner_) delete handle_;
   }
 
   /**
    * pure virtual method for loading data 
    *
-   * @param[in] f h5::Reader to load from
+   * @param[in] f Reader to load from
    */
-  virtual void load(h5::Reader& f) = 0;
-
-#ifdef fire_USE_ROOT
-  /**
-   * pure virtual method for loading data from the input file
-   *
-   * @param[in] f root::Reader to load from
-   */
-  virtual void load(root::Reader& f) = 0;
-#endif
+  virtual void load(Reader& f) = 0;
 
   /**
    * pure virtual method for saving data
@@ -237,7 +214,7 @@ class AbstractData : public BaseData {
   DataType* handle_;
   /// we own the object in memory
   bool owner_;
-};  // AbstractData
+};  // AbstractBranch
 
 }
 
