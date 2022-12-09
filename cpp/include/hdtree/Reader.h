@@ -5,7 +5,7 @@
 #include <highfive/H5File.hpp>
 
 #include "hdtree/Atomic.h"
-#include "hdtree/branch/AbstractBranch.h"
+#include "hdtree/AbstractBranch.h"
 #include "hdtree/Writer.h"
 
 namespace hdtree {
@@ -178,7 +178,7 @@ class Reader {
     if (buffers_.find(path) == buffers_.end()) {
       // first load attempt, we will find out if dataset exists in file here
       buffers_.emplace(path, std::make_unique<Buffer<AtomicType>>(
-                                 rows_per_chunk_, file_.getDataSet(path)));
+                                 rows_per_chunk_, tree_.getDataSet(path)));
     }
 
     dynamic_cast<Buffer<AtomicType>&>(*buffers_[path]).read(val);

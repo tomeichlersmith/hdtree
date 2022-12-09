@@ -1,7 +1,7 @@
 #include "hdtree/Reader.h"
 
 #include "hdtree/Constants.h"
-#include "hdtree/branch/Branch.h"
+#include "hdtree/Branch.h"
 
 namespace hdtree {
 
@@ -19,17 +19,16 @@ std::string Reader::name() const { return file_.getName(); }
 
 std::vector<std::string> Reader::list(const std::string& group_path) const {
   // just return empty list of group does not exist
-  if (not file_.exist(group_path)) return {};
-  return file_.getGroup(group_path).listObjectNames();
+  if (not tree_.exist(group_path)) return {};
+  return tree_.getGroup(group_path).listObjectNames();
 }
 
-HighFive::DataType Reader::getDataSetType(
-    const std::string& dataset) const {
-  return file_.getDataSet(dataset).getDataType();
+HighFive::DataType Reader::getDataSetType(const std::string& dataset) const {
+  return tree_.getDataSet(dataset).getDataType();
 }
 
 HighFive::ObjectType Reader::getH5ObjectType(const std::string& path) const {
-  return file_.getObjectType(path);
+  return tree_.getObjectType(path);
 }
 
 std::vector<std::pair<std::string,std::string>> Reader::availableObjects() {
@@ -40,12 +39,12 @@ std::vector<std::pair<std::string,std::string>> Reader::availableObjects() {
 std::pair<std::string,int> Reader::type(const std::string& path) {
   HighFive::Attribute type_attr = 
     getH5ObjectType(path) == HighFive::ObjectType::Dataset
-          ? file_.getDataSet(path).getAttribute(constants::TYPE_ATTR_NAME)
-          : file_.getGroup(path).getAttribute(constants::TYPE_ATTR_NAME);
+          ? tree_.getDataSet(path).getAttribute(constants::TYPE_ATTR_NAME)
+          : tree_.getGroup(path).getAttribute(constants::TYPE_ATTR_NAME);
   HighFive::Attribute vers_attr = 
     getH5ObjectType(path) == HighFive::ObjectType::Dataset
-          ? file_.getDataSet(path).getAttribute(constants::VERS_ATTR_NAME)
-          : file_.getGroup(path).getAttribute(constants::VERS_ATTR_NAME);
+          ? tree_.getDataSet(path).getAttribute(constants::VERS_ATTR_NAME)
+          : tree_.getGroup(path).getAttribute(constants::VERS_ATTR_NAME);
 
   std::string type;
   type_attr.read(type);
