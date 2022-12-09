@@ -1,17 +1,11 @@
 # hdtree-cpp
 C++ API for the HDTree data organization structure.
 
-hdtree-cpp is a header-only C++17 library with support for 
+hdtree-cpp is a C++17 library with support for 
 - serial read/write of an HDTree
 - schema evolution of user-defined structures stored in branches of the HDTree
 
 ## Installation
-Since hdtree-cpp is header-only, you can _technically_ make sure your program
-includes the `include` directory here; however, it is preferred to build, test,
-and install hdtree-cpp within your environment so that you check hdtree-cpp is
-compatible with your environment and you generate the CMake integration for
-hdtree-cpp.
-
 ```
 cmake -B build -S . -DCMAKE_INSTALL_PREFIX=<prefix>
 cmake --build build --target test
@@ -41,6 +35,7 @@ cmake --build build --target install
 
 ## Table of Contents
 - include: the headers for the HDTree C++ API
+- src: source files compiled into the hdtree-cpp library
 - test: source files for testing hdtree-cpp
 - examples: simple, example programs showing hdtree-cpp's various abilities
   - compilation and running of examples are included _always_ included in the build
