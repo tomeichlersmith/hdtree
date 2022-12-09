@@ -5,19 +5,13 @@
 
 namespace hdtree {
 
-Reader::Reader(const std::string& name) 
-  : file_{name},
-    entries_{file_.getDataSet(
-        constants::EVENT_GROUP + "/" 
-      + constants::EVENT_HEADER_NAME + "/" 
-      + constants::NUMBER_NAME).getDimensions().at(0)},
-    runs_{file_.getDataSet(
-        constants::RUN_HEADER_NAME+"/"+
-        constants::NUMBER_NAME)
-      .getDimensions().at(0)},
-   ::hdtree::Reader(name) {}
+Reader::Reader(const std::string& file_path, const std::string& tree_path) 
+  : file_{file_path}, tree_{file_.getGroup(tree_path)} {
+  HighFive::Attribute size_attr = tree_.getAttribute(constants::SIZE_NAME);
+  size_attr.read(entries_);
+}
 
-void Reader::load_into(BaseData& d) {
+void Reader::load_into(BaseBranch& d) {
   d.load(*this);
 }
 
@@ -39,18 +33,8 @@ HighFive::ObjectType Reader::getH5ObjectType(const std::string& path) const {
 }
 
 std::vector<std::pair<std::string,std::string>> Reader::availableObjects() {
-  std::vector<std::pair<std::string,std::string>> objs;
-  std::vector<std::string> passes = list(io::constants::EVENT_GROUP);
-  for (const std::string& pass : passes) {
-    // skip the event header
-    if (pass == io::constants::EVENT_HEADER_NAME) continue;
-    // get a list of objects in this pass group
-    std::vector<std::string> object_names = list(io::constants::EVENT_GROUP + "/" + pass);
-    for (const std::string& obj_name : object_names) {
-      objs.emplace_back(obj_name, pass);
-    }
-  }
-  return objs;
+  // TODO recursively list branches in tree
+  return {};
 }
 
 std::pair<std::string,int> Reader::type(const std::string& path) {
@@ -113,29 +97,28 @@ Reader::MirrorObject::MirrorObject(const std::string& path, Reader& reader)
     //  copying the code for all of the types
     HighFive::DataType type = reader_.getDataSetType(path);
     if (type == HighFive::create_datatype<int>()) {
-      data_ = std::make_unique<io::Data<int>>(path);
+      data_ = std::make_unique<Branch<int>>(path);
     } else if (type == HighFive::create_datatype<long int>()) {
-      data_ = std::make_unique<io::Data<long int>>(path);
+      data_ = std::make_unique<Branch<long int>>(path);
     } else if (type == HighFive::create_datatype<long long int>()) {
-      data_ = std::make_unique<io::Data<long long int>>(path);
+      data_ = std::make_unique<Branch<long long int>>(path);
     } else if (type == HighFive::create_datatype<unsigned int>()) {
-      data_ = std::make_unique<io::Data<unsigned int>>(path);
+      data_ = std::make_unique<Branch<unsigned int>>(path);
     } else if (type == HighFive::create_datatype<unsigned long int>()) {
-      data_ = std::make_unique<io::Data<unsigned long int>>(path);
+      data_ = std::make_unique<Branch<unsigned long int>>(path);
     } else if (type == HighFive::create_datatype<unsigned long long int>()) {
-      data_ = std::make_unique<io::Data<unsigned long long int>>(path);
+      data_ = std::make_unique<Branch<unsigned long long int>>(path);
     } else if (type == HighFive::create_datatype<float>()) {
-      data_ = std::make_unique<io::Data<float>>(path);
+      data_ = std::make_unique<Branch<float>>(path);
     } else if (type == HighFive::create_datatype<double>()) {
-      data_ = std::make_unique<io::Data<double>>(path);
+      data_ = std::make_unique<Branch<double>>(path);
     } else if (type == HighFive::create_datatype<std::string>()) {
-      data_ = std::make_unique<io::Data<std::string>>(path);
+      data_ = std::make_unique<Branch<std::string>>(path);
     } else if (type == HighFive::create_datatype<hdtree::Bool>()) {
-      data_ = std::make_unique<io::Data<bool>>(path);
+      data_ = std::make_unique<Branch<bool>>(path);
     } else {
-      throw std::runtime_error("HDTreeUnknownDS: Unable to deduce C++ type from H5 type during a copy\n"
-        "    User could avoid this issue simply by accessing the event object within some processor during the first event.", 
-        false);
+      throw std::runtime_error("HDTreeUnknownDS: Unable to deduce C++ type "
+          "from H5 type during a copy");
     }
   } else {
     // event object is a H5 group meaning it is more complicated
@@ -144,7 +127,7 @@ Reader::MirrorObject::MirrorObject(const std::string& path, Reader& reader)
     for (auto& subobj : subobjs) {
       std::string sub_path{path + "/" + subobj};
       if (subobj == constants::SIZE_NAME) {
-        size_member_ = std::make_unique<io::Data<std::size_t>>(sub_path);
+        size_member_ = std::make_unique<Branch<std::size_t>>(sub_path);
       } else {
         obj_members_.emplace_back(std::make_unique<MirrorObject>(sub_path, reader_));
       }
@@ -176,12 +159,12 @@ void Reader::MirrorObject::copy(unsigned long int i_entry, unsigned long int n, 
     unsigned long int new_num_to_advance{0};
     for (std::size_t i{0}; i < num_to_advance; i++) {
       size_member_->load(reader_);
-      new_num_to_advance += dynamic_cast<Data<std::size_t>&>(*size_member_).get();
+      new_num_to_advance += dynamic_cast<Branch<std::size_t>&>(*size_member_).get();
     }
     unsigned long int new_num_to_save = 0;
     for (std::size_t i{0}; i < num_to_save; i++) {
       size_member_->load(reader_);
-      new_num_to_save += dynamic_cast<Data<std::size_t>&>(*size_member_).get();
+      new_num_to_save += dynamic_cast<Branch<std::size_t>&>(*size_member_).get();
       size_member_->save(output);
     }
 
@@ -192,9 +175,5 @@ void Reader::MirrorObject::copy(unsigned long int i_entry, unsigned long int n, 
   for (auto& obj  : obj_members_) obj->copy(num_to_advance, num_to_save, output);
 }
 
-}  // namespace hdtree::h5
+}  // namespace hdtree
 
-/// register this reader with the reader factory
-namespace {
-auto v = hdtree::Reader::Factory::get().declare<fire::io::h5::Reader>();
-}

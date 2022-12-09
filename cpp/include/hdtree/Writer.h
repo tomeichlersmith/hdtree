@@ -1,10 +1,11 @@
-#ifndef HDTREE_H5_WRITER_H
-#define HDTREE_H5_WRITER_H
+#ifndef HDTREE_WRITER_H
+#define HDTREE_WRITER_H
+
+#include <boost/core/demangle.hpp>
 
 // using HighFive
 #include <highfive/H5File.hpp>
 
-#include "fire/config/Parameters.h"
 #include "hdtree/Atomic.h"
 #include "hdtree/Constants.h"
 
@@ -21,12 +22,13 @@ class Writer {
   /**
    * Open the file in write mode
    *
-   * Our write mode is the  HDF5 TRUNC (overwrite) mode.
+   * Our write mode is the HDF5 TRUNC (overwrite) mode.
    *
    * @param[in] event_limit Maximum number of events that could end up here
    * @param[in] ps Parameters used to configure the writing of the output file
    */
-  Writer(const int& event_limit, const config::Parameters& ps);
+  Writer(const std::string& file_path, const std::string& tree_path,
+         int rows_per_chunk = 10000, bool shuffle = true, int compression_level = 6); 
 
   /**
    * Close up our file, making sure to flush contents to disk
@@ -49,13 +51,13 @@ class Writer {
    * Persist the structure of the event object at the input path
    *
    * The "structure" is simply the type and the type's version at
-   * the correct location within the EVENT_GROUP.
+   * the correct location within the tree
    *
    * @note The save method creates the DataSets so this method
    * should only be called on levels of the hierarchy that DO NOT
    * correspond to HDF5 data sets.
    *
-   * @param[in] path full path to the group
+   * @param[in] path path to the group
    * @param[in] {type, version} pair demangled type name of object and its version number
    * @param[in] version version number of type
    */
@@ -100,7 +102,7 @@ class Writer {
       } else {
         t = HighFive::AtomicType<AtomicType>();
       }
-      auto ds = file_->createDataSet(path, space_, t, create_props_);
+      auto ds = tree_.createDataSet(path, space_, t, create_props_);
       ds.createAttribute(constants::TYPE_ATTR_NAME, boost::core::demangle(typeid(AtomicType).name()));
       ds.createAttribute(constants::VERS_ATTR_NAME, 0);
       buffers_.emplace(path, 
@@ -264,12 +266,12 @@ class Writer {
  private:
   /**
    * our highfive file
-   *
-   * we need it to be a smart pointer because we want to
-   * do some parameter validation before creating the file in
-   * the constructor
    */
-  std::unique_ptr<HighFive::File> file_;
+  HighFive::File file_;
+  /**
+   * handle to the HighFive group we will make be an HDTree
+   */
+  HighFive::Group tree_;
   /// the creation properties to be used on datasets we are writing
   HighFive::DataSetCreateProps create_props_;
   /// the dataspace shared amongst all of our datasets
@@ -282,6 +284,6 @@ class Writer {
   std::unordered_map<std::string, std::unique_ptr<BufferHandle>> buffers_;
 };
 
-}  // namespace fire::h5
+}  // namespace hdtree
 
-#endif  // FIRE_H5_WRITER_H
+#endif  // HDTREE_WRITER_H

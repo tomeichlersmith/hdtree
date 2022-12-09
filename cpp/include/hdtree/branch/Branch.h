@@ -8,10 +8,10 @@
 #include <exception>
 
 #include "hdtree/Access.h"
-#include "hdtree/AbstractBranch.h"
 #include "hdtree/Writer.h"
 #include "hdtree/Constants.h"
 #include "hdtree/Reader.h"
+#include "hdtree/branch/AbstractBranch.h"
 
 /**
  * serialization to and from HDF5 files

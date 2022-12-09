@@ -5,6 +5,8 @@
 #include <highfive/H5File.hpp>
 
 #include "hdtree/Atomic.h"
+#include "hdtree/branch/AbstractBranch.h"
+#include "hdtree/Writer.h"
 
 namespace hdtree {
 
@@ -26,26 +28,14 @@ class Reader {
    * Our read mode is the same as HDF5 Read Only mode
    *
    * We also read the number of entries in this file by 
-   * retrieving the size of the data set at
-   *  constants::EVENT_GROUP
-   *    / constants::EVENT_HEADER_NAME
-   *    / constants::NUMBER_NAME
-   * This is reliable as long as 
-   * 1. EventHeader attaches the event number (or a similar
-   *    once-per-event atomic type) under the name constants::EVENT_HEADER_NUMBER
-   * 2. The EventHeader is created under a io::Data named
-   *    constants::EVENT_GROUP/constants::EVENT_HEADER_NAME
-   *
-   * We inspect the size of the dataset located at
-   *  constants::RUN_HEADER_NAME/constants::NUMBER_NAME
-   * in the file to get the number of runs. This will work as long as
-   * 1. The RunHeader is written to the file as RUN_HEADER_NAME.
-   * 2. The RunHeader attaches an atomic type member under the name `number`
+   * retrieving __size__ attribute of the HDTree.
+   * This is reliable as long as the HDTree was written/flushed
+   * before program termination.
    *
    * @throws HighFive::Exception if file is not accessible.
    * @param[in] name file name to open and read
    */
-  Reader(const std::string& name);
+  Reader(const std::string& file_path, const std::string& tree_path);
 
   /**
    * Load the next event into the passed data
@@ -56,7 +46,7 @@ class Reader {
    *
    * @param[in] d Data to load data into
    */
-  virtual void load_into(BaseData& d) final override;
+  virtual void load_into(BaseBranch& d);
 
   /**
    * Get the event objects available in the file
@@ -68,27 +58,26 @@ class Reader {
    *
    * @return vector of string pairs `{ obj_name, pass }`
    */
-  virtual std::vector<std::pair<std::string,std::string>> availableObjects() final override;
+  virtual std::vector<std::pair<std::string,std::string>> availableObjects();
 
   /**
    * Get the type of the input object
    *
    * We retrieve the attributes named TYPE_ATTR_NAME and VERS_ATTR_NAME 
-   * from the group located at EVENT_GROUP/obj_name. This enables us to 
-   * construct the list of products within an inputfile in Event::setInputFile.
+   * from the group located at path within the tree.
    *
    * @see io::Writer::setTypeName for where the type attr is set
    *
-   * @param[in] obj_name Name of event object to retrieve type of
+   * @param[in] path Name of event object to retrieve type of
    * @return demangled type name in string format and its version number
    */
-  virtual std::pair<std::string,int> type(const std::string& path) final override;
+  virtual std::pair<std::string,int> type(const std::string& path);
 
   /**
    * Get the name of this file
    * @return name of the file we are reading
    */
-  virtual std::string name() const final override;
+  virtual std::string name() const;
 
   /**
    * List the entries inside of a group.
@@ -141,22 +130,13 @@ class Reader {
    *
    * @return number of events within the file
    */
-  inline std::size_t entries() const final override { return entries_; }
-
-  /**
-   * Get the number of runs in the file
-   *
-   * This value was determined upon construction
-   *
-   * @return number of runs within the file
-   */
-  inline std::size_t runs() const final override { return runs_; }
+  inline std::size_t entries() const { return entries_; }
 
   /**
    * We can copy
    * @return true
    */
-  virtual bool canCopy() const final override { return true; }
+  virtual bool canCopy() const { return true; }
 
   /**
    * Copy the input data set to the output file
@@ -171,7 +151,7 @@ class Reader {
    * @param[in] output handle to the writer writing the output file
    */
   virtual void copy(unsigned long int i_entry, const std::string& path, 
-      Writer& output) final override;
+      Writer& output);
 
   /**
    * Try to load a single value of an atomic type into the input handle
@@ -363,7 +343,7 @@ class Reader {
    * A mirror event object
    *
    * This type of event object is merely present to "reflect" (pun intended)
-   * the recursive nature of the io::Data pattern _without_ knowledge of
+   * the recursive nature of the Branch pattern _without_ knowledge of
    * any user classes. We need this so we can effectively copy event objects
    * that are not accessed during processing from the input to the output
    * file. (The choice on whether to copy or not copy these files is 
@@ -373,9 +353,9 @@ class Reader {
     /// handle to the reader we are reading from
     Reader& reader_;
     /// handle to the atomic data type once we get down to that point
-    std::unique_ptr<BaseData> data_;
+    std::unique_ptr<BaseBranch> data_;
     /// handle to the size member of this object (if it exists)
-    std::unique_ptr<BaseData> size_member_;
+    std::unique_ptr<BaseBranch> size_member_;
     /// list of sub-objects within this object
     std::vector<std::unique_ptr<MirrorObject>> obj_members_;
     /// the last entry that was copied
@@ -396,10 +376,10 @@ class Reader {
  private:
   /// our highfive file
   HighFive::File file_;
+  /// the HighFive group that is our HDTree
+  HighFive::Group tree_;
   /// the number of entries in this file, set in constructor
-  const std::size_t entries_;
-  /// the number of runs in this file, set in constructor
-  const std::size_t runs_;
+  std::size_t entries_;
   /// the number of rows to keep in each chunk, read from DataSet?
   std::size_t rows_per_chunk_{10000};
   /// our in-memory buffers for the data to be read in from disk

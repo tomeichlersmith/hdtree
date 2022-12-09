@@ -2,6 +2,7 @@
 #define HDTREE_ABSTRACTBRANCH_H
 
 #include <string>
+#include <optional>
 
 #include <boost/core/demangle.hpp> // for demangling
 

@@ -20,24 +20,45 @@ cmake --build build --target install
 ```
 
 ## Usage
-**at the moment**
+**only the goal at the moment**
 ```cpp
-{ // write
-  hdtree::Writer w("my-file.hdf5","/path/to/tree");
-  hdtree::Branch<int> i_entry("i_entry");
+{ // write, we hold the handle
+  hdtree::Writer tree("my-file.hdf5","/path/to/tree");
+  tree.branch<int>("i_entry");
   for (std::size_t i{0}; i < 5; i++) {
-    i_entry.update(i);
-    i_entry.save(w);
+    tree["i_entry"] = i;
+    // same as
+    // tree.set<int>("i_entry",i);
+    tree.fill();
   }
 }
 
-{ // read
-  hdtree::Reader r("my-file.hdf5");
-  hdtree::Branch<int> i_entry("i_entry");
+{ // write, you hold the handle, similar to TTree
+  hdtree::Writer tree("my-file.hdf5","/path/to/tree");
+  int mine;
+  tree.branch<int>("i_entry", &mine);
+  for (std::size_t i{0}; i < 5; i++) {
+    mine = i;
+    tree.fill();
+  }
+}
+
+{ // read, we hold the handle
+  hdtree::Reader tree("my-file.hdf5","/path/to/tree");
   for (std::size_t i{0}; i < r.entries(); i++) {
-    i_entry.load(r);
-    const auto& read = i_entry.get();
+    // emphasis on const and &
+    //   those are what allow us to skip an unnecessary copy into a local variable
+    const auto& read = t.get<int>("i_entry");
     assert(i == read);
+  }
+}
+
+{ // read, you hold the handle, similar to TTree
+  hdtree::Reader tree("my-file.hdf5","/path/to/tree");
+  int mine;
+  tree.attach("i_entry", &mine);
+  for (std::size_t i{0}; i < r.entries(); i++) {
+    assert(i == mine);
   }
 }
 ```
@@ -48,6 +69,7 @@ cmake --build build --target install
 - Maybe move buffer into Branches?
 - More tests and docs
 - exception class for better downstream exception handling
+- compare we vs you handle holding
 - Look into parallel read
 
 ## Table of Contents
