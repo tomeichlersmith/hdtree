@@ -43,6 +43,11 @@ class Writer {
   void flush();
 
   /**
+   * increment the number of entries in the HDTree
+   */
+  void increment();
+
+  /**
    * Get the name of this file
    */
   const std::string& name() const;

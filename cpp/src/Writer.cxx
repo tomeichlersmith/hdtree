@@ -1,5 +1,6 @@
 #include "hdtree/Writer.h"
 
+#include "hdtree/Version.h"
 #include "hdtree/Constants.h"
 
 namespace hdtree {
@@ -20,6 +21,10 @@ Writer::Writer(const std::string& file_path,
   create_props_.add(HighFive::Chunking({rows_per_chunk_}));
   if (shuffle) create_props_.add(HighFive::Shuffle());
   create_props_.add(HighFive::Deflate(compression_level));
+
+  tree_.createAttribute(constants::VERS_ATTR_NAME, 1 /*HDTREE_VERSION*/);
+  tree_.createAttribute("__api__","cpp");
+  tree_.createAttribute("__api_version__",VERSION);
 }
 
 Writer::~Writer() { this->flush(); }
@@ -37,6 +42,10 @@ void Writer::flush() {
 }
 
 const std::string& Writer::name() const { return file_.getName(); }
+
+void Writer::increment() {
+  entries_++;
+}
 
 void Writer::structure(const std::string& path, const std::pair<std::string,int>& type) {
   if (tree_.exist(path)) {

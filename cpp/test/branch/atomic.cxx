@@ -29,11 +29,14 @@ BOOST_AUTO_TEST_CASE(write) {
     BOOST_CHECK(save(int_ds,int_data.at(i_entry),f));
     bool positive{int_data.at(i_entry) > 0};
     BOOST_CHECK(save(bool_ds,positive,f));
+    f.increment();
   }
 }
 
 BOOST_AUTO_TEST_CASE(read, *boost::unit_test::depends_on("branch/atomic/write")) {
   hdtree::Reader f{filename,"test"};
+
+  BOOST_CHECK(f.entries() == double_data.size());
 
   hdtree::Branch<double> double_ds("double", &f);
   hdtree::Branch<int>    int_ds("int", &f);
