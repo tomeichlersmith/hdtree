@@ -13,25 +13,34 @@ cmake --build build --target install
 ```
 
 ## Usage
-**Goal at the moment**
+**at the moment**
 ```cpp
 { // write
-  hdtree::Writer w("my-file.hdf5");
-  hdtree::Tree t = w.open("/path/to/tree");
-  for (std::size_t i_entry{0}; i_entry < 5; i_entry++) {
-    t.set("i_entry",i_entry);
-    t.fill();
+  hdtree::Writer w("my-file.hdf5","/path/to/tree");
+  hdtree::Branch<int> i_entry("i_entry");
+  for (std::size_t i{0}; i < 5; i++) {
+    i_entry.update(i);
+    i_entry.save(w);
   }
 }
 
 { // read
   hdtree::Reader r("my-file.hdf5");
-  hdtree::Tree t = r.get("/path/to/tree");
-  for (auto entry : t) {
-    const auto& i = entry.get<std::size_t>("i_entry");
+  hdtree::Branch<int> i_entry("i_entry");
+  for (std::size_t i{0}; i < r.entries(); i++) {
+    i_entry.load(r);
+    const auto& read = i_entry.get();
+    assert(i == read);
   }
 }
 ```
+
+## Road Map
+- Get operational in current form
+- Add Tree interface for holding Branches
+- Maybe move buffer into Branches?
+- More tests and docs
+- Look into parallel read
 
 ## Table of Contents
 - include: the headers for the HDTree C++ API

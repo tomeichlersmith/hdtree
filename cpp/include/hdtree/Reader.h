@@ -19,7 +19,7 @@ namespace hdtree::h5 {
  * a time without making disk read operation each time Reader::load is
  * called.
  */
-class Reader : public ::hdtree::Reader {
+class Reader {
  public:
   /**
    * Open the file in read mode
