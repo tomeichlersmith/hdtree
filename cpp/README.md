@@ -59,15 +59,31 @@ cmake --build build --target install
     tree.save();
   }
 }
+
+{ // read and write (same source/dest)
+  auto tree = hdtree::inplace("one.hdf5","/tree1");
+  // read this branch
+  auto& i_entry = tree.get<int>("i_entry");
+  // write this branch
+  auto& my_cool_new_var = tree.branch<double>("coolio");
+  for (std::size_t i{0}; i < tree.entries(); i++) {
+    tree.load();
+    
+    *my_cool_new_var = i_entry*4.2;    
+
+    tree.save();
+  }
+}
 ```
 
 ## Road Map
 - [x] Get operational in current form
 - [ ] move buffer into Branches for thread safety
-- [ ] Add Tree interface for holding Branches
-- [ ] More tests and docs
+- [ ] add Tree interface for holding Branches
+- [ ] memory and timing benchmarks
+- [ ] sanitizers and valgrind testing
 - [ ] exception class for better downstream exception handling
-- [ ] Look into parallel read
+- [ ] try putting different Branches on different threads
 
 ## Table of Contents
 - include: the headers for the HDTree C++ API
