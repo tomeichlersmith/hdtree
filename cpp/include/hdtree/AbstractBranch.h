@@ -205,6 +205,20 @@ class AbstractBranch : public BaseBranch {
     *handle_ = val; 
   }
 
+  /**
+   * Access the in-memory data object
+   */
+  DataType& operator*() {
+    return *handle_;
+  }
+
+  /**
+   * Pointer access to the in-memory data type
+   */
+  DataType* operator->() {
+    return handle_;
+  }
+
  protected:
   /// type this data is loading from
   std::optional<std::pair<std::string,int>> load_type_;
