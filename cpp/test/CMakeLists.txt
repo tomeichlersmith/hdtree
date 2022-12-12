@@ -2,8 +2,7 @@ find_package(Boost REQUIRED COMPONENTS unit_test_framework)
 
 add_executable(test_hdtree
   main_test.cxx
-  branch/atomic.cxx
-  branch/atomic_vector.cxx
+  branch.cxx
   )
 target_link_libraries(test_hdtree PRIVATE Boost::unit_test_framework HDTree) 
 
