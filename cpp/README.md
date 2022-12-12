@@ -22,43 +22,41 @@ cmake --build build --target install
 ## Usage
 **only the goal at the moment**
 ```cpp
-{ // write, we hold the handle
-  hdtree::Writer tree("my-file.hdf5","/path/to/tree");
-  tree.branch<int>("i_entry");
+{ // write
+  auto tree = hdtree::to("my-file.hdf5","/path/to/tree");
+  auto& i_entry = tree.branch<int>("i_entry");
   for (std::size_t i{0}; i < 5; i++) {
-    tree["i_entry"] = i;
+    *i_entry = i;
     // same as
-    // tree.set<int>("i_entry",i);
-    tree.fill();
+    //tree["i_entry"] = i;
+    // or
+    //tree.set<int>("i_entry",i);
+    tree.save();
   }
 }
 
-{ // write, you hold the handle, similar to TTree
-  hdtree::Writer tree("my-file.hdf5","/path/to/tree");
-  int mine;
-  tree.branch<int>("i_entry", &mine);
-  for (std::size_t i{0}; i < 5; i++) {
-    mine = i;
-    tree.fill();
-  }
-}
-
-{ // read, we hold the handle
-  hdtree::Reader tree("my-file.hdf5","/path/to/tree");
+{ // read
+  auto tree = hdtree::from("my-file.hdf5","/path/to/tree");
+  // & required
+  auto& i_entry = tree.get<int>("i_entry");
   for (std::size_t i{0}; i < r.entries(); i++) {
-    // emphasis on const and &
-    //   those are what allow us to skip an unnecessary copy into a local variable
-    const auto& read = t.get<int>("i_entry");
-    assert(i == read);
+    tree.load();
+    assert(i == *i_entry);
   }
 }
 
-{ // read, you hold the handle, similar to TTree
-  hdtree::Reader tree("my-file.hdf5","/path/to/tree");
-  int mine;
-  tree.attach("i_entry", &mine);
-  for (std::size_t i{0}; i < r.entries(); i++) {
-    assert(i == mine);
+{ // read and write (separate source/dest)
+  auto tree = hdtree::transform("one.hdf5","/tree1","two.hdf5","/tree2");
+  // read this branch
+  auto& i_entry = tree.get<int>("i_entry");
+  // write this branch
+  auto& my_cool_new_var = tree.branch<double>("coolio");
+  for (std::size_t i{0}; i < tree.entries(); i++) {
+    tree.load();
+    
+    *my_cool_new_var = i_entry*4.2;    
+
+    tree.save();
   }
 }
 ```
