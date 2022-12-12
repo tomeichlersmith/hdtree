@@ -1,7 +1,6 @@
 /** @file Atomic.h */
 
-#ifndef HDTREE_ATOMIC_H
-#define HDTREE_ATOMIC_H
+#pragma once
 
 /**
  * Geant4 does a GLOBAL definition of the keyword TRUE
@@ -73,4 +72,3 @@ HighFive::EnumType<Bool> create_enum_bool();
 template<>
 HighFive::DataType HighFive::create_datatype<hdtree::Bool>();
 
-#endif

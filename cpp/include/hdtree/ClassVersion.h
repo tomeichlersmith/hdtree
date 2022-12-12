@@ -3,8 +3,7 @@
  * Serialization class version deduction
  */
 
-#ifndef HDTREE_CLASSVERSION_H
-#define HDTREE_CLASSVERSION_H
+#pragma once
 
 namespace hdtree {
 
@@ -81,6 +80,4 @@ inline constexpr int class_version = class_version_impl::deducer<T>::version::va
  * Without this macro, the version will default to zero.
  */
 #define fire_class_version(VERS) using version = std::integral_constant<int,VERS>
-
-#endif  // HDTREE_CLASSVERSION_H
 

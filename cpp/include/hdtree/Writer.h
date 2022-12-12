@@ -1,5 +1,4 @@
-#ifndef HDTREE_WRITER_H
-#define HDTREE_WRITER_H
+#pragma once
 
 #include <boost/core/demangle.hpp>
 
@@ -291,4 +290,3 @@ class Writer {
 
 }  // namespace hdtree
 
-#endif  // HDTREE_WRITER_H

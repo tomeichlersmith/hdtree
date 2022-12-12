@@ -1,5 +1,4 @@
-#ifndef HDTREE_READER_H
-#define HDTREE_READER_H
+#pragma once
 
 // using HighFive
 #include <highfive/H5File.hpp>
@@ -177,6 +176,9 @@ class Reader {
         "Type not supported by HighFive atomic made its way to Reader::load");
     if (buffers_.find(path) == buffers_.end()) {
       // first load attempt, we will find out if dataset exists in file here
+      // TODO GitHub Issue #1
+      //      I _think_ we are creating new HighFive::File objects for each
+      //      group/dataset we interact with. 
       buffers_.emplace(path, std::make_unique<Buffer<AtomicType>>(
                                  rows_per_chunk_, tree_.getDataSet(path)));
     }
@@ -390,4 +392,3 @@ class Reader {
 
 }  // namespace hdtree
 
-#endif  // HDTREE_READER_H

@@ -1,5 +1,4 @@
-#ifndef HDTREE_ABSTRACTBRANCH_H
-#define HDTREE_ABSTRACTBRANCH_H
+#pragma once
 
 #include <string>
 #include <optional>
@@ -238,4 +237,3 @@ class AbstractBranch : public BaseBranch {
 
 }
 
-#endif

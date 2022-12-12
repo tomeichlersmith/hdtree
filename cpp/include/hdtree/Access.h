@@ -1,5 +1,4 @@
-#ifndef HDTREE_ACCESS_H
-#define HDTREE_ACCESS_H
+#pragma once
 
 #include "hdtree/Version.h"
 
@@ -37,4 +36,3 @@ struct access {
 
 }
 
-#endif

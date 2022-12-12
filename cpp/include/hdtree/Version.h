@@ -2,8 +2,7 @@
  * @file Version.h
  */
 
-#ifndef HDTREE_VERSION_H
-#define HDTREE_VERSION_H
+#pragma once
 
 #include <string>
 
@@ -24,4 +23,3 @@ const std::string& API();
 
 }
 
-#endif

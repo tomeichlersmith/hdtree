@@ -3,8 +3,7 @@
  * Definitions for names of structures required by
  * serialization methods.
  */
-#ifndef HDTREE_CONSTANTS_H
-#define HDTREE_CONSTANTS_H
+#pragma once
 
 #include <string>
 
@@ -24,4 +23,3 @@ struct constants {
 
 }
 
-#endif

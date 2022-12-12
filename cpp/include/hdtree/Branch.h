@@ -1,5 +1,4 @@
-#ifndef HDTREE_BRANCH_H
-#define HDTREE_BRANCH_H
+#pragma once
 
 #include <memory>
 #include <type_traits>
@@ -53,6 +52,4 @@ AbstractBranch<DataType>::AbstractBranch(const std::string& path, Reader* input_
 #include "hdtree/branch/AtomicBranch.h"
 #include "hdtree/branch/VectorBranch.h"
 #include "hdtree/branch/MapBranch.h"
-  
-#endif  // HDTREE_BRANCH_H
 
