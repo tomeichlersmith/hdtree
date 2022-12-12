@@ -25,7 +25,7 @@ class Hit {
     d.attach("id",id_);
   }
  public:
-  Hit() = default
+  Hit() = default;
   Hit(double e, int id) : energy_{e}, id_{id} {}
   bool operator==(Hit const& other) const {
     return energy_ == other.energy_ and id_ == other.id_;
