@@ -62,13 +62,12 @@ cmake --build build --target install
 ```
 
 ## Road Map
-- Get operational in current form
-- Add Tree interface for holding Branches
-- Maybe move buffer into Branches?
-- More tests and docs
-- exception class for better downstream exception handling
-- compare we vs you handle holding
-- Look into parallel read
+- [x] Get operational in current form
+- [ ] move buffer into Branches for thread safety
+- [ ] Add Tree interface for holding Branches
+- [ ] More tests and docs
+- [ ] exception class for better downstream exception handling
+- [ ] Look into parallel read
 
 ## Table of Contents
 - include: the headers for the HDTree C++ API
