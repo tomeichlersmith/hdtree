@@ -9,9 +9,9 @@
 #include "hdtree/Branch.h"
 
 template <typename ArbitraryBranch, typename DataType>
-bool save(ArbitraryBranch& h5d, DataType const& d, hdtree::Writer& f) {
+bool save(ArbitraryBranch& h5d, const DataType& d, hdtree::Writer& f) {
   try {
-    h5d.update(d);
+    *h5d = d;
     h5d.save(f);
     return true;
   } catch (std::exception const& e) {
@@ -21,7 +21,7 @@ bool save(ArbitraryBranch& h5d, DataType const& d, hdtree::Writer& f) {
 }
 
 template <typename ArbitraryBranch, typename DataType>
-bool load(ArbitraryBranch& h5d, DataType const& d, hdtree::Reader& f) {
+bool load(ArbitraryBranch& h5d, const DataType& d, hdtree::Reader& f) {
   try {
     h5d.load(f);
     return (d == h5d.get());

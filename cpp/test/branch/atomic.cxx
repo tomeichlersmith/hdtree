@@ -19,16 +19,19 @@ BOOST_AUTO_TEST_CASE(write) {
   hdtree::Branch<double> double_ds("double");
   hdtree::Branch<int>    int_ds("int");
   hdtree::Branch<bool>   bool_ds("bool");
+  hdtree::Branch<std::string> str_ds("string");
 
   double_ds.structure(f);
   int_ds.structure(f);
   bool_ds.structure(f);
+  str_ds.structure(f);
 
   for (std::size_t i_entry{0}; i_entry < double_data.size(); i_entry++) {
     BOOST_CHECK(save(double_ds,double_data.at(i_entry),f));
     BOOST_CHECK(save(int_ds,int_data.at(i_entry),f));
     bool positive{int_data.at(i_entry) > 0};
     BOOST_CHECK(save(bool_ds,positive,f));
+    BOOST_CHECK(save(str_ds,std::to_string(int_data.at(i_entry)), f));
     f.increment();
   }
 }
@@ -41,12 +44,14 @@ BOOST_AUTO_TEST_CASE(read, *boost::unit_test::depends_on("branch/atomic/write"))
   hdtree::Branch<double> double_ds("double", &f);
   hdtree::Branch<int>    int_ds("int", &f);
   hdtree::Branch<bool>   bool_ds("bool", &f);
+  hdtree::Branch<std::string> str_ds("string", &f);
 
   for (std::size_t i_entry{0}; i_entry < double_data.size(); i_entry++) {
     BOOST_CHECK(load(double_ds,double_data.at(i_entry),f));
     BOOST_CHECK(load(int_ds,int_data.at(i_entry),f));
     bool positive{int_data.at(i_entry) > 0};
     BOOST_CHECK(load(bool_ds,positive,f));
+    BOOST_CHECK(load(str_ds,std::to_string(int_data.at(i_entry)), f));
   }
 }
 
