@@ -99,7 +99,7 @@ install(FILES
       "${CMAKE_CURRENT_BINARY_DIR}/HDTreeConfigVersion.cmake"
       DESTINATION lib/cmake/HDTree)
 
-include(CTest)
+option(BUILD_TESTING "compile test executable and example programs" ON)
 if (BUILD_TESTING)
   add_subdirectory(test)
   #  add_subdirectory(examples)

@@ -6,7 +6,7 @@ add_executable(hdtree
   )
 target_link_libraries(hdtree PRIVATE Boost::unit_test_framework HDTree) 
 
-add_test(NAME "TestHDTree"
-  COMMAND $<TARGET_FILE:test_hdtree> --report_level=detailed
-  WORKING_DIRECTORY test
+add_custom_target(test
+  COMMAND $<TARGET_FILE:hdtree>
+  DEPENDS HDTree
 )
