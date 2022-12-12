@@ -23,8 +23,8 @@ Writer::Writer(const std::string& file_path,
   create_props_.add(HighFive::Deflate(compression_level));
 
   tree_.createAttribute(constants::VERS_ATTR_NAME, 1 /*HDTREE_VERSION*/);
-  tree_.createAttribute("__api__","cpp");
-  tree_.createAttribute("__api_version__",VERSION);
+  tree_.createAttribute("__api__",API());
+  tree_.createAttribute("__api_version__",VERSION());
 }
 
 Writer::~Writer() { this->flush(); }

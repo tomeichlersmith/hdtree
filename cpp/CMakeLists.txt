@@ -25,16 +25,16 @@ endif()
 find_package(HighFive REQUIRED)
 
 # writes the CMake project version into package
-configure_file(${PROJECT_SOURCE_DIR}/include/hdtree/Version.h.in
-              ${PROJECT_BINARY_DIR}/include/hdtree/Version.h)
+configure_file(${PROJECT_SOURCE_DIR}/src/Version.cxx.in
+              ${PROJECT_BINARY_DIR}/src/Version.cxx)
 
 add_library(HDTree SHARED
   src/Atomic.cxx
   src/Reader.cxx
-  src/Writer.cxx)
+  src/Writer.cxx
+  ${PROJECT_BINARY_DIR}/src/Version.cxx)
 target_include_directories(HDTree PUBLIC 
   "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
-  "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>"
   "$<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>"
   )
 target_link_libraries(HDTree PUBLIC HighFive)
