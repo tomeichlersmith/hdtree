@@ -7,13 +7,34 @@ project(HDTree
   DESCRIPTION "HDTree C++ API"
   LANGUAGES C CXX)
 
-# Set the default release type to "Release". If a release type is specified 
-# at the command line, it's respected.
-set(default_build_type "Release")
+# Set the default release type to "Debug"
+# If CMAKE_BUILD_TYPE is set at the command line, it's respected.
+set(default_build_type "Debug")
 if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   message(STATUS "Setting build type to '${default_build_type}' as none was specified.")
   set(CMAKE_BUILD_TYPE "${default_build_type}" CACHE STRING "Choose the type of build." FORCE)
 endif()
+
+execute_process(
+  COMMAND git describe --tags
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+  RESULT_VARIABLE git_rc
+  OUTPUT_VARIABLE git_describe)
+if (NOT ${git_rc} EQUAL 0)
+  if (CMAKE_BUILD_TYPE EQUAL "Debug")
+    message(WARNING "System cannot deduce git tag to check HDTree version number")
+  endif()
+else()
+  string(REGEX REPLACE "^v" "" git_describe ${git_describe})
+  string(REGEX REPLACE "\n" "" git_describe ${git_describe})
+  string(REGEX REPLACE "-.*$" "" git_describe ${git_describe})
+  set(git_vers ${git_describe})
+  if (NOT ${git_vers} EQUAL ${PROJECT_VERSION})
+    message(FATAL_ERROR "Deduced git verison ${git_vers} is not equal to CMake version ${PROJECT_VERSION}")
+  endif()
+endif()
+
+message(STATUS "Building HDTree C++ API ${PROJECT_VERSION}")
 
 if(NOT DEFINED CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 17)
