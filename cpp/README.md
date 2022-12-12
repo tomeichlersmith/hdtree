@@ -78,8 +78,8 @@ cmake --build build --target install
 
 ## Road Map
 - [x] Get operational in current form
-- [ ] move buffer into Branches for thread safety
 - [ ] add Tree interface for holding Branches
+- [ ] move buffer into Branches for thread safety
 - [ ] memory and timing benchmarks
 - [ ] sanitizers and valgrind testing
 - [ ] exception class for better downstream exception handling
