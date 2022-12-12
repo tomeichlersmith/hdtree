@@ -7,6 +7,9 @@ project(HDTree
   DESCRIPTION "HDTree C++ API"
   LANGUAGES C CXX)
 
+# sanitize on Debug builds
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address,undefined")
+
 # Set the default release type to "Debug"
 # If CMAKE_BUILD_TYPE is set at the command line, it's respected.
 set(default_build_type "Debug")
@@ -34,7 +37,7 @@ else()
   endif()
 endif()
 
-message(STATUS "Building HDTree C++ API ${PROJECT_VERSION}")
+message(STATUS "Building HDTree C++ API ${PROJECT_VERSION} ${CMAKE_BUILD_TYPE}")
 
 if(NOT DEFINED CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 17)
