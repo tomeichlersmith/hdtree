@@ -76,15 +76,6 @@ cmake --build build --target install
 }
 ```
 
-## Road Map
-- [x] Get operational in current form
-- [ ] add Tree interface for holding Branches
-- [ ] move buffer into Branches for thread safety
-- [ ] memory and timing benchmarks
-- [ ] sanitizers and valgrind testing
-- [ ] exception class for better downstream exception handling
-- [ ] try putting different Branches on different threads
-
 ## Table of Contents
 - include: the headers for the HDTree C++ API
 - src: source files compiled into the hdtree-cpp library
