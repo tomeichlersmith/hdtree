@@ -230,7 +230,6 @@ BOOST_AUTO_TEST_CASE(read, *boost::unit_test::depends_on("branch/write")) {
   hdtree::Reader f{filename, "test"};
 
   hdtree::Branch<Hit> hit_ds("hit",&f);
-  /*
   hdtree::Branch<double> double_ds("double",&f);
   hdtree::Branch<int>    int_ds("int",&f);
   hdtree::Branch<bool>   bool_ds("bool",&f);
@@ -245,11 +244,9 @@ BOOST_AUTO_TEST_CASE(read, *boost::unit_test::depends_on("branch/write")) {
   hdtree::Branch<Cluster> cluster_ds("cluster",&f);
   hdtree::Branch<std::vector<Cluster>> vector_cluster_ds("vector_cluster",&f);
   hdtree::Branch<std::map<int,Cluster>> map_cluster_ds("map_cluster",&f);
-  */
 
   for (std::size_t i_entry{0}; i_entry < doubles.size(); i_entry++) {
     BOOST_CHECK(load(hit_ds,all_hits[i_entry][0],f));
-    /*
     BOOST_CHECK(load(double_ds,doubles.at(i_entry),f));
     BOOST_CHECK(load(int_ds,ints.at(i_entry),f));
     BOOST_CHECK(load(str_ds,std::to_string(ints.at(i_entry)), f));
@@ -290,7 +287,6 @@ BOOST_AUTO_TEST_CASE(read, *boost::unit_test::depends_on("branch/write")) {
       BOOST_CHECK(mit != read_map.end());
       BOOST_CHECK(mit->second == val);
     }
-    */
   }
 }
 
