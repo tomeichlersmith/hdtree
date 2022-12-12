@@ -65,6 +65,11 @@ class BaseBranch {
    */
   virtual void clear() = 0;
 
+  /// no copying
+  BaseBranch(const BaseBranch&) = delete;
+  /// no copying
+  BaseBranch& operator=(const BaseBranch&) = delete;
+
  protected:
   /// path of data set
   std::string path_;
