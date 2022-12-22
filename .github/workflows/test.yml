@@ -55,10 +55,10 @@ jobs:
       with:
         submodules: 'recursive'
     -
-      name: build fire
+      name: build hdtree-cpp
       run: |
         cmake -B cpp/build -S cpp
         cmake --build cpp/build
     -
-      name: test fire
+      name: test hdtree-cpp
       run: cmake --build cpp/build --target test
