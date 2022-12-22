@@ -56,6 +56,7 @@ add_library(HDTree SHARED
   src/Atomic.cxx
   src/Reader.cxx
   src/Writer.cxx
+  src/Tree.cxx
   ${PROJECT_BINARY_DIR}/src/Version.cxx)
 target_include_directories(HDTree PUBLIC 
   "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"

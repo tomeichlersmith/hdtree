@@ -8,6 +8,7 @@ namespace hdtree {
  * A container for many branches
  */
 class Tree {
+ public:
   /**
    * Single-file access: either opening a file to read it or opening one to write it
    */
@@ -28,18 +29,15 @@ class Tree {
    * the parameter 'create' is checked.
    */
   template<typename DataType>
-  Branch<DataType>& branch(const std::string& branch_name, bool create = false) {
-    auto it{branches_.find(branch_name)};
-    if (it == branches_.end()) {
-      if (writer_ or create) {
-        branches_[branch_name] = std::make_unique<Branch<DataType>>(
-            branch_name, reader_.get());
-        it = branches_.find(branch_name);
-      } else {
-        throw std::runtime_error("No branch named '"+branch_name+"'.");
-      }
+  Branch<DataType>& branch(const std::string& branch_name, 
+      bool ignore_read = false, bool ignore_write = false) {
+    if (branches_.find(branch_name) != branches_.end()) {
+      throw std::runtime_error("Branch named '"+branch_name+"' was already initialized.");
     }
-    return it->second;
+    branches_[branch_name] = std::make_unique<Branch<DataType>>(branch_name);
+    if (writer_ and not ignore_write) branches_[branch_name]->attach(*writer_);
+    if (reader_ and not ignore_read ) branches_[branch_name]->attach(*reader_);
+    return dynamic_cast<Branch<DataType>&>(*branches_[branch_name]);
   }
 
   /**
@@ -49,7 +47,7 @@ class Tree {
    * tree.branch<int>("two_i_entry");
    * tree.for_each([&tree]() {
    *   tree["two_i_entry"] = 2*tree["i_entry"];
-   * }, entries = 100);
+   * }, 100);
    */
   template<class UnaryFunction>
   void for_each(UnaryFunction body, std::optional<std::size_t> entries = {}) {
@@ -63,6 +61,17 @@ class Tree {
       body();
       this->save();
     }
+  }
+
+  void save() {
+    if (not writer_) return;
+    for (auto& [_name, br] : branches_) br->save();
+    writer_->increment();
+  }
+
+  void load() {
+    if (not reader_) return;
+    for (auto& [_name, br] : branches_) br->load();
   }
 
  private:

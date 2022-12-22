@@ -223,6 +223,8 @@ BOOST_AUTO_TEST_CASE(write) {
       { 3, Cluster(3, all_hits.at(1)) }
     };
     BOOST_CHECK(save(map_cluster_ds,map_clusters));
+
+    f.increment();
   }
 }
 
