@@ -1,6 +1,7 @@
 #pragma once
 
 #include <boost/core/demangle.hpp>  // for demangling
+#include <limits>
 #include <optional>
 #include <string>
 
