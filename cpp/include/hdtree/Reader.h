@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utility>
+
 // using HighFive
 #include <highfive/H5File.hpp>
 
@@ -34,7 +36,7 @@ class Reader {
    * @throws HighFive::Exception if file is not accessible.
    * @param[in] name file name to open and read
    */
-  Reader(const std::string& file_path, const std::string& tree_path, bool inplace = false);
+  Reader(const std::pair<std::string,std::string>& file_tree_path, bool inplace = false);
 
   /**
    * Get the event objects available in the file

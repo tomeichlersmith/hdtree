@@ -20,7 +20,7 @@ static std::vector<double> doubles = { 1.0, 32., 69. };
 BOOST_AUTO_TEST_SUITE(tree)
 
 BOOST_AUTO_TEST_CASE(write) {
-  hdtree::Tree t = hdtree::save(filename,"test");
+  hdtree::Tree t = hdtree::Tree::save(filename,"test");
   auto& b = t.branch<double>("double");
 
   for (std::size_t i{0}; i < doubles.size(); ++i) {
@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_CASE(write) {
 }
 
 BOOST_AUTO_TEST_CASE(inplace, *boost::unit_test::depends_on("tree/write")) {
-  hdtree::Tree t = hdtree::inplace(filename, "test");
+  hdtree::Tree t = hdtree::Tree::inplace(filename, "test");
   auto& b = t.get<double>("double");
   auto& b2 = t.branch<double>("double_sq");
 
@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_CASE(inplace, *boost::unit_test::depends_on("tree/write")) {
 }
 
 BOOST_AUTO_TEST_CASE(copy, *boost::unit_test::depends_on("tree/inplace")) {
-  hdtree::Tree t(filename,"test","copy_"+filename,"test2");
+  hdtree::Tree t = hdtree::Tree::transform({filename,"test"},{"copy_"+filename,"test2"});
   auto& b = t.get<double>("double", true);
   auto& b2 = t.get<double>("double_sq", true);
   auto& b4 = t.branch<double>("double_sq_sq");
@@ -53,7 +53,7 @@ BOOST_AUTO_TEST_CASE(copy, *boost::unit_test::depends_on("tree/inplace")) {
 }
 
 BOOST_AUTO_TEST_CASE(read, *boost::unit_test::depends_on("tree/copy")) {
-  hdtree::Tree t = hdtree::load("copy_"+filename,"test2");
+  hdtree::Tree t = hdtree::Tree::load("copy_"+filename,"test2");
   auto& b = t.get<double>("double");
   auto& b2 = t.get<double>("double_sq");
 

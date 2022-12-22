@@ -5,15 +5,14 @@
 
 namespace hdtree {
 
-Writer::Writer(const std::string& file_path,
-    const std::string& tree_path,
+Writer::Writer(const std::pair<std::string,std::string>& file_tree_path,
     bool inplace,
     int rows_per_chunk,
     bool shuffle,
     int compression_level) 
-    : file_{file_path, inplace 
+    : file_{file_tree_path.first, inplace 
       ? HighFive::File::ReadWrite : (HighFive::File::Create | HighFive::File::Truncate)},
-      tree_{inplace ? file_.getGroup(tree_path) : file_.createGroup(tree_path)},
+      tree_{inplace ? file_.getGroup(file_tree_path.second) : file_.createGroup(file_tree_path.second)},
       create_props_{},
       space_(std::vector<std::size_t>({0}), 
           std::vector<std::size_t>({HighFive::DataSpace::UNLIMITED})),

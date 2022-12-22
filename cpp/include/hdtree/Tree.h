@@ -9,17 +9,11 @@ namespace hdtree {
  */
 class Tree {
  public:
-  /**
-   * Single-file access: either opening a file to read it or opening one to write it
-   */
-  Tree(const std::string& file_path, const std::string& tree_path, 
-       bool writing = false, bool inplace = false);
-
-  /**
-   * Two-file access: reading from one and writing to another
-   */
-  Tree(const std::string& src_file_path, const std::string& src_tree_path,
-       const std::string& dest_file_path, const std::string& dest_tree_path);
+  static Tree load(const std::string& file_path, const std::string& tree_path);
+  static Tree save(const std::string& file_path, const std::string& tree_path);
+  static Tree inplace(const std::string& file_path, const std::string& tree_path);
+  static Tree transform(const std::pair<std::string,std::string>& src,
+                        const std::pair<std::string,std::string>& dest);
 
   /**
    * Create a new branch on the tree
@@ -76,17 +70,33 @@ class Tree {
     }
   }
 
-  void save() {
-    if (not writer_) return;
-    for (auto& [_name, br] : branches_) br->save();
-    writer_->increment();
-  }
+  /**
+   * end-of-event call back
+   *
+   * basically, we go through and save+clear each branch that is in this tree
+   *
+   * The 'clear' call is helpful so users can treat their handle to a Branch
+   * as if it is a local variable in the loop.
+   *
+   * At the end, we also inform the writer (if there is one) that the number of 
+   * entries in the tree has incremented.
+   */
+  void save();
 
-  void load() {
-    if (not reader_) return;
-    for (auto& [_name, br] : branches_) br->load();
-  }
+  /**
+   * start-of-event call back
+   *
+   * we go through and load each branch that is in this tree
+   */
+  void load();
 
+ private:
+  /**
+   * The tree constructor is private because it is complicated,
+   * use the static factory functions for accessing a Tree
+   */
+  Tree(const std::pair<std::string,std::string>& src,
+       const std::pair<std::string,std::string>& dest);
  private:
   /// the branches in this tree
   std::unordered_map<std::string, std::unique_ptr<BaseBranch>> branches_;
@@ -99,26 +109,5 @@ class Tree {
   /// are we reading from and writing to the same file?
   bool inplace_{false};
 };
-
-/**
- * reading single file
- */
-Tree load(const std::string& file_path, const std::string& tree_path) {
-  return Tree(file_path, tree_path, false, false);
-}
-
-/**
- * writing to a single file
- */
-Tree save(const std::string& file_path, const std::string& tree_path) {
-  return Tree(file_path, tree_path, true, false);
-}
-
-/**
- * modifying a file in place
- */
-Tree inplace(const std::string& file_path, const std::string& tree_path) {
-  return Tree(file_path, tree_path, true, true);
-}
 
 }

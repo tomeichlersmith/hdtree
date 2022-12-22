@@ -5,9 +5,9 @@
 
 namespace hdtree {
 
-Reader::Reader(const std::string& file_path, const std::string& tree_path, bool inplace) 
-  : file_{file_path, inplace ? HighFive::File::ReadWrite : HighFive::File::ReadOnly}, 
-  tree_{file_.getGroup(tree_path)} {
+Reader::Reader(const std::pair<std::string,std::string>& file_tree_path, bool inplace) 
+  : file_{file_tree_path.first, inplace ? HighFive::File::ReadWrite : HighFive::File::ReadOnly}, 
+  tree_{file_.getGroup(file_tree_path.second)} {
   HighFive::Attribute size_attr = tree_.getAttribute(constants::SIZE_NAME);
   size_attr.read(entries_);
 }

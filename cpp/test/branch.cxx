@@ -151,7 +151,7 @@ static std::vector<
 BOOST_AUTO_TEST_SUITE(branch)
 
 BOOST_AUTO_TEST_CASE(write) {
-  hdtree::Writer f{filename,"test"};
+  hdtree::Writer f({filename,"test"});
 
   hdtree::Branch<double> double_ds("double");
   hdtree::Branch<int>    int_ds("int");
@@ -229,7 +229,7 @@ BOOST_AUTO_TEST_CASE(write) {
 }
 
 BOOST_AUTO_TEST_CASE(read, *boost::unit_test::depends_on("branch/write")) {
-  hdtree::Reader f{filename, "test"};
+  hdtree::Reader f({filename, "test"});
 
   hdtree::Branch<Hit> hit_ds("hit");
   hdtree::Branch<double> double_ds("double");

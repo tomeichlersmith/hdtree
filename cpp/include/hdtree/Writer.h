@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utility>
+
 #include <boost/core/demangle.hpp>
 
 // using HighFive
@@ -26,7 +28,7 @@ class Writer {
    * @param[in] event_limit Maximum number of events that could end up here
    * @param[in] ps Parameters used to configure the writing of the output file
    */
-  Writer(const std::string& file_path, const std::string& tree_path, bool inplace = false,
+  Writer(const std::pair<std::string,std::string>& file_tree_path, bool inplace = false,
          int rows_per_chunk = 10000, bool shuffle = true, int compression_level = 6); 
 
   /**
