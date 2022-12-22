@@ -28,12 +28,12 @@ BOOST_AUTO_TEST_CASE(write) {
     t.save();
   }
 }
-/*
 
+/*
 BOOST_AUTO_TEST_CASE(inplace, *boost::unit_test::depends_on("tree/write")) {
   hdtree::Tree t = hdtree::inplace(filename, "test");
-  auto& b = t.branch<double>("double");
-  auto& b2 = t.branch<double>("double_sq", true);
+  auto& b = t.get<double>("double", true);
+  auto& b2 = t.branch<double>("double_sq");
 
   BOOST_CHECK_NO_THROW(
       t.for_each([&]() {
@@ -44,24 +44,25 @@ BOOST_AUTO_TEST_CASE(inplace, *boost::unit_test::depends_on("tree/write")) {
 
 BOOST_AUTO_TEST_CASE(copy, *boost::unit_test::depends_on("tree/write")) {
   hdtree::Tree t(filename,"test","copy_"+filename,"test2");
-  auto& b = t.get<double>("double", true);
+  const auto& b = t.get<double>("double", true);
   auto& b2 = t.branch<double>("double_sq");
 
   BOOST_CHECK_NO_THROW(
       t.for_each([&]() {
-        *b2 = (*b)*(*b);
+        *b2 = b.get()*b.get();
         }));
 }
 
 BOOST_AUTO_TEST_CASE(read, *boost::unit_test::depends_on("tree/copy")) {
   hdtree::Tree t = hdtree::load("copy_"+filename,"test2");
   auto& b = t.get<double>("double");
-  auto& b2= t.get<double>("double_sq");
+  auto& b2 = t.get<double>("double_sq");
 
   std::size_t i{0};
   t.for_each([&]() {
         double v = doubles.at(i++);
-        BOOST_CHECK(*b == v);
+        // the * de-reference is just syntax sugar for get
+        BOOST_CHECK(b.get() == v);
         BOOST_CHECK(*b2 == v*v);
       });
 }

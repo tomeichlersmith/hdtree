@@ -24,8 +24,3 @@ that the HDF5 library calls are safely serialized.
 h5cc -showconfig
 ```
 
-### Tree
-- holds many branches
-- holds H5 group that the HDTree is stored under
-- iterator for `for (auto entry : tree)` syntax
-- reference to reader/writer/both so open/close entry is well-defined

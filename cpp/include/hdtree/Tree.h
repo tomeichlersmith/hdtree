@@ -29,8 +29,11 @@ class Tree {
     if (branches_.find(branch_name) != branches_.end()) {
       throw std::runtime_error("Branch named '"+branch_name+"' was already initialized.");
     }
+    if (not writer_) {
+      throw std::runtime_error("Attmempting to sprout a new branch without writing.");
+    }
     branches_[branch_name] = std::make_unique<Branch<DataType>>(branch_name);
-    if (writer_) branches_[branch_name]->attach(*writer_);
+    branches_[branch_name]->attach(*writer_);
     return dynamic_cast<Branch<DataType>&>(*branches_[branch_name]);
   }
 
@@ -38,7 +41,7 @@ class Tree {
    * get a branch, this only really makes sense if reading
    */
   template<typename DataType>
-  Branch<DataType>& get(const std::string& branch_name, bool copy = false) {
+  const Branch<DataType>& get(const std::string& branch_name, bool write = false) {
     if (not reader_) {
       throw std::runtime_error("Attempting to 'get' a branch without reading.");
     }
@@ -46,8 +49,8 @@ class Tree {
       throw std::runtime_error("Branch named '"+branch_name+"' was already initialized.");
     }
     branches_[branch_name] = std::make_unique<Branch<DataType>>(branch_name);
-    if (reader_) branches_[branch_name]->attach(*reader_);
-    if (writer_ and copy) branches_[branch_name]->attach(*writer_);
+    branches_[branch_name]->attach(*reader_);
+    if (writer_ and write) branches_[branch_name]->attach(*writer_);
     return dynamic_cast<Branch<DataType>&>(*branches_[branch_name]);
   }
 

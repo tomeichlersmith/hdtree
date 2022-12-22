@@ -226,6 +226,13 @@ class AbstractBranch : public BaseBranch {
   }
 
   /**
+   * Access the in-memory data opbject in a const manner
+   */
+  const DataType& operator*() const {
+    return get();
+  }
+
+  /**
    * Pointer access to the in-memory data type
    */
   DataType* operator->() {
