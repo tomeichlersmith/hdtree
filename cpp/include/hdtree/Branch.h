@@ -18,7 +18,9 @@
 
 // GeneralBranch goes first so that the other
 // templates can be partial template specializations of it
-#include "hdtree/branch/AtomicBranch.h"
 #include "hdtree/branch/GeneralBranch.h"
+
+// the other template specializations of Branch
+#include "hdtree/branch/AtomicBranch.h"
 #include "hdtree/branch/MapBranch.h"
 #include "hdtree/branch/VectorBranch.h"
