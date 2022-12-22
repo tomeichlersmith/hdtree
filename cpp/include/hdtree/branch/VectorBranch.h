@@ -7,7 +7,7 @@ namespace hdtree {
  *
  * @note We assume that the load/save is done sequentially.
  * This assumption is made because
- *  (1) it is how fire is designed and
+ *  (1) it is how HDTree is designed and
  *  (2) it allows us to not have to store
  *      as much metadata about the vectors.
  *
@@ -25,12 +25,17 @@ class Branch<std::vector<ContentType>>
    * @param[in] path full in-file path to set holding this data
    * @param[in] handle pointer to object already constructed (optional)
    */
-  explicit Branch(const std::string& path, Reader* input_file = nullptr, 
+  explicit Branch(const std::string& path,
       std::vector<ContentType>* handle = nullptr)
-      : AbstractBranch<std::vector<ContentType>>(path, input_file, handle),
-        size_{path + "/" + constants::SIZE_NAME, input_file},
-        data_{path + "/data", input_file} {}
+      : AbstractBranch<std::vector<ContentType>>(path, handle),
+        size_{path + "/" + constants::SIZE_NAME},
+        data_{path + "/data"} {}
 
+  void attach(Reader& f) final override {
+    this->load_type_ = f.type(this->name_);
+    size_.attach(f);
+    data_.attach(f);
+  }
   /**
    * Load a vector from the input file
    *
@@ -41,11 +46,11 @@ class Branch<std::vector<ContentType>>
    *
    * @param[in] f h5::Reader to load from
    */
-  void load(Reader& f) final override {
-    size_.load(f);
+  void load() final override {
+    size_.load();
     this->handle_->resize(size_.get());
     for (std::size_t i_vec{0}; i_vec < size_.get(); i_vec++) {
-      data_.load(f);
+      data_.load();
       (*(this->handle_))[i_vec] = data_.get();
     }
   }
@@ -59,19 +64,19 @@ class Branch<std::vector<ContentType>>
    *
    * @param[in] f io::Writer to save to
    */
-  void save(Writer& f) final override {
+  void save() final override {
     size_.update(this->handle_->size());
-    size_.save(f);
+    size_.save();
     for (std::size_t i_vec{0}; i_vec < this->handle_->size(); i_vec++) {
       data_.update(this->handle_->at(i_vec));
-      data_.save(f);
+      data_.save();
     }
   }
 
-  void structure(Writer& f) final override {
-    f.structure(this->path_, this->save_type_);
-    size_.structure(f);
-    data_.structure(f);
+  void attach(Writer& f) final override {
+    f.structure(this->name_, this->save_type_);
+    size_.attach(f);
+    data_.attach(f);
   }
 
  private:

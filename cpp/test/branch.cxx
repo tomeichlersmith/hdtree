@@ -112,10 +112,10 @@ class Cluster {
 };
 
 template <typename ArbitraryBranch, typename DataType>
-bool save(ArbitraryBranch& h5d, DataType const& d, hdtree::Writer& f) {
+bool save(ArbitraryBranch& h5d, DataType const& d) {
   try {
     *h5d = d;
-    h5d.save(f);
+    h5d.save();
     return true;
   } catch (std::exception const& e) {
     std::cout << e.what() << std::endl;
@@ -124,9 +124,9 @@ bool save(ArbitraryBranch& h5d, DataType const& d, hdtree::Writer& f) {
 }
 
 template <typename ArbitraryBranch, typename DataType>
-bool load(ArbitraryBranch& h5d, DataType const& d, hdtree::Reader& f) {
+bool load(ArbitraryBranch& h5d, DataType const& d) {
   try {
-    h5d.load(f);
+    h5d.load();
     return (d == h5d.get());
   } catch (std::exception const& e) {
     std::cout << e.what() << std::endl;
@@ -169,118 +169,134 @@ BOOST_AUTO_TEST_CASE(write) {
   hdtree::Branch<std::vector<Cluster>> vector_cluster_ds("vector_cluster");
   hdtree::Branch<std::map<int,Cluster>> map_cluster_ds("map_cluster");
 
-  double_ds.structure(f);
-  int_ds.structure(f);
-  bool_ds.structure(f);
-  str_ds.structure(f);
-  vector_double_ds.structure(f);
-  vector_int_ds.structure(f);
-  map_int_double_ds.structure(f);
-  hit_ds.structure(f);
-  vector_hit_ds.structure(f);
-  special_hit_ds.structure(f);
-  derived_hit_ds.structure(f);
-  vector_special_hit_ds.structure(f);
-  cluster_ds.structure(f);
-  vector_cluster_ds.structure(f);
-  map_cluster_ds.structure(f);
+  double_ds.attach(f);
+  int_ds.attach(f);
+  bool_ds.attach(f);
+  str_ds.attach(f);
+  vector_double_ds.attach(f);
+  vector_int_ds.attach(f);
+  map_int_double_ds.attach(f);
+  hit_ds.attach(f);
+  vector_hit_ds.attach(f);
+  special_hit_ds.attach(f);
+  derived_hit_ds.attach(f);
+  vector_special_hit_ds.attach(f);
+  cluster_ds.attach(f);
+  vector_cluster_ds.attach(f);
+  map_cluster_ds.attach(f);
 
   for (std::size_t i_entry{0}; i_entry < doubles.size(); i_entry++) {
-    BOOST_CHECK(save(double_ds,doubles.at(i_entry),f));
-    BOOST_CHECK(save(int_ds,ints.at(i_entry),f));
-    BOOST_CHECK(save(str_ds,std::to_string(ints.at(i_entry)), f));
+    BOOST_CHECK(save(double_ds,doubles.at(i_entry)));
+    BOOST_CHECK(save(int_ds,ints.at(i_entry)));
+    BOOST_CHECK(save(str_ds,std::to_string(ints.at(i_entry))));
 
     bool positive{ints.at(i_entry) > 0};
-    BOOST_CHECK(save(bool_ds,positive,f));
+    BOOST_CHECK(save(bool_ds,positive));
 
-    BOOST_CHECK(save(vector_double_ds,doubles,f));
-    BOOST_CHECK(save(vector_int_ds,ints,f));
+    BOOST_CHECK(save(vector_double_ds,doubles));
+    BOOST_CHECK(save(vector_int_ds,ints));
     std::map<int,double> map_int_double;
     for (std::size_t i{0}; i < ints.size(); i++) {
       map_int_double[ints.at(i)] = doubles.at(i);
     }
-    BOOST_CHECK(save(map_int_double_ds,map_int_double,f));
+    BOOST_CHECK(save(map_int_double_ds,map_int_double));
 
-    BOOST_CHECK(save(hit_ds,all_hits[i_entry][0],f));
-    BOOST_CHECK(save(vector_hit_ds,all_hits[i_entry],f));
-    BOOST_CHECK(save(special_hit_ds,SpecialHit(0,all_hits[i_entry][0]),f));
-    BOOST_CHECK(save(derived_hit_ds,DerivedHit(25., 2),f));
+    BOOST_CHECK(save(hit_ds,all_hits[i_entry][0]));
+    BOOST_CHECK(save(vector_hit_ds,all_hits[i_entry]));
+    BOOST_CHECK(save(special_hit_ds,SpecialHit(0,all_hits[i_entry][0])));
+    BOOST_CHECK(save(derived_hit_ds,DerivedHit(25., 2)));
 
     std::vector<SpecialHit> sphit_vec;
     for (auto& hit : all_hits[i_entry]) sphit_vec.emplace_back(i_entry,hit);
-    BOOST_CHECK(save(vector_special_hit_ds,sphit_vec,f));
+    BOOST_CHECK(save(vector_special_hit_ds,sphit_vec));
 
     auto c = Cluster(i_entry, all_hits.at(i_entry));
-    BOOST_CHECK(save(cluster_ds,c,f));
+    BOOST_CHECK(save(cluster_ds,c));
 
     std::vector<Cluster> clusters;
     clusters.emplace_back(2, all_hits.at(0));
     clusters.emplace_back(3, all_hits.at(1));
-    BOOST_CHECK(save(vector_cluster_ds,clusters,f));
+    BOOST_CHECK(save(vector_cluster_ds,clusters));
 
     std::map<int,Cluster> map_clusters = {
       { 2, Cluster(2, all_hits.at(0)) },
       { 3, Cluster(3, all_hits.at(1)) }
     };
-    BOOST_CHECK(save(map_cluster_ds,map_clusters,f));
+    BOOST_CHECK(save(map_cluster_ds,map_clusters));
   }
 }
 
 BOOST_AUTO_TEST_CASE(read, *boost::unit_test::depends_on("branch/write")) {
   hdtree::Reader f{filename, "test"};
 
-  hdtree::Branch<Hit> hit_ds("hit",&f);
-  hdtree::Branch<double> double_ds("double",&f);
-  hdtree::Branch<int>    int_ds("int",&f);
-  hdtree::Branch<bool>   bool_ds("bool",&f);
-  hdtree::Branch<std::string> str_ds("string",&f);
-  hdtree::Branch<std::vector<double>> vector_double_ds("vector_double",&f);
-  hdtree::Branch<std::vector<int>> vector_int_ds("vector_int",&f);
-  hdtree::Branch<std::map<int,double>> map_int_double_ds("map_int_double",&f);
-  hdtree::Branch<std::vector<Hit>> vector_hit_ds("vector_hit",&f);
-  hdtree::Branch<SpecialHit> special_hit_ds("special_hit",&f);
-  hdtree::Branch<DerivedHit> derived_hit_ds("derived_hit",&f);
-  hdtree::Branch<std::vector<SpecialHit>> vector_special_hit_ds("vector_special_hit",&f);
-  hdtree::Branch<Cluster> cluster_ds("cluster",&f);
-  hdtree::Branch<std::vector<Cluster>> vector_cluster_ds("vector_cluster",&f);
-  hdtree::Branch<std::map<int,Cluster>> map_cluster_ds("map_cluster",&f);
+  hdtree::Branch<Hit> hit_ds("hit");
+  hdtree::Branch<double> double_ds("double");
+  hdtree::Branch<int>    int_ds("int");
+  hdtree::Branch<bool>   bool_ds("bool");
+  hdtree::Branch<std::string> str_ds("string");
+  hdtree::Branch<std::vector<double>> vector_double_ds("vector_double");
+  hdtree::Branch<std::vector<int>> vector_int_ds("vector_int");
+  hdtree::Branch<std::map<int,double>> map_int_double_ds("map_int_double");
+  hdtree::Branch<std::vector<Hit>> vector_hit_ds("vector_hit");
+  hdtree::Branch<SpecialHit> special_hit_ds("special_hit");
+  hdtree::Branch<DerivedHit> derived_hit_ds("derived_hit");
+  hdtree::Branch<std::vector<SpecialHit>> vector_special_hit_ds("vector_special_hit");
+  hdtree::Branch<Cluster> cluster_ds("cluster");
+  hdtree::Branch<std::vector<Cluster>> vector_cluster_ds("vector_cluster");
+  hdtree::Branch<std::map<int,Cluster>> map_cluster_ds("map_cluster");
+
+  double_ds.attach(f);
+  int_ds.attach(f);
+  bool_ds.attach(f);
+  str_ds.attach(f);
+  vector_double_ds.attach(f);
+  vector_int_ds.attach(f);
+  map_int_double_ds.attach(f);
+  hit_ds.attach(f);
+  vector_hit_ds.attach(f);
+  special_hit_ds.attach(f);
+  derived_hit_ds.attach(f);
+  vector_special_hit_ds.attach(f);
+  cluster_ds.attach(f);
+  vector_cluster_ds.attach(f);
+  map_cluster_ds.attach(f);
 
   for (std::size_t i_entry{0}; i_entry < doubles.size(); i_entry++) {
-    BOOST_CHECK(load(hit_ds,all_hits[i_entry][0],f));
-    BOOST_CHECK(load(double_ds,doubles.at(i_entry),f));
-    BOOST_CHECK(load(int_ds,ints.at(i_entry),f));
-    BOOST_CHECK(load(str_ds,std::to_string(ints.at(i_entry)), f));
+    BOOST_CHECK(load(hit_ds,all_hits[i_entry][0]));
+    BOOST_CHECK(load(double_ds,doubles.at(i_entry)));
+    BOOST_CHECK(load(int_ds,ints.at(i_entry)));
+    BOOST_CHECK(load(str_ds,std::to_string(ints.at(i_entry))));
     bool positive{ints.at(i_entry) > 0};
-    BOOST_CHECK(load(bool_ds,positive,f));
-    BOOST_CHECK(load(vector_double_ds,doubles,f));
-    BOOST_CHECK(load(vector_int_ds,ints,f));
+    BOOST_CHECK(load(bool_ds,positive));
+    BOOST_CHECK(load(vector_double_ds,doubles));
+    BOOST_CHECK(load(vector_int_ds,ints));
     std::map<int,double> map_int_double;
     for (std::size_t i{0}; i < ints.size(); i++) {
       map_int_double[ints.at(i)] = doubles.at(i);
     }
-    BOOST_CHECK(load(map_int_double_ds,map_int_double,f));
+    BOOST_CHECK(load(map_int_double_ds,map_int_double));
 
-    BOOST_CHECK(load(vector_hit_ds,all_hits[i_entry],f));
-    BOOST_CHECK(load(special_hit_ds,SpecialHit(0,all_hits[i_entry][0]),f));
-    BOOST_CHECK(load(derived_hit_ds,DerivedHit(25.,2), f));
+    BOOST_CHECK(load(vector_hit_ds,all_hits[i_entry]));
+    BOOST_CHECK(load(special_hit_ds,SpecialHit(0,all_hits[i_entry][0])));
+    BOOST_CHECK(load(derived_hit_ds,DerivedHit(25.,2)));
 
     std::vector<SpecialHit> sphit_vec;
     for (auto& hit : all_hits[i_entry]) sphit_vec.emplace_back(i_entry,hit);
-    BOOST_CHECK(load(vector_special_hit_ds,sphit_vec,f));
+    BOOST_CHECK(load(vector_special_hit_ds,sphit_vec));
 
     auto c = Cluster(i_entry, all_hits.at(i_entry));
-    BOOST_CHECK(load(cluster_ds,c,f));
+    BOOST_CHECK(load(cluster_ds,c));
 
     std::vector<Cluster> clusters;
     clusters.emplace_back(2, all_hits.at(0));
     clusters.emplace_back(3, all_hits.at(1));
-    BOOST_CHECK(load(vector_cluster_ds,clusters,f));
+    BOOST_CHECK(load(vector_cluster_ds,clusters));
 
     std::map<int,Cluster> map_clusters = {
       { 2, Cluster(2, all_hits.at(0)) },
       { 3, Cluster(3, all_hits.at(1)) }
     }, read_map;
-    BOOST_CHECK_NO_THROW(map_cluster_ds.load(f));
+    BOOST_CHECK_NO_THROW(map_cluster_ds.load());
     BOOST_CHECK_NO_THROW(read_map = map_cluster_ds.get());
     for (auto const& [key,val] : map_clusters) {
       auto mit{read_map.find(key)};

@@ -35,9 +35,6 @@ void Writer::flush() {
   } else {
     tree_.createAttribute(constants::SIZE_NAME, entries_);
   }
-  for (auto& [path, buff] : buffers_) {
-    buff->flush();
-  }
   file_.flush();
 }
 
@@ -70,6 +67,11 @@ void Writer::structure(const std::string& path, const std::pair<std::string,int>
     grp.createAttribute(constants::TYPE_ATTR_NAME, type.first);
     grp.createAttribute(constants::VERS_ATTR_NAME, type.second);
   }
+}
+
+HighFive::DataSet Writer::createDataSet(const std::string& branch_name, 
+    HighFive::DataType data_type) {
+  return tree_.createDataSet(branch_name, space_, data_type, create_props_);
 }
 
 }  // namespace fire::h5

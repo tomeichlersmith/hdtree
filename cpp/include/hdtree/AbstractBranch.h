@@ -26,11 +26,9 @@ class Reader;
 class BaseBranch {
  public:
   /**
-   * Define the full in-file path to the data set of this data
-   *
-   * @param[in] path full in-file path to the data set
+   * define the full name of the branch
    */
-  explicit BaseBranch(const std::string& path) : path_{path} {}
+  explicit BaseBranch(const std::string& full_name) : name_{full_name} {}
 
   /**
    * virtual destructor so inherited classes can be properly destructed.
@@ -42,14 +40,9 @@ class BaseBranch {
    *
    * @param[in] f Reader to load from
    */
-  virtual void load(Reader& f) = 0;
+  virtual void attach(Reader& f) = 0;
 
-  /**
-   * pure virtual method for saving the current data
-   *
-   * @param[in] f Writer to write to
-   */
-  virtual void save(Writer& f) = 0;
+  virtual void load() = 0;
 
   /**
    * we should persist our hierarchy
@@ -57,7 +50,14 @@ class BaseBranch {
    *
    * @param[in] f Writer to write to
    */
-  virtual void structure(Writer& f) = 0;
+  virtual void attach(Writer& f) = 0;
+
+  /**
+   * pure virtual method for saving the current data
+   *
+   * @param[in] f Writer to write to
+   */
+  virtual void save() = 0;
 
   /**
    * pure virtual method for resetting the current data to a blank state
@@ -70,8 +70,8 @@ class BaseBranch {
   BaseBranch& operator=(const BaseBranch&) = delete;
 
  protected:
-  /// path of data set
-  std::string path_;
+  /// name of branch
+  std::string name_;
 };
 
 /**
@@ -100,11 +100,19 @@ class AbstractBranch : public BaseBranch {
    * This is the location in the code where we require user-defined
    * data classes to be default-constructible.
    *
-   * @param[in] path full in-file path to the data set
+   * @param[in] name full in-file path to the data set
    * @param[in] handle address of object already created (optional)
    */
-  explicit AbstractBranch(const std::string& path, Reader* input_file = nullptr, 
-      DataType* handle = nullptr);
+  explicit AbstractBranch(const std::string& path, DataType* handle = nullptr)
+    : BaseBranch(path), owner_{handle == nullptr} {
+      if (owner_) {
+        handle_ = new DataType;
+      } else {
+        handle_ = handle;
+      }
+
+      save_type_ = { boost::core::demangle(typeid(DataType).name()), class_version<DataType> };
+    }
 
   /**
    * Delete our object if we own it, otherwise do nothing.
@@ -116,25 +124,26 @@ class AbstractBranch : public BaseBranch {
     if (owner_) delete handle_;
   }
 
+  virtual void attach(Reader& f) = 0;
   /**
    * pure virtual method for loading data 
    *
    * @param[in] f Reader to load from
    */
-  virtual void load(Reader& f) = 0;
+  virtual void load() = 0;
 
   /**
    * pure virtual method for saving data
    *
    * @param[in] f Writer to save to
    */
-  virtual void save(Writer& f) = 0;
+  virtual void save() = 0;
 
   /**
    * pure virtual method for saving structure
    * @param[in] f Writer to write to
    */
-  virtual void structure(Writer& f) = 0;
+  virtual void attach(Writer& f) = 0;
 
   /**
    * Define the clear function here to handle the most common cases.

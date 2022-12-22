@@ -26,12 +26,12 @@ class Branch<std::map<KeyType,ValType>>
    * @param[in] path full in-file path to set holding this data
    * @param[in] handle pointer to object already constructed (optional)
    */
-  explicit Branch(const std::string& path, Reader* input_file = nullptr, 
+  explicit Branch(const std::string& path,
       std::map<KeyType,ValType>* handle = nullptr)
-      : AbstractBranch<std::map<KeyType,ValType>>(path, input_file, handle),
-        size_{path + "/" + constants::SIZE_NAME, input_file},
-        keys_{path + "/keys", input_file},
-        vals_{path + "/vals", input_file} {}
+      : AbstractBranch<std::map<KeyType,ValType>>(path, handle),
+        size_{path + "/" + constants::SIZE_NAME},
+        keys_{path + "/keys"},
+        vals_{path + "/vals"} {}
 
   /**
    * Load a map from the input file
@@ -43,13 +43,20 @@ class Branch<std::map<KeyType,ValType>>
    *
    * @param[in] f h5::Reader to load from
    */
-  void load(Reader& f) final override {
-    size_.load(f);
+  void load() final override {
+    size_.load();
     for (std::size_t i_map{0}; i_map < size_.get(); i_map++) {
-      keys_.load(f);
-      vals_.load(f);
+      keys_.load();
+      vals_.load();
       this->handle_->emplace(keys_.get(), vals_.get());
     }
+  }
+
+  void attach(Reader& f) final override {
+    this->load_type_ = f.type(this->name_);
+    size_.attach(f);
+    keys_.attach(f);
+    vals_.attach(f);
   }
 
   /**
@@ -61,22 +68,22 @@ class Branch<std::map<KeyType,ValType>>
    *
    * @param[in] f io::Writer to save to
    */
-  void save(Writer& f) final override {
+  void save() final override {
     size_.update(this->handle_->size());
-    size_.save(f);
+    size_.save();
     for (auto const& [key,val] : *(this->handle_)) {
       keys_.update(key);
-      keys_.save(f);
+      keys_.save();
       vals_.update(val);
-      vals_.save(f);
+      vals_.save();
     }
   }
 
-  void structure(Writer& f) final override {
-    f.structure(this->path_, this->save_type_);
-    size_.structure(f);
-    keys_.structure(f);
-    vals_.structure(f);
+  void attach(Writer& f) final override {
+    f.structure(this->name_, this->save_type_);
+    size_.attach(f);
+    keys_.attach(f);
+    vals_.attach(f);
   }
 
  private:

@@ -11,10 +11,6 @@ Reader::Reader(const std::string& file_path, const std::string& tree_path)
   size_attr.read(entries_);
 }
 
-void Reader::load_into(BaseBranch& d) {
-  d.load(*this);
-}
-
 std::string Reader::name() const { return file_.getName(); }
 
 std::vector<std::string> Reader::list(const std::string& group_path) const {
@@ -23,8 +19,12 @@ std::vector<std::string> Reader::list(const std::string& group_path) const {
   return tree_.getGroup(group_path).listObjectNames();
 }
 
+HighFive::DataSet Reader::getDataSet(const std::string& branch_name) const {
+  return tree_.getDataSet(branch_name);
+}
+
 HighFive::DataType Reader::getDataSetType(const std::string& dataset) const {
-  return tree_.getDataSet(dataset).getDataType();
+  return getDataSet(dataset).getDataType();
 }
 
 HighFive::ObjectType Reader::getH5ObjectType(const std::string& path) const {
@@ -82,19 +82,18 @@ void Reader::copy(unsigned int long i_entry, const std::string& path, Writer& ou
      */
     mirror(path, output);
     mirror_objects_.emplace(std::make_pair(path,
-          std::make_unique<MirrorObject>(path, *this)));
+          std::make_unique<MirrorObject>(path, *this, output)));
   }
   // do the copying
-  mirror_objects_[path]->copy(i_entry, 1, output);
+  mirror_objects_[path]->copy(i_entry, 1);
 }
 
-Reader::MirrorObject::MirrorObject(const std::string& path, Reader& reader) 
-  : reader_{reader} {
-  if (reader_.getH5ObjectType(path) == HighFive::ObjectType::Dataset) {
+Reader::MirrorObject::MirrorObject(const std::string& path, Reader& reader, Writer& writer) {
+  if (reader.getH5ObjectType(path) == HighFive::ObjectType::Dataset) {
     // simple atomic event object
     //  unfortunately, I can't think of a better solution than manually
     //  copying the code for all of the types
-    HighFive::DataType type = reader_.getDataSetType(path);
+    HighFive::DataType type = reader.getDataSetType(path);
     if (type == HighFive::create_datatype<int>()) {
       data_ = std::make_unique<Branch<int>>(path);
     } else if (type == HighFive::create_datatype<long int>()) {
@@ -119,22 +118,26 @@ Reader::MirrorObject::MirrorObject(const std::string& path, Reader& reader)
       throw std::runtime_error("HDTreeUnknownDS: Unable to deduce C++ type "
           "from H5 type during a copy");
     }
+    data_->attach(reader);
+    data_->attach(writer);
   } else {
     // event object is a H5 group meaning it is more complicated
     // than a simple atomic type
-    auto subobjs = reader_.list(path);
+    auto subobjs = reader.list(path);
     for (auto& subobj : subobjs) {
       std::string sub_path{path + "/" + subobj};
       if (subobj == constants::SIZE_NAME) {
         size_member_ = std::make_unique<Branch<std::size_t>>(sub_path);
+        size_member_->attach(reader);
+        size_member_->attach(writer);
       } else {
-        obj_members_.emplace_back(std::make_unique<MirrorObject>(sub_path, reader_));
+        obj_members_.emplace_back(std::make_unique<MirrorObject>(sub_path, reader, writer));
       }
     }
   }
 }
 
-void Reader::MirrorObject::copy(unsigned long int i_entry, unsigned long int n, Writer& output) {
+void Reader::MirrorObject::copy(unsigned long int i_entry, unsigned long int n) {
   unsigned long int num_to_advance{i_entry <= last_entry_ ? 0 : i_entry - last_entry_ - 1}, 
                     num_to_save{n};
   last_entry_ = i_entry;
@@ -143,11 +146,11 @@ void Reader::MirrorObject::copy(unsigned long int i_entry, unsigned long int n, 
   // mirror object
   if (data_) {
     // load until one before desired entry
-    for (std::size_t i{0}; i < num_to_advance; i++) data_->load(reader_);
+    for (std::size_t i{0}; i < num_to_advance; i++) data_->load();
     // load and save desired entries
     for (std::size_t i{0}; i < num_to_save; i++) {
-      data_->load(reader_);
-      data_->save(output);
+      data_->load();
+      data_->save();
     }
     return;
   }
@@ -157,21 +160,21 @@ void Reader::MirrorObject::copy(unsigned long int i_entry, unsigned long int n, 
   if (size_member_) {
     unsigned long int new_num_to_advance{0};
     for (std::size_t i{0}; i < num_to_advance; i++) {
-      size_member_->load(reader_);
+      size_member_->load();
       new_num_to_advance += dynamic_cast<Branch<std::size_t>&>(*size_member_).get();
     }
     unsigned long int new_num_to_save = 0;
     for (std::size_t i{0}; i < num_to_save; i++) {
-      size_member_->load(reader_);
+      size_member_->load();
       new_num_to_save += dynamic_cast<Branch<std::size_t>&>(*size_member_).get();
-      size_member_->save(output);
+      size_member_->save();
     }
 
     num_to_advance = new_num_to_advance;
     num_to_save = new_num_to_save;
   }
 
-  for (auto& obj  : obj_members_) obj->copy(num_to_advance, num_to_save, output);
+  for (auto& obj  : obj_members_) obj->copy(num_to_advance, num_to_save);
 }
 
 }  // namespace hdtree

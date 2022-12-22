@@ -67,8 +67,8 @@ class Branch : public AbstractBranch<DataType> {
    * @param[in] path full in-file path to the data set for this data
    * @param[in] handle address of object already created (optional)
    */
-  explicit Branch(const std::string& path, Reader* input_file = nullptr, DataType* handle = nullptr)
-      : AbstractBranch<DataType>(path, input_file, handle), input_file_{input_file} {
+  explicit Branch(const std::string& path, DataType* handle = nullptr)
+      : AbstractBranch<DataType>(path, handle) {
     hdtree::access::connect(*this->handle_, *this);
   }
 
@@ -86,13 +86,29 @@ class Branch : public AbstractBranch<DataType> {
    *
    * @param[in] f file to load from
    */
-  void load(Reader& f) final override try {
-    for (auto& [save,load,m] : members_) if (load) m->load(f);
+  void load() final override try {
+    for (auto& [save,load,m] : members_) if (load) m->load();
   } catch (const HighFive::DataSetException& e) {
     const auto& [memt, memv] = this->save_type_;
-    const auto& [diskt, diskv] = f.type(this->path_);
+    const auto& [diskt, diskv] = this->load_type_.value_or(std::make_pair("NULL",-1));
     std::stringstream ss;
-    ss << "HDTreeBadType: Data at " << this->path_ << " could not be loaded into "
+    ss << "HDTreeBadType: Data at " << this->name_ << " could not be loaded into "
+        << memt  << " (version " << memv << ") from the type it was written as " 
+        << diskt << " (version " << diskv << ")\n"
+        "  Check that your implementation of attach can handle any "
+        "previous versions of your class you are trying to read.\n"
+        "  H5 Error:\n" << e.what();
+    throw std::runtime_error(ss.str());
+  }
+
+  void attach(Reader& f) final override try {
+    this->load_type_ = f.type(this->name_);
+    for (auto& [save,load,m] : members_) if (load) m->attach(f);
+  } catch (const HighFive::DataSetException& e) {
+    const auto& [memt, memv] = this->save_type_;
+    const auto& [diskt, diskv] = f.type(this->name_);
+    std::stringstream ss;
+    ss << "HDTreeBadType: Branch " << this->name_ << " could not be attached to "
         << memt  << " (version " << memv << ") from the type it was written as " 
         << diskt << " (version " << diskv << ")\n"
         "  Check that your implementation of attach can handle any "
@@ -104,16 +120,14 @@ class Branch : public AbstractBranch<DataType> {
   /*
    * Saving this dataset from the file involves simply saving
    * all of the members of the data type.
-   *
-   * @param[in] f file to save to
    */
-  void save(Writer& f) final override {
-    for (auto& [save,load,m] : members_) if (save) m->save(f);
+  void save() final override {
+    for (auto& [save,load,m] : members_) if (save) m->save();
   }
 
-  void structure(Writer& f) final override {
-    f.structure(this->path_, this->save_type_);
-    for (auto& [save,load,m] : members_) if (save) m->structure(f);
+  void attach(Writer& f) final override {
+    f.structure(this->name_, this->save_type_);
+    for (auto& [save,load,m] : members_) if (save) m->attach(f);
   }
 
   /**
@@ -138,12 +152,11 @@ class Branch : public AbstractBranch<DataType> {
           "your class");
     }
     bool save{false}, load{false};
-    Reader* input_file{input_file_};
     if (sl == SaveLoad::LoadOnly) load = true;
-    else if (sl == SaveLoad::SaveOnly) { save = true; input_file = nullptr; }
+    else if (sl == SaveLoad::SaveOnly) { save = true; }
     else { save = true; load = true; }
     members_.push_back(std::make_tuple(save, load,
-        std::make_unique<Branch<MemberType>>(this->path_ + "/" + name, input_file, &m)));
+        std::make_unique<Branch<MemberType>>(this->name_ + "/" + name, &m)));
   }
 
   /**
