@@ -1,0 +1,64 @@
+
+name: Test APIs
+
+on:
+  push:
+    tags:
+      - '**'
+    branches:
+      - '**'
+      - '!gh-pages'
+    paths-ignore:
+      - '**.md'
+      - '**docs/**'
+  pull_request:
+    branches:
+      - trunk
+    types:
+      - opened
+      - ready_for_review
+
+jobs:
+  cpp:
+    runs-on: ${{matrix.os}}
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      matrix:
+        os: [ ubuntu-18.04, ubuntu-20.04, ubuntu-22.04, ubuntu-latest ] #, macOS-10.15]
+    steps:
+    -
+      name: install dependencies ubuntu
+      if: contains(matrix.os,'ubuntu')
+      run: sudo apt-get update && sudo apt-get install libboost-all-dev libhdf5-dev 
+    -
+      name: install dependencies macos
+      if: contains(matrix.os,'macOS')
+      run: brew install boost hdf5
+    -
+      name: install HighFive
+      run: |
+        mkdir src
+        wget -q -O - \
+          https://github.com/BlueBrain/HighFive/archive/refs/tags/v2.6.2.tar.gz |\
+          tar -xz --strip-components=1 --directory src
+        mkdir src/build
+        cd src/build
+        cmake -DHIGHFIVE_EXAMPLES=OFF -DHIGHFIVE_UNIT_TESTS=OFF ..
+        sudo make install
+        cd -
+        rm -rf src
+    - 
+      name: get hdtree
+      uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+    -
+      name: build fire
+      run: |
+        cmake -B cpp/build -S cpp
+        cmake --build cpp/build
+    -
+      name: test fire
+      run: cmake --build cpp/build --target test
