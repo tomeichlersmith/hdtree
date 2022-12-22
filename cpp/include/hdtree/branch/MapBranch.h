@@ -15,9 +15,10 @@ namespace hdtree {
  * @tparam ValType type that the vals in the map are
  */
 template <typename KeyType, typename ValType>
-class Branch<std::map<KeyType,ValType>>
-    : public AbstractBranch<std::map<KeyType,ValType>> {
+class Branch<std::map<KeyType, ValType>>
+    : public AbstractBranch<std::map<KeyType, ValType>> {
   fire_class_version(1);
+
  public:
   /**
    * We create three child data sets, one for the successive sizes
@@ -27,8 +28,8 @@ class Branch<std::map<KeyType,ValType>>
    * @param[in] handle pointer to object already constructed (optional)
    */
   explicit Branch(const std::string& branch_name,
-      std::map<KeyType,ValType>* handle = nullptr)
-      : AbstractBranch<std::map<KeyType,ValType>>(branch_name, handle),
+                  std::map<KeyType, ValType>* handle = nullptr)
+      : AbstractBranch<std::map<KeyType, ValType>>(branch_name, handle),
         size_{branch_name + "/" + constants::SIZE_NAME},
         keys_{branch_name + "/keys"},
         vals_{branch_name + "/vals"} {}
@@ -71,7 +72,7 @@ class Branch<std::map<KeyType,ValType>>
   void save() final override {
     size_.update(this->handle_->size());
     size_.save();
-    for (auto const& [key,val] : *(this->handle_)) {
+    for (auto const& [key, val] : *(this->handle_)) {
       keys_.update(key);
       keys_.save();
       vals_.update(val);
@@ -95,4 +96,4 @@ class Branch<std::map<KeyType,ValType>>
   Branch<ValType> vals_;
 };  // Branch<std::map>
 
-}
+}  // namespace hdtree

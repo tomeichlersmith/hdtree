@@ -6,7 +6,7 @@
 
 #include <string>
 
-namespace hdtree { 
+namespace hdtree {
 
 /**
  * the recorded CMake version of fire
@@ -21,5 +21,4 @@ const std::string& VERSION();
  */
 const std::string& API();
 
-}
-
+}  // namespace hdtree

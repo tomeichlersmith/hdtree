@@ -9,7 +9,7 @@ namespace hdtree {
  * and the type it wraps
  *
  * This struct has no members or instance methods,
- * it is merely here to grant Data access to 
+ * it is merely here to grant Data access to
  * the potentially private function `attach`.
  *
  * A class interested in being wrapped by Data
@@ -34,5 +34,4 @@ struct access {
   }
 };  // access
 
-}
-
+}  // namespace hdtree

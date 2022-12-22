@@ -1,13 +1,15 @@
 #include "hdtree/Reader.h"
 
-#include "hdtree/Constants.h"
 #include "hdtree/Branch.h"
+#include "hdtree/Constants.h"
 
 namespace hdtree {
 
-Reader::Reader(const std::pair<std::string,std::string>& file_tree_path, bool inplace) 
-  : file_{file_tree_path.first, inplace ? HighFive::File::ReadWrite : HighFive::File::ReadOnly}, 
-  tree_{file_.getGroup(file_tree_path.second)} {
+Reader::Reader(const std::pair<std::string, std::string>& file_tree_path,
+               bool inplace)
+    : file_{file_tree_path.first,
+            inplace ? HighFive::File::ReadWrite : HighFive::File::ReadOnly},
+      tree_{file_.getGroup(file_tree_path.second)} {
   HighFive::Attribute size_attr = tree_.getAttribute(constants::SIZE_NAME);
   size_attr.read(entries_);
 }
@@ -32,19 +34,21 @@ HighFive::ObjectType Reader::getH5ObjectType(const std::string& path) const {
   return tree_.getObjectType(path);
 }
 
-std::vector<std::pair<std::string,std::string>> Reader::availableObjects() {
+std::vector<std::pair<std::string, std::string>> Reader::availableObjects() {
   // TODO recursively list branches in tree
   return {};
 }
 
-std::pair<std::string,int> Reader::type(const std::string& branch_name) {
-  HighFive::Attribute type_attr = 
-    getH5ObjectType(branch_name) == HighFive::ObjectType::Dataset
-          ? tree_.getDataSet(branch_name).getAttribute(constants::TYPE_ATTR_NAME)
+std::pair<std::string, int> Reader::type(const std::string& branch_name) {
+  HighFive::Attribute type_attr =
+      getH5ObjectType(branch_name) == HighFive::ObjectType::Dataset
+          ? tree_.getDataSet(branch_name)
+                .getAttribute(constants::TYPE_ATTR_NAME)
           : tree_.getGroup(branch_name).getAttribute(constants::TYPE_ATTR_NAME);
-  HighFive::Attribute vers_attr = 
-    getH5ObjectType(branch_name) == HighFive::ObjectType::Dataset
-          ? tree_.getDataSet(branch_name).getAttribute(constants::VERS_ATTR_NAME)
+  HighFive::Attribute vers_attr =
+      getH5ObjectType(branch_name) == HighFive::ObjectType::Dataset
+          ? tree_.getDataSet(branch_name)
+                .getAttribute(constants::VERS_ATTR_NAME)
           : tree_.getGroup(branch_name).getAttribute(constants::VERS_ATTR_NAME);
 
   std::string type;
@@ -52,24 +56,24 @@ std::pair<std::string,int> Reader::type(const std::string& branch_name) {
 
   int vers;
   vers_attr.read(vers);
-  return std::make_pair(type,vers);
+  return std::make_pair(type, vers);
 }
 
 void Reader::mirror(const std::string& branch_name, Writer& output) {
   // only mirror structure of groups
-  if (getH5ObjectType(branch_name) != HighFive::ObjectType::Group) 
-    return;
+  if (getH5ObjectType(branch_name) != HighFive::ObjectType::Group) return;
   // copy over type attributes creating the group in the output file
   output.structure(branch_name, this->type(branch_name));
   // recurse into subobjects
-  for (auto& subgrp : this->list(branch_name)) 
-    mirror(branch_name+"/"+subgrp, output);
+  for (auto& subgrp : this->list(branch_name))
+    mirror(branch_name + "/" + subgrp, output);
 }
 
-void Reader::copy(unsigned int long i_entry, const std::string& branch_name, Writer& output) {
+void Reader::copy(unsigned int long i_entry, const std::string& branch_name,
+                  Writer& output) {
   if (mirror_objects_.find(branch_name) == mirror_objects_.end()) {
     /**
-     * this is where recursing into the subgroups of full_name occurs 
+     * this is where recursing into the subgroups of full_name occurs
      * if this mirror object hasn't been created yet
      *
      * If a mirror object is being created that means the event object
@@ -83,14 +87,16 @@ void Reader::copy(unsigned int long i_entry, const std::string& branch_name, Wri
      * from the input file into the output file.
      */
     mirror(branch_name, output);
-    mirror_objects_.emplace(std::make_pair(branch_name,
-          std::make_unique<MirrorObject>(branch_name, *this, output)));
+    mirror_objects_.emplace(std::make_pair(
+        branch_name,
+        std::make_unique<MirrorObject>(branch_name, *this, output)));
   }
   // do the copying
   mirror_objects_[branch_name]->copy(i_entry, 1);
 }
 
-Reader::MirrorObject::MirrorObject(const std::string& branch_name, Reader& reader, Writer& writer) {
+Reader::MirrorObject::MirrorObject(const std::string& branch_name,
+                                   Reader& reader, Writer& writer) {
   if (reader.getH5ObjectType(branch_name) == HighFive::ObjectType::Dataset) {
     // simple atomic event object
     //  unfortunately, I can't think of a better solution than manually
@@ -117,7 +123,8 @@ Reader::MirrorObject::MirrorObject(const std::string& branch_name, Reader& reade
     } else if (type == HighFive::create_datatype<hdtree::Bool>()) {
       data_ = std::make_unique<Branch<bool>>(branch_name);
     } else {
-      throw std::runtime_error("HDTreeUnknownDS: Unable to deduce C++ type "
+      throw std::runtime_error(
+          "HDTreeUnknownDS: Unable to deduce C++ type "
           "from H5 type during a copy");
     }
     data_->attach(reader);
@@ -133,15 +140,18 @@ Reader::MirrorObject::MirrorObject(const std::string& branch_name, Reader& reade
         size_member_->attach(reader);
         size_member_->attach(writer);
       } else {
-        obj_members_.emplace_back(std::make_unique<MirrorObject>(sub_path, reader, writer));
+        obj_members_.emplace_back(
+            std::make_unique<MirrorObject>(sub_path, reader, writer));
       }
     }
   }
 }
 
-void Reader::MirrorObject::copy(unsigned long int i_entry, unsigned long int n) {
-  unsigned long int num_to_advance{i_entry <= last_entry_ ? 0 : i_entry - last_entry_ - 1}, 
-                    num_to_save{n};
+void Reader::MirrorObject::copy(unsigned long int i_entry,
+                                unsigned long int n) {
+  unsigned long int num_to_advance{
+      i_entry <= last_entry_ ? 0 : i_entry - last_entry_ - 1},
+      num_to_save{n};
   last_entry_ = i_entry;
 
   // if we have a data member, the data member is the only part of this
@@ -163,12 +173,14 @@ void Reader::MirrorObject::copy(unsigned long int i_entry, unsigned long int n) 
     unsigned long int new_num_to_advance{0};
     for (std::size_t i{0}; i < num_to_advance; i++) {
       size_member_->load();
-      new_num_to_advance += dynamic_cast<Branch<std::size_t>&>(*size_member_).get();
+      new_num_to_advance +=
+          dynamic_cast<Branch<std::size_t>&>(*size_member_).get();
     }
     unsigned long int new_num_to_save = 0;
     for (std::size_t i{0}; i < num_to_save; i++) {
       size_member_->load();
-      new_num_to_save += dynamic_cast<Branch<std::size_t>&>(*size_member_).get();
+      new_num_to_save +=
+          dynamic_cast<Branch<std::size_t>&>(*size_member_).get();
       size_member_->save();
     }
 
@@ -176,8 +188,7 @@ void Reader::MirrorObject::copy(unsigned long int i_entry, unsigned long int n) 
     num_to_save = new_num_to_save;
   }
 
-  for (auto& obj  : obj_members_) obj->copy(num_to_advance, num_to_save);
+  for (auto& obj : obj_members_) obj->copy(num_to_advance, num_to_save);
 }
 
 }  // namespace hdtree
-

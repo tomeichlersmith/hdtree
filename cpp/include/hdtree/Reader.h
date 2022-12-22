@@ -5,8 +5,8 @@
 // using HighFive
 #include <highfive/H5File.hpp>
 
-#include "hdtree/Atomic.h"
 #include "hdtree/AbstractBranch.h"
+#include "hdtree/Atomic.h"
 #include "hdtree/Writer.h"
 
 namespace hdtree {
@@ -28,7 +28,7 @@ class Reader {
    *
    * Our read mode is the same as HDF5 Read Only mode
    *
-   * We also read the number of entries in this file by 
+   * We also read the number of entries in this file by
    * retrieving __size__ attribute of the HDTree.
    * This is reliable as long as the HDTree was written/flushed
    * before program termination.
@@ -36,7 +36,8 @@ class Reader {
    * @throws HighFive::Exception if file is not accessible.
    * @param[in] name file name to open and read
    */
-  Reader(const std::pair<std::string,std::string>& file_tree_path, bool inplace = false);
+  Reader(const std::pair<std::string, std::string>& file_tree_path,
+         bool inplace = false);
 
   /**
    * Get the event objects available in the file
@@ -48,12 +49,12 @@ class Reader {
    *
    * @return vector of string pairs `{ obj_name, pass }`
    */
-  virtual std::vector<std::pair<std::string,std::string>> availableObjects();
+  virtual std::vector<std::pair<std::string, std::string>> availableObjects();
 
   /**
    * Get the type of the input object
    *
-   * We retrieve the attributes named TYPE_ATTR_NAME and VERS_ATTR_NAME 
+   * We retrieve the attributes named TYPE_ATTR_NAME and VERS_ATTR_NAME
    * from the group located at branch_name within the tree.
    *
    * @see io::Writer::setTypeName for where the type attr is set
@@ -61,7 +62,7 @@ class Reader {
    * @param[in] branch_name Name of event object to retrieve type of
    * @return demangled type name in string format and its version number
    */
-  virtual std::pair<std::string,int> type(const std::string& branch_name);
+  virtual std::pair<std::string, int> type(const std::string& branch_name);
 
   /**
    * Get the name of this file
@@ -72,7 +73,7 @@ class Reader {
   /**
    * List the entries inside of a group.
    *
-   * @note This is low-level and is only being used in 
+   * @note This is low-level and is only being used in
    * io::ParameterStorage for more flexibility in the parameter maps
    * and Event::setInputFile to obtain the event products within a file.
    *
@@ -145,8 +146,8 @@ class Reader {
    * @param[in] branch_name full event object name
    * @param[in] output handle to the writer writing the output file
    */
-  virtual void copy(unsigned long int i_entry, const std::string& branch_name, 
-      Writer& output);
+  virtual void copy(unsigned long int i_entry, const std::string& branch_name,
+                    Writer& output);
 
   /// never want to copy a reader
   Reader(const Reader&) = delete;
@@ -157,7 +158,8 @@ class Reader {
   /**
    * Mirror the structure of the passed branch_name from us into the output file
    *
-   * @param[in] branch_name path to the group (and potential subgroups) to mirror
+   * @param[in] branch_name path to the group (and potential subgroups) to
+   * mirror
    * @param[in] output output file to mirror this structure to
    */
   void mirror(const std::string& branch_name, Writer& output);
@@ -170,7 +172,7 @@ class Reader {
    * the recursive nature of the Branch pattern _without_ knowledge of
    * any user classes. We need this so we can effectively copy event objects
    * that are not accessed during processing from the input to the output
-   * file. (The choice on whether to copy or not copy these files is 
+   * file. (The choice on whether to copy or not copy these files is
    * handled by Event).
    */
   class MirrorObject {
@@ -187,7 +189,8 @@ class Reader {
     /**
      * Construct this mirror object and any of its (data or object) children
      */
-    MirrorObject(const std::string& branch_name, Reader& reader, Writer& writer);
+    MirrorObject(const std::string& branch_name, Reader& reader,
+                 Writer& writer);
 
     /**
      * Copy the n entries starting from i_entry
@@ -202,9 +205,10 @@ class Reader {
   HighFive::Group tree_;
   /// the number of entries in this file, set in constructor
   std::size_t entries_;
-  /// our in-memory mirror objects for data being copied to the output file without processing
-  std::unordered_map<std::string, std::unique_ptr<MirrorObject>> mirror_objects_;
+  /// our in-memory mirror objects for data being copied to the output file
+  /// without processing
+  std::unordered_map<std::string, std::unique_ptr<MirrorObject>>
+      mirror_objects_;
 };  // Reader
 
 }  // namespace hdtree
-

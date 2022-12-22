@@ -1,8 +1,7 @@
 #pragma once
 
-#include <utility>
-
 #include <boost/core/demangle.hpp>
+#include <utility>
 
 // using HighFive
 #include <highfive/H5File.hpp>
@@ -28,8 +27,9 @@ class Writer {
    * @param[in] event_limit Maximum number of events that could end up here
    * @param[in] ps Parameters used to configure the writing of the output file
    */
-  Writer(const std::pair<std::string,std::string>& file_tree_path, bool inplace = false,
-         int rows_per_chunk = 10000, bool shuffle = true, int compression_level = 6); 
+  Writer(const std::pair<std::string, std::string>& file_tree_path,
+         bool inplace = false, int rows_per_chunk = 10000, bool shuffle = true,
+         int compression_level = 6);
 
   /**
    * Close up our file, making sure to flush contents to disk
@@ -39,9 +39,7 @@ class Writer {
   /**
    * get rows per chunk
    */
-  int getRowsPerChunk() const {
-    return rows_per_chunk_;
-  }
+  int getRowsPerChunk() const { return rows_per_chunk_; }
 
   /**
    * Flush the data to disk
@@ -71,12 +69,15 @@ class Writer {
    * correspond to HDF5 data sets.
    *
    * @param[in] branch_name branch_name to the group
-   * @param[in] {type, version} pair demangled type name of object and its version number
+   * @param[in] {type, version} pair demangled type name of object and its
+   * version number
    * @param[in] version version number of type
    */
-  void structure(const std::string& branch_name, const std::pair<std::string,int>& type);
+  void structure(const std::string& branch_name,
+                 const std::pair<std::string, int>& type);
 
-  HighFive::DataSet createDataSet(const std::string& branch_name, HighFive::DataType data_type);
+  HighFive::DataSet createDataSet(const std::string& branch_name,
+                                  HighFive::DataType data_type);
 
   /**
    * Get the number of entries in the file
@@ -121,4 +122,3 @@ class Writer {
 };
 
 }  // namespace hdtree
-

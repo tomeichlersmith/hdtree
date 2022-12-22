@@ -17,6 +17,7 @@ template <typename ContentType>
 class Branch<std::vector<ContentType>>
     : public AbstractBranch<std::vector<ContentType>> {
   fire_class_version(1);
+
  public:
   /**
    * We create two child data sets, one to hold the successive sizes of the
@@ -26,7 +27,7 @@ class Branch<std::vector<ContentType>>
    * @param[in] handle pointer to object already constructed (optional)
    */
   explicit Branch(const std::string& branch_name,
-      std::vector<ContentType>* handle = nullptr)
+                  std::vector<ContentType>* handle = nullptr)
       : AbstractBranch<std::vector<ContentType>>(branch_name, handle),
         size_{branch_name + "/" + constants::SIZE_NAME},
         data_{branch_name + "/data"} {}
@@ -86,4 +87,4 @@ class Branch<std::vector<ContentType>>
   Branch<ContentType> data_;
 };  // Branch<std::vector>
 
-}
+}  // namespace hdtree

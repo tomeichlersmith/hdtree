@@ -11,9 +11,8 @@
 #undef FALSE
 #endif
 
-#include <type_traits>
-
 #include <highfive/H5DataType.hpp>
+#include <type_traits>
 
 namespace hdtree {
 
@@ -40,10 +39,7 @@ inline constexpr bool is_atomic_v = is_atomic<AtomicType>::value;
  * We serialize bools in the same method as h5py so that
  * Python-based analyses are easier.
  */
-enum class Bool : bool {
-  TRUE  = true,
-  FALSE = false
-};
+enum class Bool : bool { TRUE = true, FALSE = false };
 
 /**
  * HighFive method for creating the enum data type
@@ -59,16 +55,15 @@ HighFive::EnumType<Bool> create_enum_bool();
  * and is usually hidden within the HIGHFIVE_REGISTER_TYPE macro.
  *
  * The reason we have to _not_ use the macro here is two fold.
- * 1. We need the declaration of this registration to be done in this header 
+ * 1. We need the declaration of this registration to be done in this header
  *    so that it is accessible by both the hdtree target and the downstream
  *    fire::framework target.
  * 2. We need to define the registration only once to avoid a duplicate
  *    definition compiler error during the linking step.
  *
- * These two goals can be met by splitting the declaration and the 
+ * These two goals can be met by splitting the declaration and the
  * definition of this full specialization into the header and source
  * files of Atomic.
  */
-template<>
+template <>
 HighFive::DataType HighFive::create_datatype<hdtree::Bool>();
-

@@ -50,9 +50,9 @@ class Branch : public AbstractBranch<DataType> {
    * from.
    */
   enum SaveLoad {
-    Both, ///< load and save the member
-    LoadOnly, ///< only load the member (read in)
-    SaveOnly  ///< only save the member (write out)
+    Both,      ///< load and save the member
+    LoadOnly,  ///< only load the member (read in)
+    SaveOnly   ///< only save the member (write out)
   };
 
   /**
@@ -60,11 +60,12 @@ class Branch : public AbstractBranch<DataType> {
    *
    * After the intermediate class AbstractBranch does the
    * initialization, we call the `void attach(Branch<DataType>& d)`
-   * method of the data pointed to by our handle. 
-   * This allows us to register its member variables with our own 
+   * method of the data pointed to by our handle.
+   * This allows us to register its member variables with our own
    * Branch<DataType>::attach method.
    *
-   * @param[in] branch_name full in-file branch_name to the data set for this data
+   * @param[in] branch_name full in-file branch_name to the data set for this
+   * data
    * @param[in] handle address of object already created (optional)
    */
   explicit Branch(const std::string& branch_name, DataType* handle = nullptr)
@@ -87,33 +88,40 @@ class Branch : public AbstractBranch<DataType> {
    * @param[in] f file to load from
    */
   void load() final override try {
-    for (auto& [save,load,m] : members_) if (load) m->load();
+    for (auto& [save, load, m] : members_)
+      if (load) m->load();
   } catch (const HighFive::DataSetException& e) {
     const auto& [memt, memv] = this->save_type_;
-    const auto& [diskt, diskv] = this->load_type_.value_or(std::make_pair("NULL",-1));
+    const auto& [diskt, diskv] =
+        this->load_type_.value_or(std::make_pair("NULL", -1));
     std::stringstream ss;
-    ss << "HDTreeBadType: Data at " << this->name_ << " could not be loaded into "
-        << memt  << " (version " << memv << ") from the type it was written as " 
-        << diskt << " (version " << diskv << ")\n"
-        "  Check that your implementation of attach can handle any "
-        "previous versions of your class you are trying to read.\n"
-        "  H5 Error:\n" << e.what();
+    ss << "HDTreeBadType: Data at " << this->name_
+       << " could not be loaded into " << memt << " (version " << memv
+       << ") from the type it was written as " << diskt << " (version " << diskv
+       << ")\n"
+          "  Check that your implementation of attach can handle any "
+          "previous versions of your class you are trying to read.\n"
+          "  H5 Error:\n"
+       << e.what();
     throw std::runtime_error(ss.str());
   }
 
   void attach(Reader& f) final override try {
     this->load_type_ = f.type(this->name_);
-    for (auto& [save,load,m] : members_) if (load) m->attach(f);
+    for (auto& [save, load, m] : members_)
+      if (load) m->attach(f);
   } catch (const HighFive::DataSetException& e) {
     const auto& [memt, memv] = this->save_type_;
     const auto& [diskt, diskv] = f.type(this->name_);
     std::stringstream ss;
-    ss << "HDTreeBadType: Branch " << this->name_ << " could not be attached to "
-        << memt  << " (version " << memv << ") from the type it was written as " 
-        << diskt << " (version " << diskv << ")\n"
-        "  Check that your implementation of attach can handle any "
-        "previous versions of your class you are trying to read.\n"
-        "  H5 Error:\n" << e.what();
+    ss << "HDTreeBadType: Branch " << this->name_
+       << " could not be attached to " << memt << " (version " << memv
+       << ") from the type it was written as " << diskt << " (version " << diskv
+       << ")\n"
+          "  Check that your implementation of attach can handle any "
+          "previous versions of your class you are trying to read.\n"
+          "  H5 Error:\n"
+       << e.what();
     throw std::runtime_error(ss.str());
   }
 
@@ -122,12 +130,14 @@ class Branch : public AbstractBranch<DataType> {
    * all of the members of the data type.
    */
   void save() final override {
-    for (auto& [save,load,m] : members_) if (save) m->save();
+    for (auto& [save, load, m] : members_)
+      if (save) m->save();
   }
 
   void attach(Writer& f) final override {
     f.structure(this->name_, this->save_type_);
-    for (auto& [save,load,m] : members_) if (save) m->attach(f);
+    for (auto& [save, load, m] : members_)
+      if (save) m->attach(f);
   }
 
   /**
@@ -139,23 +149,32 @@ class Branch : public AbstractBranch<DataType> {
    * @tparam MemberType type of member variable we are attaching
    * @param[in] name name of member variable
    * @param[in] m reference of member variable
-   * @param[in] save write this member into output files (if the class is being written)
+   * @param[in] save write this member into output files (if the class is being
+   * written)
    * @param[in] load load this member from an input file (if being read)
    */
   template <typename MemberType>
-  void attach(const std::string& name, MemberType& m, SaveLoad sl = SaveLoad::Both) {
+  void attach(const std::string& name, MemberType& m,
+              SaveLoad sl = SaveLoad::Both) {
     if (name == constants::SIZE_NAME) {
       throw std::runtime_error(
-          "HDTreeBadName: The member name '"+constants::SIZE_NAME+"' is not allowed due to "
+          "HDTreeBadName: The member name '" + constants::SIZE_NAME +
+          "' is not allowed due to "
           "its use in the serialization of variable length types.\n"
           "    Please give your member a more detailed name corresponding to "
           "your class");
     }
     bool save{false}, load{false};
-    if (sl == SaveLoad::LoadOnly) load = true;
-    else if (sl == SaveLoad::SaveOnly) { save = true; }
-    else { save = true; load = true; }
-    members_.push_back(std::make_tuple(save, load,
+    if (sl == SaveLoad::LoadOnly)
+      load = true;
+    else if (sl == SaveLoad::SaveOnly) {
+      save = true;
+    } else {
+      save = true;
+      load = true;
+    }
+    members_.push_back(std::make_tuple(
+        save, load,
         std::make_unique<Branch<MemberType>>(this->name_ + "/" + name, &m)));
   }
 
@@ -169,28 +188,30 @@ class Branch : public AbstractBranch<DataType> {
    *
    * @tparam MemberType type of member variable we are attaching
    * @param[in] old_name name of member variable in version being read from file
-   * @param[in] new_name name of member variable in version being written to output file
+   * @param[in] new_name name of member variable in version being written to
+   * output file
    * @param[in] m reference of member variable
    */
   template <typename MemberType>
-  void rename(const std::string& old_name, const std::string& new_name, MemberType& m) {
-    attach(old_name,m,SaveLoad::LoadOnly);
-    attach(new_name,m,SaveLoad::SaveOnly);
+  void rename(const std::string& old_name, const std::string& new_name,
+              MemberType& m) {
+    attach(old_name, m, SaveLoad::LoadOnly);
+    attach(new_name, m, SaveLoad::SaveOnly);
   }
 
  private:
   /**
    * list of members in this dataset
    *
-   * the extra boolean flags are to tell us if that member 
+   * the extra boolean flags are to tell us if that member
    * should be loaded from the input file and/or saved
    * to the output file
    *
    * This is the core of schema evolution.
    */
-  std::vector<std::tuple<bool,bool,std::unique_ptr<BaseBranch>>> members_;
+  std::vector<std::tuple<bool, bool, std::unique_ptr<BaseBranch>>> members_;
   /// pointer to the input file (if there is one)
   Reader* input_file_;
 };  // Branch
 
-}
+}  // namespace hdtree

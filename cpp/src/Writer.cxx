@@ -1,21 +1,21 @@
 #include "hdtree/Writer.h"
 
-#include "hdtree/Version.h"
 #include "hdtree/Constants.h"
+#include "hdtree/Version.h"
 
 namespace hdtree {
 
-Writer::Writer(const std::pair<std::string,std::string>& file_tree_path,
-    bool inplace,
-    int rows_per_chunk,
-    bool shuffle,
-    int compression_level) 
-    : file_{file_tree_path.first, inplace 
-      ? HighFive::File::ReadWrite : (HighFive::File::Create | HighFive::File::Truncate)},
-      tree_{inplace ? file_.getGroup(file_tree_path.second) : file_.createGroup(file_tree_path.second)},
+Writer::Writer(const std::pair<std::string, std::string>& file_tree_path,
+               bool inplace, int rows_per_chunk, bool shuffle,
+               int compression_level)
+    : file_{file_tree_path.first,
+            inplace ? HighFive::File::ReadWrite
+                    : (HighFive::File::Create | HighFive::File::Truncate)},
+      tree_{inplace ? file_.getGroup(file_tree_path.second)
+                    : file_.createGroup(file_tree_path.second)},
       create_props_{},
-      space_(std::vector<std::size_t>({0}), 
-          std::vector<std::size_t>({HighFive::DataSpace::UNLIMITED})),
+      space_(std::vector<std::size_t>({0}),
+             std::vector<std::size_t>({HighFive::DataSpace::UNLIMITED})),
       entries_{0} {
   rows_per_chunk_ = rows_per_chunk;
   // copy creation properties into HighFive structure
@@ -25,8 +25,8 @@ Writer::Writer(const std::pair<std::string,std::string>& file_tree_path,
 
   if (not inplace) {
     tree_.createAttribute(constants::VERS_ATTR_NAME, 1 /*HDTREE_VERSION*/);
-    tree_.createAttribute("__api__",API());
-    tree_.createAttribute("__api_version__",VERSION());
+    tree_.createAttribute("__api__", API());
+    tree_.createAttribute("__api_version__", VERSION());
   }
 }
 
@@ -43,11 +43,10 @@ void Writer::flush() {
 
 const std::string& Writer::name() const { return file_.getName(); }
 
-void Writer::increment() {
-  entries_++;
-}
+void Writer::increment() { entries_++; }
 
-void Writer::structure(const std::string& branch_name, const std::pair<std::string,int>& type) {
+void Writer::structure(const std::string& branch_name,
+                       const std::pair<std::string, int>& type) {
   if (tree_.exist(branch_name)) {
     // group already been written to, check that we are the same
     auto grp = tree_.getGroup(branch_name);
@@ -61,7 +60,8 @@ void Writer::structure(const std::string& branch_name, const std::pair<std::stri
          << "(or versions of a type) as the same output data.\n"
          << "     Branch: " << branch_name << "\n"
          << "     Type Already on Disk: " << t << " (version " << v << ")\n"
-         << "     Type to Write: " << type.first << " (version " << type.second << ")";
+         << "     Type to Write: " << type.first << " (version " << type.second
+         << ")";
       throw std::runtime_error(ss.str());
     }
   } else {
@@ -72,9 +72,9 @@ void Writer::structure(const std::string& branch_name, const std::pair<std::stri
   }
 }
 
-HighFive::DataSet Writer::createDataSet(const std::string& branch_name, 
-    HighFive::DataType data_type) {
+HighFive::DataSet Writer::createDataSet(const std::string& branch_name,
+                                        HighFive::DataType data_type) {
   return tree_.createDataSet(branch_name, space_, data_type, create_props_);
 }
 
-}  // namespace fire::h5
+}  // namespace hdtree

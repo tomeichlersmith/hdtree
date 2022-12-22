@@ -29,7 +29,7 @@ class Branch<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
      * many entries are left if we can't grab a whole maximum
      * sized chunk.
      *
-     * We have a compile-time split in order to patch 
+     * We have a compile-time split in order to patch
      * [a bug](https://github.com/BlueBrain/HighFive/issues/490)
      * in HighFive that doesn't allow writing of std::vector<bool>
      * due to the specialization of it **and** to translate
@@ -52,7 +52,7 @@ class Branch<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
         assert(request_len >= 0);
       }
       // load the next chunk into memory
-      if constexpr (std::is_same_v<AtomicType,bool>) {
+      if constexpr (std::is_same_v<AtomicType, bool>) {
         /**
          * compile-time split for bools which
          * 1. gets around the std::vector<bool> specialization
@@ -61,7 +61,7 @@ class Branch<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
         std::vector<Bool> buff;
         buff.resize(request_len);
         this->set_.select({i_file_}, {request_len})
-          .read(buff.data(),create_enum_bool());
+            .read(buff.data(), create_enum_bool());
         buffer_.reserve(buff.size());
         for (const auto& v : buff) buffer_.push_back(v == Bool::TRUE);
       } else {
@@ -71,13 +71,14 @@ class Branch<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
       i_file_ += buffer_.size();
       i_memory_ = 0;
     }
+
    public:
     explicit ReadBuffer(std::size_t max, HighFive::DataSet s)
-      : max_len_{max}, set_{s}, buffer_{}, i_file_{0}, i_memory_{0} {
-        entries_ = this->set_.getDimensions().at(0);
-        this->read_chunk_from_disk();
-        // TODO deduce max_len from chunk size of dataset
-      }
+        : max_len_{max}, set_{s}, buffer_{}, i_file_{0}, i_memory_{0} {
+      entries_ = this->set_.getDimensions().at(0);
+      this->read_chunk_from_disk();
+      // TODO deduce max_len from chunk size of dataset
+    }
     void read(AtomicType& v) {
       if (i_memory_ == buffer_.size()) this->read_chunk_from_disk();
       v = buffer_[i_memory_];
@@ -131,7 +132,8 @@ class Branch<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
         // handle bool specialization
         std::vector<Bool> buff;
         buff.reserve(buffer_.size());
-        for (const auto& v : buffer_) buff.push_back(v ? Bool::TRUE : Bool::FALSE);
+        for (const auto& v : buffer_)
+          buff.push_back(v ? Bool::TRUE : Bool::FALSE);
         this->set_.select({i_file_}, {buffer_.size()}).write(buff);
       } else {
         this->set_.select({i_file_}, {buffer_.size()}).write(buffer_);
@@ -140,6 +142,7 @@ class Branch<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
       buffer_.clear();
       buffer_.reserve(this->max_len_);
     }
+
    public:
     /**
      * Define the buffer size and the set we will write to
@@ -173,10 +176,10 @@ class Branch<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
       buffer_.push_back(val);
       if (buffer_.size() > this->max_len_) flush();
     }
-
   };
 
   std::unique_ptr<WriteBuffer> write_buffer_;
+
  public:
   /**
    * We don't do any more initialization except which is handled by the
@@ -190,7 +193,8 @@ class Branch<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
 
   void attach(Reader& f) final override {
     // deletes old read_buffer_ if there was one already constructed
-    read_buffer_ = std::make_unique<ReadBuffer>(10000, f.getDataSet(this->name_)); 
+    read_buffer_ =
+        std::make_unique<ReadBuffer>(10000, f.getDataSet(this->name_));
   }
 
   /**
@@ -225,17 +229,18 @@ class Branch<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
    */
   void attach(Writer& f) final override {
     HighFive::DataType t;
-    if constexpr (std::is_same_v<AtomicType,bool>) {
+    if constexpr (std::is_same_v<AtomicType, bool>) {
       t = create_enum_bool();
     } else {
       t = HighFive::AtomicType<AtomicType>();
     }
     auto ds = f.createDataSet(this->name_, t);
-    ds.createAttribute(constants::TYPE_ATTR_NAME, boost::core::demangle(typeid(AtomicType).name()));
+    ds.createAttribute(constants::TYPE_ATTR_NAME,
+                       boost::core::demangle(typeid(AtomicType).name()));
     ds.createAttribute(constants::VERS_ATTR_NAME, 0);
     // flush and deletes old buffer if it exists
     write_buffer_ = std::make_unique<WriteBuffer>(f.getRowsPerChunk(), ds);
   }
 };  // Branch<AtomicType>
 
-}
+}  // namespace hdtree

@@ -21,5 +21,4 @@ struct constants {
   inline static const std::string SIZE_NAME = "__size__";
 };
 
-}
-
+}  // namespace hdtree

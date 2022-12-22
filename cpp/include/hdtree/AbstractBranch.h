@@ -1,12 +1,11 @@
 #pragma once
 
-#include <string>
+#include <boost/core/demangle.hpp>  // for demangling
 #include <optional>
+#include <string>
 
-#include <boost/core/demangle.hpp> // for demangling
-
-#include "hdtree/Version.h"
 #include "hdtree/ClassVersion.h"
+#include "hdtree/Version.h"
 
 namespace hdtree {
 
@@ -103,16 +102,18 @@ class AbstractBranch : public BaseBranch {
    * @param[in] name full in-file branch_name to the data set
    * @param[in] handle address of object already created (optional)
    */
-  explicit AbstractBranch(const std::string& branch_name, DataType* handle = nullptr)
-    : BaseBranch(branch_name), owner_{handle == nullptr} {
-      if (owner_) {
-        handle_ = new DataType;
-      } else {
-        handle_ = handle;
-      }
-
-      save_type_ = { boost::core::demangle(typeid(DataType).name()), class_version<DataType> };
+  explicit AbstractBranch(const std::string& branch_name,
+                          DataType* handle = nullptr)
+      : BaseBranch(branch_name), owner_{handle == nullptr} {
+    if (owner_) {
+      handle_ = new DataType;
+    } else {
+      handle_ = handle;
     }
+
+    save_type_ = {boost::core::demangle(typeid(DataType).name()),
+                  class_version<DataType>};
+  }
 
   /**
    * Delete our object if we own it, otherwise do nothing.
@@ -126,7 +127,7 @@ class AbstractBranch : public BaseBranch {
 
   virtual void attach(Reader& f) = 0;
   /**
-   * pure virtual method for loading data 
+   * pure virtual method for loading data
    *
    * @param[in] f Reader to load from
    */
@@ -150,9 +151,10 @@ class AbstractBranch : public BaseBranch {
    *
    * We 'clear' the object our handle points to.
    * 'clear' means two different things depending on the object.
-   * 1. If the object is apart of 'numeric_limits', then we set it to the minimum.
+   * 1. If the object is apart of 'numeric_limits', then we set it to the
+   * minimum.
    * 2. Otherwise, we assume the object has the 'clear' method defined.
-   *    - This is where we require the user-defined classes to have a 
+   *    - This is where we require the user-defined classes to have a
    *      `void clear()` method defined.
    *
    * Case (1) handles the common fundamental types listed in the reference
@@ -176,7 +178,7 @@ class AbstractBranch : public BaseBranch {
   }
 
   /**
-   * Get the current in-memory data. 
+   * Get the current in-memory data.
    *
    * @note virtual so that derived data sets
    * could specialize this, but I can't think of a reason to do so.
@@ -193,20 +195,18 @@ class AbstractBranch : public BaseBranch {
    *
    * @return version number
    */
-  int version() const {
-    return load_type_.value_or(save_type_).second;
-  }
+  int version() const { return load_type_.value_or(save_type_).second; }
 
   /**
    * Update the in-memory data object with the passed value.
    *
-   * @note virtual so that derived data sets could specialize this, 
+   * @note virtual so that derived data sets could specialize this,
    * but I can't think of a reason to do so.
    *
    * We require that all classes we wish to read/write can
    * use the assignment operator `void operator=(const DataType&)`.
    * This requirement is not reported in the documentation of fire::h5
-   * because it is implicitly defined by the compiler unless 
+   * because it is implicitly defined by the compiler unless
    * explicitly deleted by the definer.
    *
    * We perform a deep copy in our handle to the data
@@ -214,36 +214,28 @@ class AbstractBranch : public BaseBranch {
    *
    * @param[in] val new value the in-memory object should be
    */
-  virtual void update(const DataType& val) { 
-    *handle_ = val; 
-  }
+  virtual void update(const DataType& val) { *handle_ = val; }
 
   /**
    * Access the in-memory data object
    */
-  DataType& operator*() {
-    return *handle_;
-  }
+  DataType& operator*() { return *handle_; }
 
   /**
    * Access the in-memory data opbject in a const manner
    */
-  const DataType& operator*() const {
-    return get();
-  }
+  const DataType& operator*() const { return get(); }
 
   /**
    * Pointer access to the in-memory data type
    */
-  DataType* operator->() {
-    return handle_;
-  }
+  DataType* operator->() { return handle_; }
 
  protected:
   /// type this data is loading from
-  std::optional<std::pair<std::string,int>> load_type_;
+  std::optional<std::pair<std::string, int>> load_type_;
   /// type this data that is being used to write
-  std::pair<std::string,int> save_type_;
+  std::pair<std::string, int> save_type_;
 
   /// handle on current object in memory
   DataType* handle_;
@@ -251,5 +243,4 @@ class AbstractBranch : public BaseBranch {
   bool owner_;
 };  // AbstractBranch
 
-}
-
+}  // namespace hdtree
