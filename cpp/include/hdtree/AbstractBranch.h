@@ -87,9 +87,9 @@ template <typename DataType>
 class AbstractBranch : public BaseBranch {
  public:
   /**
-   * Define the dataset path and provide an optional handle
+   * Define the dataset branch_name and provide an optional handle
    *
-   * Defines the path to the data set in the file
+   * Defines the branch_name to the data set in the file
    * and the handle to the current in-memory version of the data.
    *
    * If the handle is a nullptr, then we will own our own dynamically created
@@ -100,11 +100,11 @@ class AbstractBranch : public BaseBranch {
    * This is the location in the code where we require user-defined
    * data classes to be default-constructible.
    *
-   * @param[in] name full in-file path to the data set
+   * @param[in] name full in-file branch_name to the data set
    * @param[in] handle address of object already created (optional)
    */
-  explicit AbstractBranch(const std::string& path, DataType* handle = nullptr)
-    : BaseBranch(path), owner_{handle == nullptr} {
+  explicit AbstractBranch(const std::string& branch_name, DataType* handle = nullptr)
+    : BaseBranch(branch_name), owner_{handle == nullptr} {
       if (owner_) {
         handle_ = new DataType;
       } else {

@@ -64,11 +64,11 @@ class Branch : public AbstractBranch<DataType> {
    * This allows us to register its member variables with our own 
    * Branch<DataType>::attach method.
    *
-   * @param[in] path full in-file path to the data set for this data
+   * @param[in] branch_name full in-file branch_name to the data set for this data
    * @param[in] handle address of object already created (optional)
    */
-  explicit Branch(const std::string& path, DataType* handle = nullptr)
-      : AbstractBranch<DataType>(path, handle) {
+  explicit Branch(const std::string& branch_name, DataType* handle = nullptr)
+      : AbstractBranch<DataType>(branch_name, handle) {
     hdtree::access::connect(*this->handle_, *this);
   }
 

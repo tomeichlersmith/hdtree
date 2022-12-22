@@ -44,10 +44,10 @@ void Writer::increment() {
   entries_++;
 }
 
-void Writer::structure(const std::string& path, const std::pair<std::string,int>& type) {
-  if (tree_.exist(path)) {
+void Writer::structure(const std::string& branch_name, const std::pair<std::string,int>& type) {
+  if (tree_.exist(branch_name)) {
     // group already been written to, check that we are the same
-    auto grp = tree_.getGroup(path);
+    auto grp = tree_.getGroup(branch_name);
     int v;
     grp.getAttribute(constants::VERS_ATTR_NAME).read(v);
     std::string t;
@@ -56,14 +56,14 @@ void Writer::structure(const std::string& path, const std::pair<std::string,int>
       std::stringstream ss;
       ss << "HDTreeMisType: Attempting to write multiple types "
          << "(or versions of a type) as the same output data.\n"
-         << "     Branch: " << path << "\n"
+         << "     Branch: " << branch_name << "\n"
          << "     Type Already on Disk: " << t << " (version " << v << ")\n"
          << "     Type to Write: " << type.first << " (version " << type.second << ")";
       throw std::runtime_error(ss.str());
     }
   } else {
     // group structure doesn't exist yet, put in this type
-    auto grp = tree_.createGroup(path);
+    auto grp = tree_.createGroup(branch_name);
     grp.createAttribute(constants::TYPE_ATTR_NAME, type.first);
     grp.createAttribute(constants::VERS_ATTR_NAME, type.second);
   }

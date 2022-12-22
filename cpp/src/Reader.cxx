@@ -36,15 +36,15 @@ std::vector<std::pair<std::string,std::string>> Reader::availableObjects() {
   return {};
 }
 
-std::pair<std::string,int> Reader::type(const std::string& path) {
+std::pair<std::string,int> Reader::type(const std::string& branch_name) {
   HighFive::Attribute type_attr = 
-    getH5ObjectType(path) == HighFive::ObjectType::Dataset
-          ? tree_.getDataSet(path).getAttribute(constants::TYPE_ATTR_NAME)
-          : tree_.getGroup(path).getAttribute(constants::TYPE_ATTR_NAME);
+    getH5ObjectType(branch_name) == HighFive::ObjectType::Dataset
+          ? tree_.getDataSet(branch_name).getAttribute(constants::TYPE_ATTR_NAME)
+          : tree_.getGroup(branch_name).getAttribute(constants::TYPE_ATTR_NAME);
   HighFive::Attribute vers_attr = 
-    getH5ObjectType(path) == HighFive::ObjectType::Dataset
-          ? tree_.getDataSet(path).getAttribute(constants::VERS_ATTR_NAME)
-          : tree_.getGroup(path).getAttribute(constants::VERS_ATTR_NAME);
+    getH5ObjectType(branch_name) == HighFive::ObjectType::Dataset
+          ? tree_.getDataSet(branch_name).getAttribute(constants::VERS_ATTR_NAME)
+          : tree_.getGroup(branch_name).getAttribute(constants::VERS_ATTR_NAME);
 
   std::string type;
   type_attr.read(type);
@@ -54,18 +54,19 @@ std::pair<std::string,int> Reader::type(const std::string& path) {
   return std::make_pair(type,vers);
 }
 
-void Reader::mirror(const std::string& path, Writer& output) {
+void Reader::mirror(const std::string& branch_name, Writer& output) {
   // only mirror structure of groups
-  if (getH5ObjectType(path) != HighFive::ObjectType::Group) 
+  if (getH5ObjectType(branch_name) != HighFive::ObjectType::Group) 
     return;
   // copy over type attributes creating the group in the output file
-  output.structure(path, this->type(path));
+  output.structure(branch_name, this->type(branch_name));
   // recurse into subobjects
-  for (auto& subgrp : this->list(path)) mirror(path+"/"+subgrp, output);
+  for (auto& subgrp : this->list(branch_name)) 
+    mirror(branch_name+"/"+subgrp, output);
 }
 
-void Reader::copy(unsigned int long i_entry, const std::string& path, Writer& output) {
-  if (mirror_objects_.find(path) == mirror_objects_.end()) {
+void Reader::copy(unsigned int long i_entry, const std::string& branch_name, Writer& output) {
+  if (mirror_objects_.find(branch_name) == mirror_objects_.end()) {
     /**
      * this is where recursing into the subgroups of full_name occurs 
      * if this mirror object hasn't been created yet
@@ -80,40 +81,40 @@ void Reader::copy(unsigned int long i_entry, const std::string& path, Writer& ou
      * This means we should copy over the structure of this event object
      * from the input file into the output file.
      */
-    mirror(path, output);
-    mirror_objects_.emplace(std::make_pair(path,
-          std::make_unique<MirrorObject>(path, *this, output)));
+    mirror(branch_name, output);
+    mirror_objects_.emplace(std::make_pair(branch_name,
+          std::make_unique<MirrorObject>(branch_name, *this, output)));
   }
   // do the copying
-  mirror_objects_[path]->copy(i_entry, 1);
+  mirror_objects_[branch_name]->copy(i_entry, 1);
 }
 
-Reader::MirrorObject::MirrorObject(const std::string& path, Reader& reader, Writer& writer) {
-  if (reader.getH5ObjectType(path) == HighFive::ObjectType::Dataset) {
+Reader::MirrorObject::MirrorObject(const std::string& branch_name, Reader& reader, Writer& writer) {
+  if (reader.getH5ObjectType(branch_name) == HighFive::ObjectType::Dataset) {
     // simple atomic event object
     //  unfortunately, I can't think of a better solution than manually
     //  copying the code for all of the types
-    HighFive::DataType type = reader.getDataSetType(path);
+    HighFive::DataType type = reader.getDataSetType(branch_name);
     if (type == HighFive::create_datatype<int>()) {
-      data_ = std::make_unique<Branch<int>>(path);
+      data_ = std::make_unique<Branch<int>>(branch_name);
     } else if (type == HighFive::create_datatype<long int>()) {
-      data_ = std::make_unique<Branch<long int>>(path);
+      data_ = std::make_unique<Branch<long int>>(branch_name);
     } else if (type == HighFive::create_datatype<long long int>()) {
-      data_ = std::make_unique<Branch<long long int>>(path);
+      data_ = std::make_unique<Branch<long long int>>(branch_name);
     } else if (type == HighFive::create_datatype<unsigned int>()) {
-      data_ = std::make_unique<Branch<unsigned int>>(path);
+      data_ = std::make_unique<Branch<unsigned int>>(branch_name);
     } else if (type == HighFive::create_datatype<unsigned long int>()) {
-      data_ = std::make_unique<Branch<unsigned long int>>(path);
+      data_ = std::make_unique<Branch<unsigned long int>>(branch_name);
     } else if (type == HighFive::create_datatype<unsigned long long int>()) {
-      data_ = std::make_unique<Branch<unsigned long long int>>(path);
+      data_ = std::make_unique<Branch<unsigned long long int>>(branch_name);
     } else if (type == HighFive::create_datatype<float>()) {
-      data_ = std::make_unique<Branch<float>>(path);
+      data_ = std::make_unique<Branch<float>>(branch_name);
     } else if (type == HighFive::create_datatype<double>()) {
-      data_ = std::make_unique<Branch<double>>(path);
+      data_ = std::make_unique<Branch<double>>(branch_name);
     } else if (type == HighFive::create_datatype<std::string>()) {
-      data_ = std::make_unique<Branch<std::string>>(path);
+      data_ = std::make_unique<Branch<std::string>>(branch_name);
     } else if (type == HighFive::create_datatype<hdtree::Bool>()) {
-      data_ = std::make_unique<Branch<bool>>(path);
+      data_ = std::make_unique<Branch<bool>>(branch_name);
     } else {
       throw std::runtime_error("HDTreeUnknownDS: Unable to deduce C++ type "
           "from H5 type during a copy");
@@ -123,9 +124,9 @@ Reader::MirrorObject::MirrorObject(const std::string& path, Reader& reader, Writ
   } else {
     // event object is a H5 group meaning it is more complicated
     // than a simple atomic type
-    auto subobjs = reader.list(path);
+    auto subobjs = reader.list(branch_name);
     for (auto& subobj : subobjs) {
-      std::string sub_path{path + "/" + subobj};
+      std::string sub_path{branch_name + "/" + subobj};
       if (subobj == constants::SIZE_NAME) {
         size_member_ = std::make_unique<Branch<std::size_t>>(sub_path);
         size_member_->attach(reader);

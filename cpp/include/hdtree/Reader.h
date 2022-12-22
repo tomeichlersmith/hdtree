@@ -52,14 +52,14 @@ class Reader {
    * Get the type of the input object
    *
    * We retrieve the attributes named TYPE_ATTR_NAME and VERS_ATTR_NAME 
-   * from the group located at path within the tree.
+   * from the group located at branch_name within the tree.
    *
    * @see io::Writer::setTypeName for where the type attr is set
    *
-   * @param[in] path Name of event object to retrieve type of
+   * @param[in] branch_name Name of event object to retrieve type of
    * @return demangled type name in string format and its version number
    */
-  virtual std::pair<std::string,int> type(const std::string& path);
+  virtual std::pair<std::string,int> type(const std::string& branch_name);
 
   /**
    * Get the name of this file
@@ -140,10 +140,10 @@ class Reader {
    * has not been created for it yet.
    *
    * @param[in] i_entry entry we are currently on
-   * @param[in] path full event object name
+   * @param[in] branch_name full event object name
    * @param[in] output handle to the writer writing the output file
    */
-  virtual void copy(unsigned long int i_entry, const std::string& path, 
+  virtual void copy(unsigned long int i_entry, const std::string& branch_name, 
       Writer& output);
 
   /// never want to copy a reader
@@ -153,12 +153,12 @@ class Reader {
 
  private:
   /**
-   * Mirror the structure of the passed path from us into the output file
+   * Mirror the structure of the passed branch_name from us into the output file
    *
-   * @param[in] path path to the group (and potential subgroups) to mirror
+   * @param[in] branch_name path to the group (and potential subgroups) to mirror
    * @param[in] output output file to mirror this structure to
    */
-  void mirror(const std::string& path, Writer& output);
+  void mirror(const std::string& branch_name, Writer& output);
 
  private:
   /**
@@ -185,7 +185,7 @@ class Reader {
     /**
      * Construct this mirror object and any of its (data or object) children
      */
-    MirrorObject(const std::string& path, Reader& reader, Writer& writer);
+    MirrorObject(const std::string& branch_name, Reader& reader, Writer& writer);
 
     /**
      * Copy the n entries starting from i_entry

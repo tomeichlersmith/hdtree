@@ -59,7 +59,7 @@ class Writer {
   const std::string& name() const;
 
   /**
-   * Persist the structure of the event object at the input path
+   * Persist the structure of the event object at the input branch_name
    *
    * The "structure" is simply the type and the type's version at
    * the correct location within the tree
@@ -68,11 +68,11 @@ class Writer {
    * should only be called on levels of the hierarchy that DO NOT
    * correspond to HDF5 data sets.
    *
-   * @param[in] path path to the group
+   * @param[in] branch_name branch_name to the group
    * @param[in] {type, version} pair demangled type name of object and its version number
    * @param[in] version version number of type
    */
-  void structure(const std::string& path, const std::pair<std::string,int>& type);
+  void structure(const std::string& branch_name, const std::pair<std::string,int>& type);
 
   HighFive::DataSet createDataSet(const std::string& branch_name, HighFive::DataType data_type);
 

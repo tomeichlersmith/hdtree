@@ -182,11 +182,11 @@ class Branch<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
    * We don't do any more initialization except which is handled by the
    * AbstractBranch
    *
-   * @param[in] path full in-file path to set holding this data
+   * @param[in] branch_name full in-file branch_name to set holding this data
    * @param[in] handle pointer to already constructed data object (optional)
    */
-  explicit Branch(const std::string& path, AtomicType* handle = nullptr)
-      : AbstractBranch<AtomicType>(path, handle) {}
+  explicit Branch(const std::string& branch_name, AtomicType* handle = nullptr)
+      : AbstractBranch<AtomicType>(branch_name, handle) {}
 
   void attach(Reader& f) final override {
     // deletes old read_buffer_ if there was one already constructed
@@ -197,7 +197,7 @@ class Branch<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
    * Down to a type that Reader can handle.
    *
    * @see Reader::load for how we read data from
-   * the file at the input path to our handle.
+   * the file at the input branch_name to our handle.
    *
    * @param[in] f Reader to load from
    */
@@ -209,7 +209,7 @@ class Branch<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
    * Down to a type that io::Writer can handle
    *
    * @see io::Writer::save for how we write data to
-   * the file at the input path from our handle.
+   * the file at the input branch_name from our handle.
    *
    * @param[in] f io::Writer to save to
    */

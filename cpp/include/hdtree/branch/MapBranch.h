@@ -23,15 +23,15 @@ class Branch<std::map<KeyType,ValType>>
    * We create three child data sets, one for the successive sizes
    * of the maps and two to hold all the keys and values serially.
    *
-   * @param[in] path full in-file path to set holding this data
+   * @param[in] branch_name full in-file branch_name to set holding this data
    * @param[in] handle pointer to object already constructed (optional)
    */
-  explicit Branch(const std::string& path,
+  explicit Branch(const std::string& branch_name,
       std::map<KeyType,ValType>* handle = nullptr)
-      : AbstractBranch<std::map<KeyType,ValType>>(path, handle),
-        size_{path + "/" + constants::SIZE_NAME},
-        keys_{path + "/keys"},
-        vals_{path + "/vals"} {}
+      : AbstractBranch<std::map<KeyType,ValType>>(branch_name, handle),
+        size_{branch_name + "/" + constants::SIZE_NAME},
+        keys_{branch_name + "/keys"},
+        vals_{branch_name + "/vals"} {}
 
   /**
    * Load a map from the input file

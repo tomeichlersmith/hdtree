@@ -22,14 +22,14 @@ class Branch<std::vector<ContentType>>
    * We create two child data sets, one to hold the successive sizes of the
    * vectors and one to hold all of the data in all of the vectors serially.
    *
-   * @param[in] path full in-file path to set holding this data
+   * @param[in] branch_name full in-file branch_name to set holding this data
    * @param[in] handle pointer to object already constructed (optional)
    */
-  explicit Branch(const std::string& path,
+  explicit Branch(const std::string& branch_name,
       std::vector<ContentType>* handle = nullptr)
-      : AbstractBranch<std::vector<ContentType>>(path, handle),
-        size_{path + "/" + constants::SIZE_NAME},
-        data_{path + "/data"} {}
+      : AbstractBranch<std::vector<ContentType>>(branch_name, handle),
+        size_{branch_name + "/" + constants::SIZE_NAME},
+        data_{branch_name + "/data"} {}
 
   void attach(Reader& f) final override {
     this->load_type_ = f.type(this->name_);
