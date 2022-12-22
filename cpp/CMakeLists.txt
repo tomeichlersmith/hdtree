@@ -8,7 +8,10 @@ project(HDTree
   LANGUAGES C CXX)
 
 # sanitize on Debug builds
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address,undefined")
+option(SANITIZE "Turn on address and undefined-behavior santizer compiler options" OFF)
+if (SANITIZE)
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address,undefined")
+endif()
 
 # Set the default release type to "Debug"
 # If CMAKE_BUILD_TYPE is set at the command line, it's respected.
