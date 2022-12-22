@@ -50,7 +50,7 @@ class Tree {
     }
     branches_[branch_name] = std::make_unique<Branch<DataType>>(branch_name);
     branches_[branch_name]->attach(*reader_);
-    if (writer_ and write) branches_[branch_name]->attach(*writer_);
+    if (not inplace_ and writer_ and write) branches_[branch_name]->attach(*writer_);
     return dynamic_cast<Branch<DataType>&>(*branches_[branch_name]);
   }
 
@@ -96,6 +96,8 @@ class Tree {
   std::unique_ptr<Reader> reader_;
   /// writer if writing to a file
   std::unique_ptr<Writer> writer_;
+  /// are we reading from and writing to the same file?
+  bool inplace_{false};
 };
 
 /**

@@ -3,11 +3,12 @@
 namespace hdtree {
 
 Tree::Tree(const std::string& file_path, const std::string& tree_path,
-           bool writing, bool inplace) {
+           bool writing, bool inplace)
+  : inplace_{inplace} {
   if (not writing) reader_ = std::make_unique<Reader>(file_path,tree_path);
   if (writing) {
-    writer_ = std::make_unique<Writer>(file_path,tree_path);
-    if (inplace) reader_ = std::make_unique<Reader>(file_path,tree_path);
+    if (inplace_) reader_ = std::make_unique<Reader>(file_path,tree_path, inplace_);
+    writer_ = std::make_unique<Writer>(file_path,tree_path, inplace_);
   }
 
   if (reader_) entries_ = reader_->entries();

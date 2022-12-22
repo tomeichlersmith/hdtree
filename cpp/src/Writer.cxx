@@ -7,11 +7,13 @@ namespace hdtree {
 
 Writer::Writer(const std::string& file_path,
     const std::string& tree_path,
+    bool inplace,
     int rows_per_chunk,
     bool shuffle,
     int compression_level) 
-    : file_{file_path, HighFive::File::Create | HighFive::File::Truncate},
-      tree_{file_.createGroup(tree_path)},
+    : file_{file_path, inplace 
+      ? HighFive::File::ReadWrite : (HighFive::File::Create | HighFive::File::Truncate)},
+      tree_{inplace ? file_.getGroup(tree_path) : file_.createGroup(tree_path)},
       create_props_{},
       space_(std::vector<std::size_t>({0}), 
           std::vector<std::size_t>({HighFive::DataSpace::UNLIMITED})),
@@ -22,9 +24,11 @@ Writer::Writer(const std::string& file_path,
   if (shuffle) create_props_.add(HighFive::Shuffle());
   create_props_.add(HighFive::Deflate(compression_level));
 
-  tree_.createAttribute(constants::VERS_ATTR_NAME, 1 /*HDTREE_VERSION*/);
-  tree_.createAttribute("__api__",API());
-  tree_.createAttribute("__api_version__",VERSION());
+  if (not inplace) {
+    tree_.createAttribute(constants::VERS_ATTR_NAME, 1 /*HDTREE_VERSION*/);
+    tree_.createAttribute("__api__",API());
+    tree_.createAttribute("__api_version__",VERSION());
+  }
 }
 
 Writer::~Writer() { this->flush(); }

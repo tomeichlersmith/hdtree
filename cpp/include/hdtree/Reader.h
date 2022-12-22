@@ -34,7 +34,7 @@ class Reader {
    * @throws HighFive::Exception if file is not accessible.
    * @param[in] name file name to open and read
    */
-  Reader(const std::string& file_path, const std::string& tree_path);
+  Reader(const std::string& file_path, const std::string& tree_path, bool inplace = false);
 
   /**
    * Get the event objects available in the file

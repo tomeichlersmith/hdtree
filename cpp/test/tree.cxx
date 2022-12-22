@@ -29,10 +29,9 @@ BOOST_AUTO_TEST_CASE(write) {
   }
 }
 
-/*
 BOOST_AUTO_TEST_CASE(inplace, *boost::unit_test::depends_on("tree/write")) {
   hdtree::Tree t = hdtree::inplace(filename, "test");
-  auto& b = t.get<double>("double", true);
+  auto& b = t.get<double>("double");
   auto& b2 = t.branch<double>("double_sq");
 
   BOOST_CHECK_NO_THROW(
@@ -40,16 +39,16 @@ BOOST_AUTO_TEST_CASE(inplace, *boost::unit_test::depends_on("tree/write")) {
           *b2 = (*b) * (*b);
         }));
 }
-*/
 
-BOOST_AUTO_TEST_CASE(copy, *boost::unit_test::depends_on("tree/write")) {
+BOOST_AUTO_TEST_CASE(copy, *boost::unit_test::depends_on("tree/inplace")) {
   hdtree::Tree t(filename,"test","copy_"+filename,"test2");
-  const auto& b = t.get<double>("double", true);
-  auto& b2 = t.branch<double>("double_sq");
+  auto& b = t.get<double>("double", true);
+  auto& b2 = t.get<double>("double_sq", true);
+  auto& b4 = t.branch<double>("double_sq_sq");
 
   BOOST_CHECK_NO_THROW(
       t.for_each([&]() {
-        *b2 = b.get()*b.get();
+        *b4 = b2.get()*b2.get();
         }));
 }
 
