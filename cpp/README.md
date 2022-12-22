@@ -23,20 +23,18 @@ cmake --build build --target install
 **only the goal at the moment**
 ```cpp
 { // write
-  auto tree = hdtree::to("my-file.hdf5","/path/to/tree");
+  auto tree = hdtree::Tree::save("my-file.hdf5","/path/to/tree");
   auto& i_entry = tree.branch<int>("i_entry");
   for (std::size_t i{0}; i < 5; i++) {
     *i_entry = i;
     // same as
-    //tree["i_entry"] = i;
-    // or
-    //tree.set<int>("i_entry",i);
+    //i_entry.update(i);
     tree.save();
   }
 }
 
 { // read
-  auto tree = hdtree::from("my-file.hdf5","/path/to/tree");
+  auto tree = hdtree::Tree::load("my-file.hdf5","/path/to/tree");
   // & required
   auto& i_entry = tree.get<int>("i_entry");
   for (std::size_t i{0}; i < r.entries(); i++) {
@@ -46,7 +44,7 @@ cmake --build build --target install
 }
 
 { // read and write (separate source/dest)
-  auto tree = hdtree::transform("one.hdf5","/tree1","two.hdf5","/tree2");
+  auto tree = hdtree::Tree::transform("one.hdf5","/tree1","two.hdf5","/tree2");
   // read this branch
   auto& i_entry = tree.get<int>("i_entry");
   // write this branch
@@ -61,7 +59,7 @@ cmake --build build --target install
 }
 
 { // read and write (same source/dest)
-  auto tree = hdtree::inplace("one.hdf5","/tree1");
+  auto tree = hdtree::Tree::inplace("one.hdf5","/tree1");
   // read this branch
   auto& i_entry = tree.get<int>("i_entry");
   // write this branch
@@ -75,6 +73,11 @@ cmake --build build --target install
   }
 }
 ```
+
+## Benefits
+- resets value in a Branch to a empty state after each `save`
+  (i.e. treat the Branch reference as a for-loop-local variable)
+- hdtree juggles the memory addresses
 
 ## Table of Contents
 - include: the headers for the HDTree C++ API
