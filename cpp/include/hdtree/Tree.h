@@ -22,21 +22,32 @@ class Tree {
        const std::string& dest_file_path, const std::string& dest_tree_path);
 
   /**
-   * Get a branch from the tree
-   *
-   * If we are writing and there isn't a branch matching the input name,
-   * we create it. If we aren't writing and there isn't a branch matching,
-   * the parameter 'create' is checked.
+   * Create a new branch on the tree
    */
   template<typename DataType>
-  Branch<DataType>& branch(const std::string& branch_name, 
-      bool ignore_read = false, bool ignore_write = false) {
+  Branch<DataType>& branch(const std::string& branch_name) {
     if (branches_.find(branch_name) != branches_.end()) {
       throw std::runtime_error("Branch named '"+branch_name+"' was already initialized.");
     }
     branches_[branch_name] = std::make_unique<Branch<DataType>>(branch_name);
-    if (writer_ and not ignore_write) branches_[branch_name]->attach(*writer_);
-    if (reader_ and not ignore_read ) branches_[branch_name]->attach(*reader_);
+    if (writer_) branches_[branch_name]->attach(*writer_);
+    return dynamic_cast<Branch<DataType>&>(*branches_[branch_name]);
+  }
+
+  /**
+   * get a branch, this only really makes sense if reading
+   */
+  template<typename DataType>
+  Branch<DataType>& get(const std::string& branch_name, bool copy = false) {
+    if (not reader_) {
+      throw std::runtime_error("Attempting to 'get' a branch without reading.");
+    }
+    if (branches_.find(branch_name) != branches_.end()) {
+      throw std::runtime_error("Branch named '"+branch_name+"' was already initialized.");
+    }
+    branches_[branch_name] = std::make_unique<Branch<DataType>>(branch_name);
+    if (reader_) branches_[branch_name]->attach(*reader_);
+    if (writer_ and copy) branches_[branch_name]->attach(*writer_);
     return dynamic_cast<Branch<DataType>&>(*branches_[branch_name]);
   }
 
@@ -44,17 +55,16 @@ class Tree {
    * loop over all entries in the tree, executing the provided
    * function on each call
    *
-   * tree.branch<int>("two_i_entry");
+   * auto& i_entry = tree.branch<int>("i_entry");
+   * auto& two_i_entry = tree.branch<int>("two_i_entry");
    * tree.for_each([&tree]() {
-   *   tree["two_i_entry"] = 2*tree["i_entry"];
+   *   *two_i_entry = 2*(*i_entry);
    * }, 100);
    */
   template<class UnaryFunction>
-  void for_each(UnaryFunction body, std::optional<std::size_t> entries = {}) {
-    if (not entries_ and not entries) {
-      throw std::runtime_error("I don't know how many entries to loop for.");
-    } else if (entries) {
-      entries_ = entries.value();
+  void for_each(UnaryFunction body) {
+    if (not reader_) {
+      throw std::runtime_error("No reader configured, so I don't know how many entries to loop for.");
     }
     for (std::size_t i{0}; i < this->entries_; i++) {
       this->load();
