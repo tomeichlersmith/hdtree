@@ -202,7 +202,7 @@ class Branch<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
    * @param[in] f Reader to load from
    */
   void load() final override {
-    read_buffer_->read(*(this->handle_));
+    if (read_buffer_) read_buffer_->read(*(this->handle_));
   }
 
   /**
@@ -214,7 +214,7 @@ class Branch<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
    * @param[in] f io::Writer to save to
    */
   void save() final override {
-    write_buffer_->save(*(this->handle_));
+    if (write_buffer_) write_buffer_->save(*(this->handle_));
   }
 
   /**
