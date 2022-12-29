@@ -1,0 +1,20 @@
+## Topnav single links
+## if you want to list an external url, use external_url instead of url. the theme will apply a different link base.
+topnav:
+- title: Topnav
+  items:
+    - title: GitHub
+      external_url: https://github.com/tomeichlersmith/hdtree
+    - title: Meta-Format
+      url: metaformat_landing_page.html
+
+#Topnav dropdowns
+topnav_dropdowns:
+- title: Topnav dropdowns
+  folders:
+    - title: APIs
+      folderitems:
+        - title: C++
+          url: cpp_landing_page.html
+
+# Copyright 2021 Google LLC
