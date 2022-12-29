@@ -1,8 +1,10 @@
 ---
 tags:
-  - "index-include"
+  - "users"
 title: Meta-Format Description
 classes: wide
+permalink: metaformat_landing_page.html
+folder: metaformat
 ---
 
 HDTree is a specific metaformat on top of a HDF5 Group.
