@@ -83,9 +83,15 @@
         {% unless page.hide_sidebar %}
             <!-- Sidebar Column -->
             <div class="col-md-3" id="tg-sb-sidebar">
+          {% if page.sidebar contains ".html" %}
+            <!-- page specified custom HTML sidebar in _includes -->
+                {% include {{page.sidebar}} %}
+          {% else %}
+            <!-- use template sidebar with data from _data/sidebars/ -->
                 {% include sidebar.html %}
+          {% endif %}
             </div>
-            {% assign content_col_size = "col-md-9" %}
+          {% assign content_col_size = "col-md-9" %}
         {% endunless %}
 
         <!-- Content Column -->
