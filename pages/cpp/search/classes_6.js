@@ -1,8 +1,5 @@
 var searchData=
 [
-  ['gamma_5fdistribution_1797',['gamma_distribution',['http://en.cppreference.com/w/cpp/numeric/random/gamma_distribution.html',1,'std']]],
-  ['geometric_5fdistribution_1798',['geometric_distribution',['http://en.cppreference.com/w/cpp/numeric/random/geometric_distribution.html',1,'std']]],
-  ['giga_1799',['giga',['http://en.cppreference.com/w/cpp/numeric/ratio/ratio.html',1,'std']]],
-  ['greater_1800',['greater',['http://en.cppreference.com/w/cpp/utility/functional/greater.html',1,'std']]],
-  ['greater_5fequal_1801',['greater_equal',['http://en.cppreference.com/w/cpp/utility/functional/greater_equal.html',1,'std']]]
+  ['readbuffer_129',['ReadBuffer',['../classhdtree_1_1Branch_3_01AtomicType_00_01std_1_1enable__if__t_3_01is__atomic__v_3_01AtomicType_01_4_01_4_01_4_1_1ReadBuffer.html',1,'hdtree::Branch&lt; AtomicType, std::enable_if_t&lt; is_atomic_v&lt; AtomicType &gt; &gt; &gt;']]],
+  ['reader_130',['Reader',['../classhdtree_1_1Reader.html',1,'hdtree']]]
 ];

@@ -1,9 +1,9 @@
 <map id="hdtree::Tree" name="hdtree::Tree">
 <area shape="rect" id="node1" title="A container for many branches." alt="" coords="789,78,881,105"/>
-<area shape="rect" id="node2" href="/home/tom/hdtree/cpp/docs/cppreference-doxygen-web.tag.xml$cpp/memory/unique_ptr.html" title=" " alt="" coords="481,5,637,47"/>
-<area shape="rect" id="node3" href="/home/tom/hdtree/cpp/docs/cppreference-doxygen-web.tag.xml$cpp/memory/unique_ptr.html" title=" " alt="" coords="481,71,637,112"/>
-<area shape="rect" id="node4" href="/home/tom/hdtree/cpp/docs/cppreference-doxygen-web.tag.xml$cpp/container/unordered_map.html" title=" " alt="" coords="443,137,676,193"/>
-<area shape="rect" id="node5" href="/home/tom/hdtree/cpp/docs/cppreference-doxygen-web.tag.xml$cpp/memory/unique_ptr.html" title=" " alt="" coords="181,115,337,156"/>
-<area shape="rect" id="node6" href="/home/tom/hdtree/cpp/docs/cppreference-doxygen-web.tag.xml$cpp/string/basic_string.html" title=" " alt="" coords="219,181,299,207"/>
-<area shape="rect" id="node7" href="/home/tom/hdtree/cpp/docs/cppreference-doxygen-web.tag.xml$cpp/string/basic_string.html" title=" " alt="" coords="5,173,132,215"/>
+<area shape="rect" id="node2" title=" " alt="" coords="481,5,637,47"/>
+<area shape="rect" id="node3" title=" " alt="" coords="481,71,637,112"/>
+<area shape="rect" id="node4" title=" " alt="" coords="443,137,676,193"/>
+<area shape="rect" id="node5" title=" " alt="" coords="181,115,337,156"/>
+<area shape="rect" id="node6" title=" " alt="" coords="219,181,299,207"/>
+<area shape="rect" id="node7" title=" " alt="" coords="5,173,132,215"/>
 </map>

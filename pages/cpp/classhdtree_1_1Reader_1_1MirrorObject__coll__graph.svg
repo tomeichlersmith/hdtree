@@ -20,8 +20,8 @@
 <!-- Node2 -->
 <g id="node2" class="node">
 <title>Node2</title>
-<g id="a_node2"><a target="_parent" xlink:href="http://en.cppreference.com/w/cpp/memory/unique_ptr.html" xlink:title=" ">
-<polygon fill="none" stroke="black" points="234.5,-49.5 234.5,-79.5 351.5,-79.5 351.5,-49.5 234.5,-49.5"/>
+<g id="a_node2"><a xlink:title=" ">
+<polygon fill="none" stroke="#bfbfbf" points="234.5,-49.5 234.5,-79.5 351.5,-79.5 351.5,-49.5 234.5,-49.5"/>
 <text text-anchor="start" x="242.5" y="-67.5" font-family="Helvetica,sans-Serif" font-size="10.00">std::unique_ptr&lt; hdtree</text>
 <text text-anchor="middle" x="293" y="-56.5" font-family="Helvetica,sans-Serif" font-size="10.00">::BaseBranch &gt;</text>
 </a>
@@ -38,8 +38,8 @@
 <!-- Node3 -->
 <g id="node3" class="node">
 <title>Node3</title>
-<g id="a_node3"><a target="_parent" xlink:href="http://en.cppreference.com/w/cpp/container/vector.html" xlink:title=" ">
-<polygon fill="none" stroke="black" points="201,-0.5 201,-30.5 385,-30.5 385,-0.5 201,-0.5"/>
+<g id="a_node3"><a xlink:title=" ">
+<polygon fill="none" stroke="#bfbfbf" points="201,-0.5 201,-30.5 385,-30.5 385,-0.5 201,-0.5"/>
 <text text-anchor="start" x="209" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">std::vector&lt; std::unique</text>
 <text text-anchor="middle" x="293" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">_ptr&lt; hdtree::Reader::MirrorObject &gt; &gt;</text>
 </a>
@@ -55,8 +55,8 @@
 <!-- Node4 -->
 <g id="node4" class="node">
 <title>Node4</title>
-<g id="a_node4"><a target="_parent" xlink:href="http://en.cppreference.com/w/cpp/memory/unique_ptr.html" xlink:title=" ">
-<polygon fill="none" stroke="black" points="0,-0.5 0,-30.5 122,-30.5 122,-0.5 0,-0.5"/>
+<g id="a_node4"><a xlink:title=" ">
+<polygon fill="none" stroke="#bfbfbf" points="0,-0.5 0,-30.5 122,-30.5 122,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">std::unique_ptr&lt; hdtree</text>
 <text text-anchor="middle" x="61" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">::Reader::MirrorObject &gt;</text>
 </a>

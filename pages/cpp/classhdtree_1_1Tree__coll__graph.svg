@@ -20,8 +20,8 @@
 <!-- Node2 -->
 <g id="node2" class="node">
 <title>Node2</title>
-<g id="a_node2"><a target="_parent" xlink:href="http://en.cppreference.com/w/cpp/memory/unique_ptr.html" xlink:title=" ">
-<polygon fill="none" stroke="black" points="357,-126.5 357,-156.5 474,-156.5 474,-126.5 357,-126.5"/>
+<g id="a_node2"><a xlink:title=" ">
+<polygon fill="none" stroke="#bfbfbf" points="357,-126.5 357,-156.5 474,-156.5 474,-126.5 357,-126.5"/>
 <text text-anchor="start" x="365" y="-144.5" font-family="Helvetica,sans-Serif" font-size="10.00">std::unique_ptr&lt; hdtree</text>
 <text text-anchor="middle" x="415.5" y="-133.5" font-family="Helvetica,sans-Serif" font-size="10.00">::Writer &gt;</text>
 </a>
@@ -37,8 +37,8 @@
 <!-- Node3 -->
 <g id="node3" class="node">
 <title>Node3</title>
-<g id="a_node3"><a target="_parent" xlink:href="http://en.cppreference.com/w/cpp/memory/unique_ptr.html" xlink:title=" ">
-<polygon fill="none" stroke="black" points="357,-77.5 357,-107.5 474,-107.5 474,-77.5 357,-77.5"/>
+<g id="a_node3"><a xlink:title=" ">
+<polygon fill="none" stroke="#bfbfbf" points="357,-77.5 357,-107.5 474,-107.5 474,-77.5 357,-77.5"/>
 <text text-anchor="start" x="365" y="-95.5" font-family="Helvetica,sans-Serif" font-size="10.00">std::unique_ptr&lt; hdtree</text>
 <text text-anchor="middle" x="415.5" y="-84.5" font-family="Helvetica,sans-Serif" font-size="10.00">::Reader &gt;</text>
 </a>
@@ -54,8 +54,8 @@
 <!-- Node4 -->
 <g id="node4" class="node">
 <title>Node4</title>
-<g id="a_node4"><a target="_parent" xlink:href="http://en.cppreference.com/w/cpp/container/unordered_map.html" xlink:title=" ">
-<polygon fill="none" stroke="black" points="328,-17 328,-58 503,-58 503,-17 328,-17"/>
+<g id="a_node4"><a xlink:title=" ">
+<polygon fill="none" stroke="#bfbfbf" points="328,-17 328,-58 503,-58 503,-17 328,-17"/>
 <text text-anchor="start" x="336" y="-46" font-family="Helvetica,sans-Serif" font-size="10.00">std::unordered_map</text>
 <text text-anchor="start" x="336" y="-35" font-family="Helvetica,sans-Serif" font-size="10.00">&lt; std::string, std::</text>
 <text text-anchor="middle" x="415.5" y="-24" font-family="Helvetica,sans-Serif" font-size="10.00">unique_ptr&lt; hdtree::BaseBranch &gt; &gt;</text>
@@ -72,8 +72,8 @@
 <!-- Node5 -->
 <g id="node5" class="node">
 <title>Node5</title>
-<g id="a_node5"><a target="_parent" xlink:href="http://en.cppreference.com/w/cpp/memory/unique_ptr.html" xlink:title=" ">
-<polygon fill="none" stroke="black" points="132,-44.5 132,-74.5 249,-74.5 249,-44.5 132,-44.5"/>
+<g id="a_node5"><a xlink:title=" ">
+<polygon fill="none" stroke="#bfbfbf" points="132,-44.5 132,-74.5 249,-74.5 249,-44.5 132,-44.5"/>
 <text text-anchor="start" x="140" y="-62.5" font-family="Helvetica,sans-Serif" font-size="10.00">std::unique_ptr&lt; hdtree</text>
 <text text-anchor="middle" x="190.5" y="-51.5" font-family="Helvetica,sans-Serif" font-size="10.00">::BaseBranch &gt;</text>
 </a>
@@ -89,8 +89,8 @@
 <!-- Node6 -->
 <g id="node6" class="node">
 <title>Node6</title>
-<g id="a_node6"><a target="_parent" xlink:href="http://en.cppreference.com/w/cpp/string/basic_string.html" xlink:title=" ">
-<polygon fill="none" stroke="black" points="160.5,-6 160.5,-25 220.5,-25 220.5,-6 160.5,-6"/>
+<g id="a_node6"><a xlink:title=" ">
+<polygon fill="none" stroke="#bfbfbf" points="160.5,-6 160.5,-25 220.5,-25 220.5,-6 160.5,-6"/>
 <text text-anchor="middle" x="190.5" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00">std::string</text>
 </a>
 </g>
@@ -105,10 +105,10 @@
 <!-- Node7 -->
 <g id="node7" class="node">
 <title>Node7</title>
-<g id="a_node7"><a target="_parent" xlink:href="http://en.cppreference.com/w/cpp/string/basic_string.html" xlink:title=" ">
-<polygon fill="none" stroke="black" points="0,-0.5 0,-30.5 95,-30.5 95,-0.5 0,-0.5"/>
+<g id="a_node7"><a xlink:title=" ">
+<polygon fill="none" stroke="#bfbfbf" points="0,-0.5 0,-30.5 95,-30.5 95,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">std::basic_string&lt;</text>
-<text text-anchor="middle" x="47.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00"> char &gt;</text>
+<text text-anchor="middle" x="47.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00"> Char &gt;</text>
 </a>
 </g>
 </g>

@@ -1,11 +1,10 @@
 <map id="hdtree::Branch&lt; std::vector&lt; ContentType &gt; &gt;" name="hdtree::Branch&lt; std::vector&lt; ContentType &gt; &gt;">
-<area shape="rect" id="node1" title="Our wrapper around std::vector." alt="" coords="1317,57,1493,98"/>
-<area shape="rect" id="node2" href="$classhdtree_1_1AbstractBranch.html" title=" " alt="" coords="796,115,1003,157"/>
-<area shape="rect" id="node3" href="$classhdtree_1_1BaseBranch.html" title="Empty data base allowing recursion." alt="" coords="356,113,493,140"/>
-<area shape="rect" id="node7" href="$classhdtree_1_1AbstractBranch.html" title="Type&#45;specific base class to hold common data methods." alt="" coords="616,43,772,85"/>
-<area shape="rect" id="node4" href="/home/tom/hdtree/cpp/docs/cppreference-doxygen-web.tag.xml$cpp/string/basic_string.html" title=" " alt="" coords="181,113,261,140"/>
-<area shape="rect" id="node5" href="/home/tom/hdtree/cpp/docs/cppreference-doxygen-web.tag.xml$cpp/string/basic_string.html" title=" " alt="" coords="5,106,132,147"/>
-<area shape="rect" id="node6" href="$classhdtree_1_1Branch.html" title=" " alt="" coords="1027,5,1232,32"/>
-<area shape="rect" id="node9" href="$classhdtree_1_1Branch.html" title=" " alt="" coords="1061,57,1198,98"/>
-<area shape="rect" id="node8" href="/home/tom/hdtree/cpp/docs/cppreference-doxygen-web.tag.xml$cpp/utility/pair.html" title=" " alt="" coords="353,38,496,79"/>
+<area shape="rect" id="node1" title="Our wrapper around std::vector." alt="" coords="1241,56,1417,97"/>
+<area shape="rect" id="node2" href="$classhdtree_1_1AbstractBranch.html" title=" " alt="" coords="720,5,927,47"/>
+<area shape="rect" id="node3" href="$classhdtree_1_1BaseBranch.html" title="Empty data base allowing recursion." alt="" coords="353,42,491,69"/>
+<area shape="rect" id="node7" href="$classhdtree_1_1AbstractBranch.html" title="Type&#45;specific base class to hold common data methods." alt="" coords="540,64,696,105"/>
+<area shape="rect" id="node4" title=" " alt="" coords="181,42,261,69"/>
+<area shape="rect" id="node5" title=" " alt="" coords="5,35,132,76"/>
+<area shape="rect" id="node6" href="$classhdtree_1_1Branch.html" title=" " alt="" coords="951,63,1156,90"/>
+<area shape="rect" id="node8" href="$classhdtree_1_1Branch.html" title=" " alt="" coords="985,115,1122,156"/>
 </map>

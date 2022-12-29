@@ -1,25 +1,8 @@
 var searchData=
 [
-  ['abstractbranch_1627',['AbstractBranch',['../classhdtree_1_1AbstractBranch.html',1,'hdtree']]],
-  ['abstractbranch_3c_20atomictype_20_3e_1628',['AbstractBranch&lt; AtomicType &gt;',['../classhdtree_1_1AbstractBranch.html',1,'hdtree']]],
-  ['abstractbranch_3c_20std_3a_3amap_3c_20keytype_2c_20valtype_20_3e_20_3e_1629',['AbstractBranch&lt; std::map&lt; KeyType, ValType &gt; &gt;',['../classhdtree_1_1AbstractBranch.html',1,'hdtree']]],
-  ['abstractbranch_3c_20std_3a_3avector_3c_20contenttype_20_3e_20_3e_1630',['AbstractBranch&lt; std::vector&lt; ContentType &gt; &gt;',['../classhdtree_1_1AbstractBranch.html',1,'hdtree']]],
-  ['access_1631',['access',['../structhdtree_1_1access.html',1,'hdtree']]],
-  ['add_5fconst_1632',['add_const',['http://en.cppreference.com/w/cpp/types/add_cv.html',1,'std']]],
-  ['add_5fcv_1633',['add_cv',['http://en.cppreference.com/w/cpp/types/add_cv.html',1,'std']]],
-  ['add_5flvalue_5freference_1634',['add_lvalue_reference',['http://en.cppreference.com/w/cpp/types/add_reference.html',1,'std']]],
-  ['add_5fpointer_1635',['add_pointer',['http://en.cppreference.com/w/cpp/types/add_pointer.html',1,'std']]],
-  ['add_5frvalue_5freference_1636',['add_rvalue_reference',['http://en.cppreference.com/w/cpp/types/add_reference.html',1,'std']]],
-  ['add_5fvolatile_1637',['add_volatile',['http://en.cppreference.com/w/cpp/types/add_cv.html',1,'std']]],
-  ['adopt_5flock_5ft_1638',['adopt_lock_t',['http://en.cppreference.com/w/cpp/thread/lock_tag_t.html',1,'std']]],
-  ['aligned_5fstorage_1639',['aligned_storage',['http://en.cppreference.com/w/cpp/types/aligned_storage.html',1,'std']]],
-  ['aligned_5funion_1640',['aligned_union',['http://en.cppreference.com/w/cpp/types/aligned_union.html',1,'std']]],
-  ['alignment_5fof_1641',['alignment_of',['http://en.cppreference.com/w/cpp/types/alignment_of.html',1,'std']]],
-  ['allocator_1642',['allocator',['http://en.cppreference.com/w/cpp/memory/allocator.html',1,'std']]],
-  ['allocator_5farg_5ft_1643',['allocator_arg_t',['http://en.cppreference.com/w/cpp/memory/allocator_arg_t.html',1,'std']]],
-  ['allocator_5ftraits_1644',['allocator_traits',['http://en.cppreference.com/w/cpp/memory/allocator_traits.html',1,'std']]],
-  ['array_1645',['array',['http://en.cppreference.com/w/cpp/container/array.html',1,'std']]],
-  ['atomic_1646',['atomic',['http://en.cppreference.com/w/cpp/atomic/atomic.html',1,'std']]],
-  ['atomic_5fflag_1647',['atomic_flag',['http://en.cppreference.com/w/cpp/atomic/atomic_flag.html',1,'std']]],
-  ['auto_5fptr_1648',['auto_ptr',['http://en.cppreference.com/w/cpp/memory/auto_ptr.html',1,'std']]]
+  ['abstractbranch_110',['AbstractBranch',['../classhdtree_1_1AbstractBranch.html',1,'hdtree']]],
+  ['abstractbranch_3c_20atomictype_20_3e_111',['AbstractBranch&lt; AtomicType &gt;',['../classhdtree_1_1AbstractBranch.html',1,'hdtree']]],
+  ['abstractbranch_3c_20std_3a_3amap_3c_20keytype_2c_20valtype_20_3e_20_3e_112',['AbstractBranch&lt; std::map&lt; KeyType, ValType &gt; &gt;',['../classhdtree_1_1AbstractBranch.html',1,'hdtree']]],
+  ['abstractbranch_3c_20std_3a_3avector_3c_20contenttype_20_3e_20_3e_113',['AbstractBranch&lt; std::vector&lt; ContentType &gt; &gt;',['../classhdtree_1_1AbstractBranch.html',1,'hdtree']]],
+  ['access_114',['access',['../structhdtree_1_1access.html',1,'hdtree']]]
 ];

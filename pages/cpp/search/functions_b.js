@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['k_2683',['k',['http://en.cppreference.com/w/cpp/numeric/random/negative_binomial_distribution/params.html',1,'std::negative_binomial_distribution']]],
-  ['key_5fcomp_2684',['key_comp',['http://en.cppreference.com/w/cpp/container/multiset/key_comp.html',1,'std::multiset::key_comp()'],['http://en.cppreference.com/w/cpp/container/set/key_comp.html',1,'std::set::key_comp()'],['http://en.cppreference.com/w/cpp/container/map/key_comp.html',1,'std::map::key_comp()'],['http://en.cppreference.com/w/cpp/container/multimap/key_comp.html',1,'std::multimap::key_comp()']]],
-  ['key_5feq_2685',['key_eq',['http://en.cppreference.com/w/cpp/container/unordered_map/key_eq.html',1,'std::unordered_map::key_eq()'],['http://en.cppreference.com/w/cpp/container/unordered_multimap/key_eq.html',1,'std::unordered_multimap::key_eq()'],['http://en.cppreference.com/w/cpp/container/unordered_multiset/key_eq.html',1,'std::unordered_multiset::key_eq()'],['http://en.cppreference.com/w/cpp/container/unordered_set/key_eq.html',1,'std::unordered_set::key_eq()']]],
-  ['kill_5fdependency_2686',['kill_dependency',['http://en.cppreference.com/w/cpp/atomic/kill_dependency.html',1,'std']]],
-  ['knuth_5fb_2687',['knuth_b',['http://en.cppreference.com/w/cpp/numeric/random/shuffle_order_engine/shuffle_order_engine.html',1,'std::knuth_b']]]
+  ['operator_2a_169',['operator*',['../classhdtree_1_1AbstractBranch.html#a922923861f76928398544d826399233a',1,'hdtree::AbstractBranch::operator*()'],['../classhdtree_1_1AbstractBranch.html#ad00dff85e7186d9272e56ed44da3cb4b',1,'hdtree::AbstractBranch::operator*() const']]],
+  ['operator_2d_3e_170',['operator-&gt;',['../classhdtree_1_1AbstractBranch.html#aaeff14190c95e850e9eb8689b9aa3a62',1,'hdtree::AbstractBranch']]],
+  ['operator_3d_171',['operator=',['../classhdtree_1_1BaseBranch.html#ae9913a1fc4576adf5227ba64ef708b74',1,'hdtree::BaseBranch::operator=()'],['../classhdtree_1_1Reader.html#acc5e3e51099824f9347cffdaef69d1d7',1,'hdtree::Reader::operator=()'],['../classhdtree_1_1Writer.html#acd9f9f41dcef0b79cd24e9d7a6eb69d5',1,'hdtree::Writer::operator=()']]]
 ];
