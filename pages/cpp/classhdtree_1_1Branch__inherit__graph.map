@@ -1,5 +1,0 @@
-<map id="hdtree::Branch&lt; DataType, Enable &gt;" name="hdtree::Branch&lt; DataType, Enable &gt;">
-<area shape="rect" id="node1" title="General data set." alt="" coords="5,169,184,211"/>
-<area shape="rect" id="node2" href="$classhdtree_1_1AbstractBranch.html" title="Type&#45;specific base class to hold common data methods." alt="" coords="17,80,173,121"/>
-<area shape="rect" id="node3" href="$classhdtree_1_1BaseBranch.html" title="Empty data base allowing recursion." alt="" coords="26,5,163,32"/>
-</map>

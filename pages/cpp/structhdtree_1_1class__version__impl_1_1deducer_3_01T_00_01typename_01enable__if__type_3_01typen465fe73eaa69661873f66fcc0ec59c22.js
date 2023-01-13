@@ -1,4 +1,0 @@
-var structhdtree_1_1class__version__impl_1_1deducer_3_01T_00_01typename_01enable__if__type_3_01typen465fe73eaa69661873f66fcc0ec59c22 =
-[
-    [ "version", "structhdtree_1_1class__version__impl_1_1deducer_3_01T_00_01typename_01enable__if__type_3_01typen465fe73eaa69661873f66fcc0ec59c22.html#a12ee40a80674f819d326f98b0d542de2", null ]
-];
