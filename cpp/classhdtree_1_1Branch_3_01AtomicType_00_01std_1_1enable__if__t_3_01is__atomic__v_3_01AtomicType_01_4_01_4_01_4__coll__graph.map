@@ -1,9 +1,9 @@
 <map id="hdtree::Branch&lt; AtomicType, std::enable_if_t&lt; is_atomic_v&lt; AtomicType &gt; &gt; &gt;" name="hdtree::Branch&lt; AtomicType, std::enable_if_t&lt; is_atomic_v&lt; AtomicType &gt; &gt; &gt;">
-<area shape="rect" id="node1" title="Branch wrapper for atomic types." alt="" coords="867,57,1057,113"/>
-<area shape="rect" id="node2" href="$classhdtree_1_1AbstractBranch.html" title=" " alt="" coords="561,5,717,47"/>
-<area shape="rect" id="node3" href="$classhdtree_1_1BaseBranch.html" title="Empty data base allowing recursion." alt="" coords="353,13,491,39"/>
-<area shape="rect" id="node4" title=" " alt="" coords="181,13,261,39"/>
-<area shape="rect" id="node5" title=" " alt="" coords="5,5,132,47"/>
-<area shape="rect" id="node6" title=" " alt="" coords="541,71,738,98"/>
-<area shape="rect" id="node7" title=" " alt="" coords="540,122,739,149"/>
+<area shape="rect" id="node1" title="Branch wrapper for atomic types." alt="" coords="936,57,1148,113"/>
+<area shape="rect" id="node2" href="$classhdtree_1_1AbstractBranch.html" title=" " alt="" coords="602,5,773,47"/>
+<area shape="rect" id="node3" href="$classhdtree_1_1BaseBranch.html" title="Empty data base allowing recursion." alt="" coords="377,13,527,39"/>
+<area shape="rect" id="node4" title=" " alt="" coords="193,13,280,39"/>
+<area shape="rect" id="node5" title=" " alt="" coords="5,5,144,47"/>
+<area shape="rect" id="node6" title=" " alt="" coords="576,71,799,98"/>
+<area shape="rect" id="node7" title=" " alt="" coords="577,122,798,149"/>
 </map>

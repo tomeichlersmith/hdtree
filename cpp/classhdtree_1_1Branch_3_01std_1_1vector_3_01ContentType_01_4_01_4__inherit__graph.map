@@ -1,5 +1,5 @@
 <map id="hdtree::Branch&lt; std::vector&lt; ContentType &gt; &gt;" name="hdtree::Branch&lt; std::vector&lt; ContentType &gt; &gt;">
-<area shape="rect" id="node1" title="Our wrapper around std::vector." alt="" coords="21,169,197,211"/>
-<area shape="rect" id="node2" href="$classhdtree_1_1AbstractBranch.html" title=" " alt="" coords="5,80,212,121"/>
-<area shape="rect" id="node3" href="$classhdtree_1_1BaseBranch.html" title="Empty data base allowing recursion." alt="" coords="40,5,177,32"/>
+<area shape="rect" id="node1" title="Our wrapper around std::vector." alt="" coords="23,169,220,211"/>
+<area shape="rect" id="node2" href="$classhdtree_1_1AbstractBranch.html" title=" " alt="" coords="5,80,237,121"/>
+<area shape="rect" id="node3" href="$classhdtree_1_1BaseBranch.html" title="Empty data base allowing recursion." alt="" coords="47,5,196,32"/>
 </map>
