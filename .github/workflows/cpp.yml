@@ -9,6 +9,7 @@ on:
       - '**'
       - '!gh-pages'
     paths:
+      - '.github/workflows/cpp.yml'
       - 'cpp/**'
       - '!**.md'
       - '!**docs/**'
