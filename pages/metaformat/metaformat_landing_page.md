@@ -35,5 +35,5 @@ The recursive process of sub-branching continues until atomic[^1] data types are
 Which are the only actual HDF5 DataSets. They are stored in chunked and compressed 
 one dimensional DataSets.
 
-[^1]: integers, floats, and strings
+[^1]: booleans, integers, floats, and strings
 
