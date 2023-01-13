@@ -100,7 +100,7 @@ jobs:
         publish_dir: ./cpp/docs/html
         destination_dir: cpp
         enable_jekyll: true
-        github_token: ${{ secrets.TOKEN }}
+        deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
         commit_message: ${{ github.event.head_commit.message }}
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
