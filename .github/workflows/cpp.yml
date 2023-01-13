@@ -90,7 +90,7 @@ jobs:
         exit 1
         fi
         echo ${_version_tag}
-        echo "PROJECT_NUMBER = ${_version_tag}" >> docs/doxyfile
+        echo "PROJECT_NUMBER = ${_version_tag}" >> cpp/docs/doxyfile
     - 
       name: run doxygen
       run: doxygen cpp/docs/doxyfile
