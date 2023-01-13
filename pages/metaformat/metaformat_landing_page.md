@@ -1,10 +1,12 @@
 ---
 tags:
   - "users"
+  - "developers"
 title: Meta-Format Description
 classes: wide
 permalink: metaformat_landing_page.html
 folder: metaformat
+summary: Summary of HDTree's metaformat on top of an HDF5 Group.
 ---
 
 HDTree is a specific metaformat on top of a HDF5 Group.
