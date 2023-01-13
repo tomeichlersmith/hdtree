@@ -6,7 +6,7 @@ entries:
   url: metaformat_landing_page.html
 - title: Sidebar
   folders:
-  - title: APIs
+  - title: Getting Started
     output: web
     folderitems:
     - title: C++
