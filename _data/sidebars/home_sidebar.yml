@@ -4,13 +4,31 @@ entries:
 - title: Meta-Format
   output: web
   url: metaformat_landing_page.html
-- title: Sidebar
+- title: HDTree Performance
+  output: web
+  url: cpp_performance.html
+- title: Design Goals
+  output: web
+  url: metaformat_design.html
+- title: Users Sidebar
   folders:
   - title: Getting Started
     output: web
     folderitems:
     - title: C++
       url: cpp_landing_page.html
+      output: web
+  - title: Contributing
+    output: web
+    folderitems:
+    - title: Contributing Intro
+      url: contributing.html
+      output: web
+    - title: Mono-Repo Structure
+      url: monorepo_structure.html
+      output: web
+    - title: Building Docs Locally
+      url: building_docs.html
       output: web
 
 # Copyright 2021 Google LLC

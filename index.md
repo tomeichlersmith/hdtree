@@ -2,6 +2,7 @@
 title: "HDTree"
 keywords: sample homepage
 sidebar: home_sidebar 
+layout: home
 permalink: index.html
 ---
 
