@@ -1,6 +1,8 @@
 /**
  * @file Branch.h
  * Common include for users interacting with Branches
+ *
+ * @image html ./cpp/docs/hdtree_Branch_AccessPattern.svg
  */
 #pragma once
 
