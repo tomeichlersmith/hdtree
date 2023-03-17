@@ -93,7 +93,9 @@ jobs:
         echo "PROJECT_NUMBER = ${_version_tag}" >> cpp/docs/doxyfile
     - 
       name: run doxygen
-      run: doxygen cpp/docs/doxyfile
+      run: |
+        doxygen cpp/docs/doxyfile
+        cp -r cpp/examples cpp/docs/html/
     - 
       name: publish generated content
       uses: peaceiris/actions-gh-pages@v3
