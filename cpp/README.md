@@ -20,7 +20,6 @@ cmake --build build --target install
 ```
 
 ## Usage
-**only the goal at the moment**
 ```cpp
 { // write
   auto tree = hdtree::Tree::save("my-file.hdf5","/path/to/tree");
