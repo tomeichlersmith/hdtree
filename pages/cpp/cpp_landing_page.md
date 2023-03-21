@@ -10,9 +10,29 @@ summary: Getting Started with the C++ HDTree API
 ---
 
 ## First Steps
-This example goes through the four ways of accessing an HDTree.
-Each of the four ways has different benefits, so it is up to 
-you to decide which one is best for your use case.
+There are four ways to access a HDTree with the C++ API.
+They are mainly separated by different stages of processing the data.
+We start with `save` since you will first need to write a HDF5 file
+with an HDTree in it in order to be able to go further.
+
+### write-only (`save`)
+{% highlight cpp %}
+auto tree = hdtree::Tree::save("my-file.hdf5", "/path/to/tree");
+auto& i_entry = tree.branch<int>("i_entry");
+for (std::size_t i{0}; i < 5; i++) {
+  *i_entry = i;
+  tree.save();
+}
+{% endhighlight %}
+
+### read-only (`load`)
+
+### read from one file and write to a different one (`transform`)
+
+### read from and write to the same file (`inplace`)
+{% highlight cpp %}
+#include <iostream>
+{% endhighlight %}
 
 ## More Intense Use Case
 The C++ HDTree API is mainling implemented through its
