@@ -20,7 +20,7 @@ within the C++ API source.
 
 ### write-only (`save`)
 {% highlight cpp %}
-{% include cpp/save.cxx %}
+{% include cpp/examples/save.cxx %}
 {% endhighlight %}
 
 ### read-only (`load`)
