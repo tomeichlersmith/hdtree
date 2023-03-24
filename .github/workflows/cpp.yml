@@ -73,8 +73,9 @@ jobs:
       name: checkout repository
       uses: actions/checkout@v2
       with:
-        fetch-depth: 0
+        fetch-depth: 0 # all history for branch switching later
         submodules: 'recursive' # for doxygen-awesome-css
+        token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
     - 
       name: install doxygen
       run: |
@@ -97,26 +98,19 @@ jobs:
         doxygen cpp/docs/doxyfile
         cp -r cpp/examples cpp/docs/html/
     - 
-      name: publish generated content
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        publish_dir: ./cpp/docs/html
-        destination_dir: cpp
-        enable_jekyll: true
-        deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        commit_message: 'copy doxygen content: ${{ github.event.head_commit.message }}'
-        user_name: 'github-actions[bot]'
-        user_email: 'github-actions[bot]@users.noreply.github.com'
-    -
-      name: publish examples for inclusion in manual docs
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        publish_dir: ./cpp/examples
-        exclude_assets: CMakeLists.txt
-        destination_dir: _includes/cpp
-        enable_jekyll: true
-        deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        commit_message: 'copy examples: ${{ github.event.head_commit.message }}'
-        user_name: 'github-actions[bot]'
-        user_email: 'github-actions[bot]@users.noreply.github.com'
-
+      name: publish examples generated content
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git checkout gh-pages
+        # main:cpp/docs/html -> gh-pages:cpp 
+        mv cpp/docs/html tmp
+        git rm -rf cpp
+        rm -r cpp
+        mv tmp cpp
+        git add cpp
+        #main:cpp/examples -> gh-pages:_includes/cpp/examples
+        git checkout main -- cpp/examples
+        git mv cpp/examples _includes/cpp
+        git commit -m "update doxygen content and C++ examples : ${{ github.event.head_commit.message}}"
+        git push
