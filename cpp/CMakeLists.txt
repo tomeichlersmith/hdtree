@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.12)
 
 # Set the project name
 project(HDTree
-  VERSION 0.4.2
+  VERSION 0.4.3
   DESCRIPTION "HDTree C++ API"
   LANGUAGES C CXX)
 
