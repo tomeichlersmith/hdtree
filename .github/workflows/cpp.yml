@@ -104,7 +104,7 @@ jobs:
         destination_dir: cpp
         enable_jekyll: true
         deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        commit_message: copy doxygen content: ${{ github.event.head_commit.message }}
+        commit_message: 'copy doxygen content: ${{ github.event.head_commit.message }}'
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
     -
@@ -116,7 +116,7 @@ jobs:
         destination_dir: _includes/cpp
         enable_jekyll: true
         deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        commit_message: copy examples: ${{ github.event.head_commit.message }}
+        commit_message: 'copy examples: ${{ github.event.head_commit.message }}'
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
 
