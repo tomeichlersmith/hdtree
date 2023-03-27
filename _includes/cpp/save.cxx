@@ -8,6 +8,10 @@
 #include "hdtree/Tree.h"
 
 int main() {
+  /**
+   * Create a tree by defining what file it is in
+   * and where it resides within that file
+   */
   auto tree = hdtree::Tree::save("generate.h5", "example");
 
   auto& i_entry = tree.branch<std::size_t>("i_entry");
