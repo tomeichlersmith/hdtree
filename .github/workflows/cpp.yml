@@ -107,7 +107,6 @@ jobs:
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git checkout gh-pages
         # main:cpp/docs/html -> gh-pages:cpp 
         mv cpp/docs/html tmp
         git rm -rf cpp
@@ -115,7 +114,7 @@ jobs:
         mv tmp cpp
         git add cpp
         #main:cpp/examples -> gh-pages:_includes/cpp/examples
-        git checkout main -- cpp/examples
+        git checkout origin/main -- cpp/examples
         git mv cpp/examples _includes/cpp
         git commit -m "update doxygen content and C++ examples : ${{ github.event.head_commit.message}}"
         git push
