@@ -95,6 +95,7 @@ jobs:
       name: run doxygen
       run: |
         doxygen cpp/docs/doxyfile
+        # also put examples into generated directory
         cp -r cpp/examples cpp/docs/html/
     -
       name: switch to gh-pages to make pushing possible
@@ -109,13 +110,12 @@ jobs:
         set -x
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        # main:cpp/docs/html -> gh-pages:cpp 
+        # main:cpp/docs/html -> gh-pages:cpp
+        # also move the examples to _includes so they can be included
         mv cpp/docs/html tmp
         git rm -rf cpp
         mv tmp cpp
-        git add -v cpp
-        #main:cpp/examples -> gh-pages:_includes/cpp/examples
-        git checkout origin/main -- cpp/examples
-        git mv -v cpp/examples _includes/cpp
+        mv cpp/examples _includes/cpp
+        git add -v cpp _includes/cpp
         git commit -m "update doxygen content and C++ examples : ${{ github.event.head_commit.message}}"
         git push
