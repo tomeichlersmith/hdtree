@@ -115,6 +115,7 @@ jobs:
         # also move the examples to _includes so they can be included
         mv -v cpp/docs/html tmp
         git rm -rf cpp _includes/cpp
+        rm -rf cpp
         mv -v tmp/examples _includes/cpp
         mv -v tmp cpp
         git add -v cpp _includes/cpp
