@@ -96,7 +96,7 @@ jobs:
       run: |
         doxygen cpp/docs/doxyfile
         # also put examples into generated directory
-        cp -r cpp/examples cpp/docs/html/
+        cp -rv cpp/examples cpp/docs/html/
     -
       name: switch to gh-pages to make pushing possible
       uses: actions/checkout@v3
