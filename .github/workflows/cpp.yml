@@ -71,7 +71,7 @@ jobs:
     steps:
     -
       name: checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0 # all history for branch switching later
         submodules: 'recursive' # for doxygen-awesome-css
@@ -97,6 +97,13 @@ jobs:
       run: |
         doxygen cpp/docs/doxyfile
         cp -r cpp/examples cpp/docs/html/
+    -
+      name: switch to gh-pages to make pushing possible
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        clean: false
     - 
       name: publish examples generated content
       run: |
