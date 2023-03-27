@@ -20,7 +20,7 @@ within the C++ API source.
 
 ### write-only (`save`)
 {% highlight cpp %}
-{% include cpp/examples/save.cxx %}
+{% include cpp/save.cxx %}
 {% endhighlight %}
 
 ### read-only (`load`)
@@ -28,6 +28,8 @@ within the C++ API source.
 ### read from one file and write to a different one (`transform`)
 
 ### read from and write to the same file (`inplace`)
+
+## User-Defined Data Structures
 
 ## More Intense Use Case
 The C++ HDTree API is mainling implemented through its
