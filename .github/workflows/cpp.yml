@@ -113,9 +113,9 @@ jobs:
         mv cpp/docs/html tmp
         git rm -rf cpp
         mv tmp cpp
-        git add cpp
+        git add -v cpp
         #main:cpp/examples -> gh-pages:_includes/cpp/examples
         git checkout origin/main -- cpp/examples
-        git mv cpp/examples _includes/cpp
+        git mv -v cpp/examples _includes/cpp
         git commit -m "update doxygen content and C++ examples : ${{ github.event.head_commit.message}}"
         git push
