@@ -28,7 +28,7 @@ jobs:
         shell: bash
     strategy:
       matrix:
-        os: [ ubuntu-18.04, ubuntu-20.04, ubuntu-22.04, ubuntu-latest ] #, macOS-10.15]
+        os: [ ubuntu-20.04, ubuntu-22.04, ubuntu-latest ] #, macOS-10.15]
     steps:
     -
       name: install dependencies ubuntu
