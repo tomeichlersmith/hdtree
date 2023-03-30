@@ -232,6 +232,11 @@ class AbstractBranch : public BaseBranch {
    */
   DataType* operator->() { return handle_; }
 
+  /**
+   * Pointer access to the in-memory data type in a const manner
+   */
+  const DataType* operator->() const { return handle_; }
+
  protected:
   /// type this data is loading from
   std::optional<std::pair<std::string, int>> load_type_;
