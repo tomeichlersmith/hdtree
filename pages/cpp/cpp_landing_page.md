@@ -15,19 +15,21 @@ They are mainly separated by different stages of processing the data.
 We start with `save` since you will first need to write a HDF5 file
 with an HDTree in it in order to be able to go further.
 
-The code snippets below are copied in from the examples directory
-within the C++ API source.
+The code below is copied in from the examples directory
+within the C++ API source. This means the code "snippets" are pretty long,
+but I've tried to include explanatory comments within them.
 
 ### write-only (`save`)
 {% highlight cpp %}
 {% include cpp/save.cxx %}
 {% endhighlight %}
 
+### read and write (`transform` or `inplace`)
+{% highlight cpp %}
+{% include cpp/transform.cxx %}
+{% endhighlight %}
+
 ### read-only (`load`)
-
-### read from one file and write to a different one (`transform`)
-
-### read from and write to the same file (`inplace`)
 
 ## User-Defined Data Structures
 

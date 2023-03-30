@@ -41,6 +41,14 @@ performance when using HDTree's C++ API compared to ROOT's TTree. The details
 of this comparison are left to [another page](cpp_performance.html) for your
 investigation.
 
+### Should I use HDTree?
+The HDTree data organization structure is focused on _highly structured_ and
+_ragged_ data. If your data does not satisfy both of these criteria, then
+it probably does not make sense to use HDTree. For example, if your data consists
+entirely of arrays of known dimension and length (e.g. images of a known size), then
+it is better suited to store the data directly with HDF5 DataSets rather than
+use HDTree.
+
 ## What
 The HDTree project consists of the documentation of the HDTree Meta-Format
 as well as APIs implementing interaction with this Meta-Format.
