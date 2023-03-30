@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['writebuffer_104',['WriteBuffer',['../classhdtree_1_1Branch_3_01AtomicType_00_01std_1_1enable__if__t_3_01is__atomic__v_3_01AtomicType_01_4_01_4_01_4_1_1WriteBuffer.html',1,'hdtree::Branch&lt; AtomicType, std::enable_if_t&lt; is_atomic_v&lt; AtomicType &gt; &gt; &gt;::WriteBuffer'],['../classhdtree_1_1Branch_3_01AtomicType_00_01std_1_1enable__if__t_3_01is__atomic__v_3_01AtomicType_01_4_01_4_01_4_1_1WriteBuffer.html#a40909700ec84d4ba4898d343879b7fba',1,'hdtree::Branch&lt; AtomicType, std::enable_if_t&lt; is_atomic_v&lt; AtomicType &gt; &gt; &gt;::WriteBuffer::WriteBuffer()']]],
-  ['writer_105',['Writer',['../classhdtree_1_1Writer.html',1,'hdtree::Writer'],['../classhdtree_1_1Writer.html#aecd44cfb7598cddd94708d476b314345',1,'hdtree::Writer::Writer(const std::pair&lt; std::string, std::string &gt; &amp;file_tree_path, bool inplace=false, int rows_per_chunk=10000, bool shuffle=true, int compression_level=6)'],['../classhdtree_1_1Writer.html#a7c976c3c0e99e60a6f5c7e86f7dd5136',1,'hdtree::Writer::Writer(const Writer &amp;)=delete']]],
-  ['writer_5f_106',['writer_',['../classhdtree_1_1Tree.html#ad3b0003a536a1d68da2a318cb9f55fa8',1,'hdtree::Tree']]]
+  ['vals_5f_107',['vals_',['../classhdtree_1_1Branch_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html#a7ba0e0caff0a2e5d99060c5d025fd4ac',1,'hdtree::Branch&lt; std::map&lt; KeyType, ValType &gt; &gt;']]],
+  ['vers_5fattr_5fname_108',['VERS_ATTR_NAME',['../structhdtree_1_1constants.html#af11d9877be0deba082d0c497eb670772',1,'hdtree::constants']]],
+  ['version_109',['version',['../classhdtree_1_1AbstractBranch.html#a10f7b92cfcbbda979f8ca046d8ea761f',1,'hdtree::AbstractBranch']]],
+  ['version_110',['VERSION',['../namespacehdtree.html#a949dbebbf5e5b27ed85a883b74888014',1,'hdtree']]],
+  ['version_2eh_111',['Version.h',['../Version_8h.html',1,'']]]
 ];

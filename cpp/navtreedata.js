@@ -29,9 +29,13 @@ var NAVTREE =
       [ "Installation", "index.html#autotoc_md1", [
         [ "Depedencies", "index.html#autotoc_md2", null ]
       ] ],
-      [ "Usage", "index.html#autotoc_md3", null ],
-      [ "Benefits", "index.html#autotoc_md4", null ],
-      [ "Table of Contents", "index.html#autotoc_md5", null ]
+      [ "Usage", "index.html#autotoc_md3", [
+        [ "Write", "index.html#autotoc_md4", null ],
+        [ "Read and Write", "index.html#autotoc_md5", null ],
+        [ "Read", "index.html#autotoc_md6", null ]
+      ] ],
+      [ "Benefits", "index.html#autotoc_md7", null ],
+      [ "Table of Contents", "index.html#autotoc_md8", null ]
     ] ],
     [ "Generating hdtree-cpp docs", "md_cpp_docs_README.html", null ],
     [ "Namespaces", "namespaces.html", [
@@ -70,7 +74,8 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"AbstractBranch_8h_source.html"
+"AbstractBranch_8h_source.html",
+"structhdtree_1_1constants.html#aa867e4e806630ac2d4eac3bec3927bef"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

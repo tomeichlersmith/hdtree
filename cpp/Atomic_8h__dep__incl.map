@@ -1,7 +1,9 @@
 <map id="cpp/include/hdtree/Atomic.h" name="cpp/include/hdtree/Atomic.h">
-<area shape="rect" id="node1" title=" " alt="" coords="60,5,203,47"/>
-<area shape="rect" id="node2" href="$Reader_8h_source.html" title=" " alt="" coords="5,184,148,225"/>
-<area shape="rect" id="node5" href="$Writer_8h_source.html" title=" " alt="" coords="115,95,257,136"/>
-<area shape="rect" id="node3" href="$Branch_8h.html" title="Common include for users interacting with Branches." alt="" coords="60,273,203,315"/>
-<area shape="rect" id="node4" href="$Tree_8h_source.html" title=" " alt="" coords="60,363,203,404"/>
+<area shape="rect" id="node1" title=" " alt="" coords="129,5,272,47"/>
+<area shape="rect" id="node2" href="$Reader_8h_source.html" title=" " alt="" coords="75,184,217,225"/>
+<area shape="rect" id="node7" href="$Writer_8h_source.html" title=" " alt="" coords="184,95,327,136"/>
+<area shape="rect" id="node3" href="$Branch_8h.html" title="Common include for users interacting with Branches." alt="" coords="129,273,272,315"/>
+<area shape="rect" id="node4" href="$Tree_8h_source.html" title=" " alt="" coords="129,363,272,404"/>
+<area shape="rect" id="node5" href="$save_8cxx.html" title="Example of saving a new HDTree into a file." alt="" coords="5,452,180,479"/>
+<area shape="rect" id="node6" href="$transform_8cxx.html" title="Example of transforming an HDTree by adding more branches." alt="" coords="205,452,413,479"/>
 </map>

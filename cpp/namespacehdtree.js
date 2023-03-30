@@ -1,6 +1,11 @@
 var namespacehdtree =
 [
     [ "class_version_impl", "namespacehdtree_1_1class__version__impl.html", "namespacehdtree_1_1class__version__impl" ],
+    [ "examples", "namespacehdtree_1_1examples.html", [
+      [ "parse_single_file_args", "namespacehdtree_1_1examples.html#a59f884d115702d68c8eff2b710aa130b", null ],
+      [ "parse_two_file_args", "namespacehdtree_1_1examples.html#afab5c690df14b9f8667c389ac2e5d84e", null ],
+      [ "print_help", "namespacehdtree_1_1examples.html#aba95e5a2b442934732d71950c47f2821", null ]
+    ] ],
     [ "BaseBranch", "classhdtree_1_1BaseBranch.html", "classhdtree_1_1BaseBranch" ],
     [ "AbstractBranch", "classhdtree_1_1AbstractBranch.html", "classhdtree_1_1AbstractBranch" ],
     [ "access", "structhdtree_1_1access.html", "structhdtree_1_1access" ],

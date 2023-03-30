@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['update_179',['update',['../classhdtree_1_1AbstractBranch.html#a7ab7a8491c207ebb12aa7c54979065cd',1,'hdtree::AbstractBranch']]]
+  ['tree_193',['Tree',['../classhdtree_1_1Tree.html#a4b80b123bc2698952f52dfd8df60617a',1,'hdtree::Tree']]],
+  ['type_194',['type',['../classhdtree_1_1Reader.html#a7e618c1e535ed9d7fffb06fe8dd2f9cb',1,'hdtree::Reader']]]
 ];

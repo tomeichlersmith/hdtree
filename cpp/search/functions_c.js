@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['read_5fchunk_5ffrom_5fdisk_172',['read_chunk_from_disk',['../classhdtree_1_1Branch_3_01AtomicType_00_01std_1_1enable__if__t_3_01is__atomic__v_3_01AtomicType_01_4_01_4_01_4_1_1ReadBuffer.html#ac1f016a73ed9323bd1e005c7de03d8b3',1,'hdtree::Branch&lt; AtomicType, std::enable_if_t&lt; is_atomic_v&lt; AtomicType &gt; &gt; &gt;::ReadBuffer']]],
-  ['reader_173',['Reader',['../classhdtree_1_1Reader.html#aad25ea82b25351c401771a41a47fcc82',1,'hdtree::Reader::Reader(const std::pair&lt; std::string, std::string &gt; &amp;file_tree_path, bool inplace=false)'],['../classhdtree_1_1Reader.html#a4c3b44a90ed612a3f53f13fa54f8a321',1,'hdtree::Reader::Reader(const Reader &amp;)=delete']]],
-  ['rename_174',['rename',['../classhdtree_1_1Branch.html#a9fd5b5d1c3a031c401a2f0e9788b63c8',1,'hdtree::Branch']]]
+  ['parse_5fsingle_5ffile_5fargs_185',['parse_single_file_args',['../namespacehdtree_1_1examples.html#a59f884d115702d68c8eff2b710aa130b',1,'hdtree::examples']]],
+  ['parse_5ftwo_5ffile_5fargs_186',['parse_two_file_args',['../namespacehdtree_1_1examples.html#afab5c690df14b9f8667c389ac2e5d84e',1,'hdtree::examples']]],
+  ['print_5fhelp_187',['print_help',['../namespacehdtree_1_1examples.html#aba95e5a2b442934732d71950c47f2821',1,'hdtree::examples']]]
 ];

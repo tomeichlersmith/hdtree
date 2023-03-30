@@ -32,7 +32,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">HDTree
-   &#160;<span id="projectnumber">0.4.4</span>
+   &#160;<span id="projectnumber">0.4.5</span>
    </div>
    <div id="projectbrief">HDTree C++ API</div>
   </td>
@@ -119,28 +119,21 @@ Depedencies</h2>
 <div class="line">cmake --build build --target install</div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md3"></a>
 Usage</h1>
-<div class="fragment"><div class="line">{ <span class="comment">// write</span></div>
-<div class="line">  <span class="keyword">auto</span> tree = <a class="code" href="classhdtree_1_1Tree.html#a792d81b2225129bebd6ba38710264ae6">hdtree::Tree::save</a>(<span class="stringliteral">&quot;my-file.hdf5&quot;</span>,<span class="stringliteral">&quot;/path/to/tree&quot;</span>);</div>
-<div class="line">  <span class="keyword">auto</span>&amp; i_entry = tree.branch&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;i_entry&quot;</span>);</div>
-<div class="line">  <span class="keywordflow">for</span> (std::size_t i{0}; i &lt; 5; i++) {</div>
-<div class="line">    *i_entry = i;</div>
-<div class="line">    <span class="comment">// same as</span></div>
-<div class="line">    <span class="comment">//i_entry.update(i);</span></div>
-<div class="line">    tree.save();</div>
-<div class="line">  }</div>
+<p>Below are just code snippets, please look into the examples for complete programs that compile and run with HDTree.</p>
+<h2><a class="anchor" id="autotoc_md4"></a>
+Write</h2>
+<p><a class="el" href="save_8cxx.html" title="Example of saving a new HDTree into a file.">examples/save.cxx</a> </p><div class="fragment"><div class="line"><span class="keyword">auto</span> tree = <a class="code" href="classhdtree_1_1Tree.html#a792d81b2225129bebd6ba38710264ae6">hdtree::Tree::save</a>(<span class="stringliteral">&quot;my-file.hdf5&quot;</span>,<span class="stringliteral">&quot;/path/to/tree&quot;</span>);</div>
+<div class="line"><span class="keyword">auto</span>&amp; i_entry = tree.branch&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;i_entry&quot;</span>);</div>
+<div class="line"><span class="keywordflow">for</span> (std::size_t i{0}; i &lt; 5; i++) {</div>
+<div class="line">  *i_entry = i;</div>
+<div class="line">  <span class="comment">// same as</span></div>
+<div class="line">  <span class="comment">//i_entry.update(i);</span></div>
+<div class="line">  tree.save();</div>
 <div class="line">}</div>
-<div class="line"> </div>
-<div class="line">{ <span class="comment">// read</span></div>
-<div class="line">  <span class="keyword">auto</span> tree = <a class="code" href="classhdtree_1_1Tree.html#a358af0af65a1905c5975238d59d9d979">hdtree::Tree::load</a>(<span class="stringliteral">&quot;my-file.hdf5&quot;</span>,<span class="stringliteral">&quot;/path/to/tree&quot;</span>);</div>
-<div class="line">  <span class="comment">// &amp; required</span></div>
-<div class="line">  <span class="keyword">auto</span>&amp; i_entry = tree.get&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;i_entry&quot;</span>);</div>
-<div class="line">  <span class="keywordflow">for</span> (std::size_t i{0}; i &lt; r.entries(); i++) {</div>
-<div class="line">    tree.load();</div>
-<div class="line">    assert(i == *i_entry);</div>
-<div class="line">  }</div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line">{ <span class="comment">// read and write (separate source/dest)</span></div>
+<div class="ttc" id="aclasshdtree_1_1Tree_html_a792d81b2225129bebd6ba38710264ae6"><div class="ttname"><a href="classhdtree_1_1Tree.html#a792d81b2225129bebd6ba38710264ae6">hdtree::Tree::save</a></div><div class="ttdeci">void save()</div><div class="ttdoc">end-of-event call back</div><div class="ttdef"><b>Definition:</b> Tree.cxx:27</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md5"></a>
+Read and Write</h2>
+<p><a class="el" href="transform_8cxx.html" title="Example of transforming an HDTree by adding more branches.">examples/transform.cxx</a> </p><div class="fragment"><div class="line">{ <span class="comment">// read and write (separate source/dest)</span></div>
 <div class="line">  <span class="keyword">auto</span> tree = hdtree::Tree::transform(<span class="stringliteral">&quot;one.hdf5&quot;</span>,<span class="stringliteral">&quot;/tree1&quot;</span>,<span class="stringliteral">&quot;two.hdf5&quot;</span>,<span class="stringliteral">&quot;/tree2&quot;</span>);</div>
 <div class="line">  <span class="comment">// read this branch</span></div>
 <div class="line">  <span class="keyword">auto</span>&amp; i_entry = tree.get&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;i_entry&quot;</span>);</div>
@@ -169,22 +162,32 @@ Usage</h1>
 <div class="line">    tree.save();</div>
 <div class="line">  }</div>
 <div class="line">}</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md6"></a>
+Read</h2>
+<div class="fragment"><div class="line">{ <span class="comment">// read</span></div>
+<div class="line">  <span class="keyword">auto</span> tree = <a class="code" href="classhdtree_1_1Tree.html#a358af0af65a1905c5975238d59d9d979">hdtree::Tree::load</a>(<span class="stringliteral">&quot;my-file.hdf5&quot;</span>,<span class="stringliteral">&quot;/path/to/tree&quot;</span>);</div>
+<div class="line">  <span class="comment">// &amp; required</span></div>
+<div class="line">  <span class="keyword">auto</span>&amp; i_entry = tree.get&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;i_entry&quot;</span>);</div>
+<div class="line">  <span class="keywordflow">for</span> (std::size_t i{0}; i &lt; r.entries(); i++) {</div>
+<div class="line">    tree.load();</div>
+<div class="line">    assert(i == *i_entry);</div>
+<div class="line">  }</div>
+<div class="line">}</div>
 <div class="ttc" id="aclasshdtree_1_1Tree_html_a358af0af65a1905c5975238d59d9d979"><div class="ttname"><a href="classhdtree_1_1Tree.html#a358af0af65a1905c5975238d59d9d979">hdtree::Tree::load</a></div><div class="ttdeci">void load()</div><div class="ttdoc">start-of-event call back</div><div class="ttdef"><b>Definition:</b> Tree.cxx:35</div></div>
-<div class="ttc" id="aclasshdtree_1_1Tree_html_a792d81b2225129bebd6ba38710264ae6"><div class="ttname"><a href="classhdtree_1_1Tree.html#a792d81b2225129bebd6ba38710264ae6">hdtree::Tree::save</a></div><div class="ttdeci">void save()</div><div class="ttdoc">end-of-event call back</div><div class="ttdef"><b>Definition:</b> Tree.cxx:27</div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md4"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md7"></a>
 Benefits</h1>
 <ul>
 <li>resets value in a Branch to a empty state after each <code>save</code> (i.e. treat the Branch reference as a for-loop-local variable)</li>
 <li>hdtree juggles the memory addresses</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md5"></a>
+<h1><a class="anchor" id="autotoc_md8"></a>
 Table of Contents</h1>
 <ul>
 <li>include: the headers for the HDTree C++ API</li>
 <li>src: source files compiled into the hdtree-cpp library</li>
 <li>test: source files for testing hdtree-cpp</li>
 <li>examples: simple, example programs showing hdtree-cpp's various abilities<ul>
-<li>compilation and running of examples are included <em>always</em> included in the build so that developers of hdtree-cpp can keep them up-to-date </li>
+<li>compilation and running of examples are <em>always</em> included in the build so that developers of hdtree-cpp can keep them up-to-date </li>
 </ul>
 </li>
 </ul>

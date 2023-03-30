@@ -10,6 +10,7 @@ var classhdtree_1_1AbstractBranch =
     [ "operator*", "classhdtree_1_1AbstractBranch.html#a922923861f76928398544d826399233a", null ],
     [ "operator*", "classhdtree_1_1AbstractBranch.html#ad00dff85e7186d9272e56ed44da3cb4b", null ],
     [ "operator->", "classhdtree_1_1AbstractBranch.html#aaeff14190c95e850e9eb8689b9aa3a62", null ],
+    [ "operator->", "classhdtree_1_1AbstractBranch.html#a8b973ff40b254a73ec64741e4a0696c0", null ],
     [ "save", "classhdtree_1_1AbstractBranch.html#ae807441ea00b899bab53c3831be9c164", null ],
     [ "update", "classhdtree_1_1AbstractBranch.html#a7ab7a8491c207ebb12aa7c54979065cd", null ],
     [ "version", "classhdtree_1_1AbstractBranch.html#a10f7b92cfcbbda979f8ca046d8ea761f", null ],

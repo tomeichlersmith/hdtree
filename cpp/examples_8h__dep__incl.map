@@ -1,0 +1,5 @@
+<map id="cpp/examples/examples.h" name="cpp/examples/examples.h">
+<area shape="rect" id="node1" title="Header file including helper utility functions unrelated to HDTree and just helpful for command line ..." alt="" coords="104,5,297,32"/>
+<area shape="rect" id="node2" href="$save_8cxx.html" title="Example of saving a new HDTree into a file." alt="" coords="5,80,180,107"/>
+<area shape="rect" id="node3" href="$transform_8cxx.html" title="Example of transforming an HDTree by adding more branches." alt="" coords="205,80,413,107"/>
+</map>
