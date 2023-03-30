@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
    * parse command line for arguments
    */
   std::string filename, treename;
-  int rc = hdtree::examples::parse_args(argc, argv, filename, treename);
+  int rc = hdtree::examples::parse_single_file_args(argc, argv, filename, treename);
   if (rc != 0) return rc;
 
   /**
@@ -59,15 +59,13 @@ int main(int argc, char** argv) {
   /**
    * Actual update and filling of the HDTree.
    *
-   * Here we use one of the branches as the for-loop
-   * index variable so that the index of each entry
-   * in the tree is serialized along with the rand_nums
-   * we are sampling. You can also see here how we can
-   * treat `i_entry` as if it was a properly initialized
-   * `std::size_t *` and `rand_nums`
-   * as if it was a properly initialized `std::vector<double> *`.
+   * You can see here how we can treat `i_entry` 
+   * as if it was a properly initialized `std::size_t *` 
+   * and `rand_nums` * as if it was a properly 
+   * initialized `std::vector<double> *`.
    */
-  for (*i_entry = 0; *i_entry < 1'000; ++(*i_entry)) {
+  for (std::size_t i{0}; i < 10; ++i) {
+    *i_entry = i;
     std::size_t size = uniform(rng);
     for (std::size_t j{0}; j < size; j++) {
       rand_nums->push_back(norm(rng));
