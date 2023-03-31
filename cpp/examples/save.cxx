@@ -64,7 +64,7 @@ int main(int argc, char** argv) {
    * and `rand_nums` * as if it was a properly 
    * initialized `std::vector<double> *`.
    */
-  for (std::size_t i{0}; i < 10; ++i) {
+  for (std::size_t i{0}; i < 100; ++i) {
     *i_entry = i;
     std::size_t size = uniform(rng);
     for (std::size_t j{0}; j < size; j++) {
