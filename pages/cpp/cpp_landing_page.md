@@ -9,7 +9,64 @@ folder: cpp
 summary: Getting Started with the C++ HDTree API
 ---
 
-## Installing the HDTree API
+## Installing the HDTree C++ API
+CMake and a C++17 compatible C++ compiler are required.
+Both of which are readily available via your system software repjositories.
+- On Ubuntu derivatives: `sudo apt update && sudo apt install cmake gcc g++`
+
+The HDF5 libray exists in many Unix repositories so look there for installing
+it, as always, you can fall back to 
+[building the latest release from source](https://www.hdfgroup.org/downloads/hdf5/).
+- On Ubuntu derivatives: `sudo apt update && sudo apt install libhdf5-dev`
+- On MacOS: `brew install hdf5`
+
+The HighFive C++ Wrapper is used by HDTree so it is also required.
+- Download a [HighFive release](https://github.com/BlueBrain/HighFive/releases)
+```
+wget https://github.com/BlueBrain/HighFive/archive/refs/tags/v2.7.0.tar.gz
+```
+- Unpack the source
+```
+tar xzf v2.7.0.tar.gz
+cd HighFive-v2.7.0
+```
+- Configure the build. Use the `CMAKE_INSTALL_PREFIX` if you wish to
+  install HighFive somewhere besides `/usr/local`.
+```
+cmake -DHIGHFIVE_EXAMPLES=OFF -DHIGHFIVE_UNIT_TESTS=OFF -B build -S .
+```
+- Install the interface. May require administrative (`sudo`) privileges
+  if installing to `/usr/local`.
+```
+make install
+```
+
+Building HDTree is similar to HighFive but a separate compilation
+step will be helpful since, unlike HighFive, HDTree is not a
+header-only C++ library.
+- Download [a release](https://github.com/tomeichlersmith/hdtree/releases).
+```
+wget https://github.com/tomeichlersmith/hdtree/archive/refs/tags/cpp/v0.4.5.tar.gz
+```
+- Unpack the source
+```
+tar xzf v0.4.5.tar.gz
+cd hdtree-v0.4.5/cpp
+```
+- Configure the build (again, use `CMAKE_INSTALL_PREFIX` if you wish to change
+  the install location).
+```
+cmake -B build -S .
+```
+- Build the library.
+```
+cd build
+make
+```
+- Install
+```
+make install
+```
 
 
 ## First Steps
@@ -82,14 +139,16 @@ hdtree-eg-load my-first-hdtree.h5 the-tree
 0.9 |
 > 1 |
 ```
+{% comment %}
 {% highlight cpp %}
 {% include cpp/load.cxx %}
 {% endhighlight %}
+{% endcomment %}
 
 ## User-Defined Data Structures
 
 ## More Intense Use Case
-The C++ HDTree API is mainling implemented through its
+The C++ HDTree API is mainly implemented through its
 various `Branch` classes. The `Tree` class is mainly there
 to be a helpful interface for handling a set of `Branch`es.
 I point this out because if you are interested in building
