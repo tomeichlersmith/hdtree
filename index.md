@@ -49,6 +49,34 @@ entirely of arrays of known dimension and length (e.g. images of a known size), 
 it is better suited to store the data directly with HDF5 DataSets rather than
 use HDTree.
 
+#### Alternatives
+Many different languages have more general APIs for working with HDF5 files.
+Listed here are ones I've come across during my development of HDTree and 
+its APIs.
+- [HDF5 Official APIs](https://portal.hdfgroup.org/display/HDF5/HDF5) :
+  HDF5 has official APIs for C and Fortran.
+- [HighFive](https://github.com/BlueBrain/HighFive) is a modern C++ wrapper
+  around the HDF5 C API allowing it to be thread safe and give access to
+  parallel I/O. It is header-only, templated, defines `std::string` HDF5
+  data types, does exception translation, and is well supported.
+- [ess-dmsc/h5cpp](https://github.com/ess-dmsc/h5cpp) is another C++ wrapper
+  around HDF5 C API. Relatively newer, still actively developed. It is 
+  referenced as a "user provided" C++ API on the HDF5 website.
+- [steven-varga/h5cpp](https://github.com/steven-varga/h5cpp) is another C++
+  wrapper around HDF5 C API. Older but not as well maintained, last pushed
+  in June 2021.
+- [h5py](https://www.h5py.org/) is a Python library using the HDF5 and NumPy
+  C APIs under-the-hood making it incredibly efficient. It informs HDTree's
+  definition of how booleans should be defined in HDF5 data sets. It is also
+  explicitly referenced as the Python API within examples posted on HDF5's
+  documentation website.
+- [hdf5](https://docs.rs/hdf5/latest/hdf5/) is a Rust crate binding the HDF5
+  C API into Rust as well as providing higher-level rust-focused functions
+  for common tasks.
+- [HDF5.jl](https://juliaio.github.io/HDF5.jl/stable/) is a julia package
+  which, similar to Rust's package, calls the HDF5 C API under-the-hood
+  and offers higher-level julia-focused functions.
+
 ## What
 The HDTree project consists of the documentation of the HDTree Meta-Format
 as well as APIs implementing interaction with this Meta-Format.
