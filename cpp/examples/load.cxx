@@ -87,9 +87,9 @@ int main(int argc, char** argv) {
   for (std::size_t i_bin{0}; i_bin < 12; ++i_bin) {
     std::string x;
     if (i_bin == 0) {
-      x = " U ";
+      x = "< 0";
     } else if (i_bin == 11) {
-      x = " O ";
+      x = "> 1";
     } else {
       x = "0."+std::to_string(i_bin-1);
     }
