@@ -68,7 +68,23 @@ prints a simple histogram of the averages of the original data generated earlier
 # this will error-out if you didn't run step two!
 hdtree-eg-load my-first-hdtree.h5 the-tree
 # the below is example output, it may change since the random data may change!
+0.X | Num Entries
+< 0 |
+0.0 |
+0.1 |*
+0.2 |
+0.3 |***
+0.4 |********************************************
+0.5 |*************************************************
+0.6 |**
+0.7 |
+0.8 |*
+0.9 |
+> 1 |
 ```
+{% highlight cpp %}
+{% include cpp/load.cxx %}
+{% endhighlight %}
 
 ## User-Defined Data Structures
 
