@@ -1,5 +1,7 @@
 #pragma once
 
+#include "hdtree/Exception.h"
+
 namespace hdtree {
 
 /**
@@ -83,7 +85,7 @@ class Branch : public AbstractBranch<DataType> {
    * types since the issue is (probably) not coming from serialization
    * of the container.
    *
-   * @throw std::runtime_error if HighFive is unable to load any of the members.
+   * @throw HDTreeException if HighFive is unable to load any of the members.
    *
    * @param[in] f file to load from
    */
@@ -94,16 +96,16 @@ class Branch : public AbstractBranch<DataType> {
     const auto& [memt, memv] = this->save_type_;
     const auto& [diskt, diskv] =
         this->load_type_.value_or(std::make_pair("NULL", -1));
-    std::stringstream ss;
-    ss << "HDTreeBadType: Data at " << this->name_
-       << " could not be loaded into " << memt << " (version " << memv
-       << ") from the type it was written as " << diskt << " (version " << diskv
-       << ")\n"
-          "  Check that your implementation of attach can handle any "
-          "previous versions of your class you are trying to read.\n"
-          "  H5 Error:\n"
-       << e.what();
-    throw std::runtime_error(ss.str());
+    std::stringstream msg, help;
+    msg << "HDTreeBadType: Branch at " << this->name_
+        << " could not be loaded into " << memt << " (version " << memv
+        << ") from the type it was written as " << diskt << " (version " << diskv
+        << ")";
+    help << "Check that your implementation of attach can handle any "
+            "previous versions of your class you are trying to read.\n"
+            "  H5 Error:\n"
+         << e.what();
+    throw HDTreeException(msg.str(), help.str());
   }
 
   void attach(Reader& f) final override try {
@@ -113,16 +115,16 @@ class Branch : public AbstractBranch<DataType> {
   } catch (const HighFive::DataSetException& e) {
     const auto& [memt, memv] = this->save_type_;
     const auto& [diskt, diskv] = f.type(this->name_);
-    std::stringstream ss;
-    ss << "HDTreeBadType: Branch " << this->name_
-       << " could not be attached to " << memt << " (version " << memv
-       << ") from the type it was written as " << diskt << " (version " << diskv
-       << ")\n"
-          "  Check that your implementation of attach can handle any "
-          "previous versions of your class you are trying to read.\n"
-          "  H5 Error:\n"
-       << e.what();
-    throw std::runtime_error(ss.str());
+    std::stringstream msg, help;
+    msg << "HDTreeBadType: Branch at " << this->name_
+        << " could not be attached to " << memt << " (version " << memv
+        << ") from the type it was written as " << diskt << " (version " << diskv
+        << ")";
+    help << "Check that your implementation of attach can handle any "
+            "previous versions of your class you are trying to read.\n"
+            "  H5 Error:\n"
+         << e.what();
+    throw HDTreeException(msg.str(), help.str());
   }
 
   /*
@@ -157,12 +159,13 @@ class Branch : public AbstractBranch<DataType> {
   void attach(const std::string& name, MemberType& m,
               SaveLoad sl = SaveLoad::Both) {
     if (name == constants::SIZE_NAME) {
-      throw std::runtime_error(
+      throw HDTreeException(
           "HDTreeBadName: The member name '" + constants::SIZE_NAME +
           "' is not allowed due to "
-          "its use in the serialization of variable length types.\n"
-          "    Please give your member a more detailed name corresponding to "
-          "your class");
+          "its use in the serialization of variable length types.",
+          "Please give your member a more detailed name corresponding to "
+          "your class"
+          );
     }
     bool save{false}, load{false};
     if (sl == SaveLoad::LoadOnly)

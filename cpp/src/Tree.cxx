@@ -17,8 +17,8 @@ Tree Tree::inplace(const std::string& file_path, const std::string& tree_path) {
 Tree Tree::transform(const std::pair<std::string, std::string>& src,
                      const std::pair<std::string, std::string>& dest) {
   if (src.first == dest.first) {
-    throw std::runtime_error(
-        "Cannot transform a HDTree in the same file.\n"
+    throw HDTreeException(
+        "Cannot transform a HDTree in the same file.",
         "Are you looking for hdtree::Tree::inplace?");
   }
   return Tree(src, dest);
@@ -43,9 +43,13 @@ Tree::Tree(const std::pair<std::string, std::string>& src,
   bool inplace_ = (src.first == dest.first);
 
   if (inplace_ and src.first != dest.first) {
-    throw std::runtime_error(
-        "Tree does not support copying an HDTree to a new location within the "
-        "same file.");
+    throw HDTreeException(
+        "HDTree does not support copying a HDTree to a new location within the "
+        "same file.",
+        "Either use two different files (`hdtree::Tree::transform`) or \"update\" "
+        "an existing HDTree in place without copying already existing data "
+        "(`hdtree::Tree::inplace`)."
+        );
   }
 
   if (reading) {

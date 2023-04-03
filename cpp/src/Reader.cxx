@@ -123,9 +123,15 @@ Reader::MirrorObject::MirrorObject(const std::string& branch_name,
     } else if (type == HighFive::create_datatype<hdtree::Bool>()) {
       data_ = std::make_unique<Branch<bool>>(branch_name);
     } else {
-      throw std::runtime_error(
+      throw HDTreeException(
           "HDTreeUnknownDS: Unable to deduce C++ type "
-          "from H5 type during a copy");
+          "from H5 type during a copy",
+          "This is a very deep exception and can come from many "
+          "different places, but most commonly this comes from "
+          "writing a custom HDF5 Data Type into a file. Since "
+          "HDTree does not know how to load these custom data "
+          "type descriptions, it is unable to load this type of "
+          "data in a branch for copying.");
     }
     data_->attach(reader);
     data_->attach(writer);
