@@ -16,7 +16,7 @@ jobs:
       with:
         ref: 'gh-pages'
     - name: Build
-      run: ./build.sh
+      run: sudo ./build.sh
     - name: Upload Pages
       uses: actions/upload-pages-artifact@v1
       with:
