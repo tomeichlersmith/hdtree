@@ -13,6 +13,8 @@ jobs:
     steps:
     - name: Get Jekyll Page Source
       uses: actions/checkout@v3
+      with:
+        ref: 'gh-pages'
     - name: Build
       run: ./build.sh
     - name: Upload Pages
