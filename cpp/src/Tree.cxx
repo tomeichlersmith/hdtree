@@ -61,7 +61,7 @@ Tree::Tree(const std::pair<std::string, std::string>& src,
           );
     } catch (const HighFive::GroupException& e) {
       throw hdtree::HDTreeException(
-          "HDTree '" src.second + "' does not exist within '" + src.first + "'."
+          "HDTree '" + src.second + "' does not exist within '" + src.first + "'."
           );
     }
     entries_ = reader_->entries();
