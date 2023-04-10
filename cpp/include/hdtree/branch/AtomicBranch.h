@@ -191,10 +191,18 @@ class Branch<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
   explicit Branch(const std::string& branch_name, AtomicType* handle = nullptr)
       : AbstractBranch<AtomicType>(branch_name, handle) {}
 
-  void attach(Reader& f) final override {
+  void attach(Reader& f) final override try {
     // deletes old read_buffer_ if there was one already constructed
     read_buffer_ =
         std::make_unique<ReadBuffer>(10000, f.getDataSet(this->name_));
+  } catch (const HighFive::DataSetException& e) {
+    // an exception was thrown when we tried to `get` the dataset by name
+    std::stringstream msg, help;
+    msg << "HDTreeBadType: Branch at " << this->name_
+        << " could not be accessed.";
+    help << "Check that this branch exists in your HDTree.\n"
+            "    H5 Error: " << e.what();
+    throw HDTreeException(msg.str(), help.str());
   }
 
   /**
@@ -227,7 +235,7 @@ class Branch<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
    * The atomic types are translated into H5 DataSets in Writer::save
    * where the types are persisted as well.
    */
-  void attach(Writer& f) final override {
+  void attach(Writer& f) final override try {
     HighFive::DataType t;
     if constexpr (std::is_same_v<AtomicType, bool>) {
       t = create_enum_bool();
@@ -240,6 +248,14 @@ class Branch<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
     ds.createAttribute(constants::VERS_ATTR_NAME, 0);
     // flush and deletes old buffer if it exists
     write_buffer_ = std::make_unique<WriteBuffer>(f.getRowsPerChunk(), ds);
+  } catch (const HighFive::DataSetException& e) {
+    // an exception was thrown when we tried to create the dataset by name
+    std::stringstream msg, help;
+    msg << "HDTreeBadType: Branch at " << this->name_
+        << " could not be created.";
+    help << "Check that this branch does not already exist in your HDTree.\n"
+            "      H5 Error:  " << e.what();
+    throw HDTreeException(msg.str(), help.str());
   }
 };  // Branch<AtomicType>
 

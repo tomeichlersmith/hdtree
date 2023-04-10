@@ -12,7 +12,7 @@ const char* HDTreeException::what() const noexcept {
 std::ostream& HDTreeException::stream(std::ostream& o) const noexcept {
   o << "[HDTree]: " << message_;
   if (not help_.empty()) {
-    o << "\nHelp:\n" << help_;
+    o << "\n    Help: " << help_;
   }
   return o;
 }

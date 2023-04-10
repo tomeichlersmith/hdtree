@@ -21,6 +21,8 @@ class HDTreeException : public std::exception {
   /**
    * Create a new exception
    *
+   * @see stream for how the message and help will be formatted.
+   *
    * @param[in] msg message of exception
    * @param[in] help extra help information (optional)
    */
@@ -39,10 +41,9 @@ class HDTreeException : public std::exception {
    * The output message looks like the following.
    * ```
    * [HDTree]: <message>
-   * Help:
-   * <help>
+   *     Help: <help>
    * ```
-   * where the last two help lines are only included if the help
+   * where the last line is only included if the help
    * string is non-empty.
    *
    * @param[in] o output stream to write to

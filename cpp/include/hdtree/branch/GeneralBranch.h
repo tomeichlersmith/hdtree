@@ -103,8 +103,7 @@ class Branch : public AbstractBranch<DataType> {
         << ")";
     help << "Check that your implementation of attach can handle any "
             "previous versions of your class you are trying to read.\n"
-            "  H5 Error:\n"
-         << e.what();
+            "    Caused by: " << e.what();
     throw HDTreeException(msg.str(), help.str());
   }
 
@@ -112,7 +111,7 @@ class Branch : public AbstractBranch<DataType> {
     this->load_type_ = f.type(this->name_);
     for (auto& [save, load, m] : members_)
       if (load) m->attach(f);
-  } catch (const HighFive::DataSetException& e) {
+  } catch (const HDTreeException& e) {
     const auto& [memt, memv] = this->save_type_;
     const auto& [diskt, diskv] = f.type(this->name_);
     std::stringstream msg, help;
@@ -122,8 +121,7 @@ class Branch : public AbstractBranch<DataType> {
         << ")";
     help << "Check that your implementation of attach can handle any "
             "previous versions of your class you are trying to read.\n"
-            "  H5 Error:\n"
-         << e.what();
+            "    Caused by: " << e.what();
     throw HDTreeException(msg.str(), help.str());
   }
 

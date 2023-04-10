@@ -28,6 +28,13 @@ int main(int argc, char** argv) {
    */
   auto tree = hdtree::Tree::load(file_name, tree_name);
 
+  try {
+    tree.get<double>("dne");
+  } catch (const hdtree::HDTreeException& e) {
+    // demonstrate what exceptions look like.
+    std::cout << e << std::endl;
+  }
+
   /**
    * We want to study the average of the random data
    * in each entry. This average was calculated in
