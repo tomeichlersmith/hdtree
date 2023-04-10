@@ -53,12 +53,35 @@ Tree::Tree(const std::pair<std::string, std::string>& src,
   }
 
   if (reading) {
-    reader_ = std::make_unique<Reader>(src, inplace_);
+    try {
+      reader_ = std::make_unique<Reader>(src, inplace_);
+    } catch (const HighFive::FileException& e) {
+      throw hdtree::HDTreeException(
+          "File '"+src.first + "' is not accessible."
+          );
+    } catch (const HighFive::GroupException& e) {
+      throw hdtree::HDTreeException(
+          "HDTree '" src.second + "' does not exist within '" + src.first + "'."
+          );
+    }
     entries_ = reader_->entries();
   }
 
   if (writing) {
-    writer_ = std::make_unique<Writer>(dest, inplace_);
+    try {
+      writer_ = std::make_unique<Writer>(dest, inplace_);
+    } catch (const HighFive::FileException& e) {
+      throw hdtree::HDTreeException(
+          "File '"+dest.first+"' is not write-able."
+          );
+    } catch (const HighFive::GroupException& e) {
+      std::stringstream msg;
+      msg << "HDTree '" << dest.second << "' ";
+      if (inplace) msg << "does not exist";
+      else msg << "already exists";
+      msg << " within '" << dest.first << "'.";
+      throw hdtree::HDTreeException(msg.str());
+    }
   }
 }
 
