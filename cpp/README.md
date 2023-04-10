@@ -71,6 +71,7 @@ examples/transform.cxx
 ```
 
 ### Read
+examples/load.cxx
 ```cpp
 { // read
   auto tree = hdtree::Tree::load("my-file.hdf5","/path/to/tree");
