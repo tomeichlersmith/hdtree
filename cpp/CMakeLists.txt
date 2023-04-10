@@ -57,6 +57,7 @@ configure_file(${PROJECT_SOURCE_DIR}/src/Version.cxx.in
 
 add_library(HDTree SHARED
   src/Atomic.cxx
+  src/Exception.cxx
   src/Reader.cxx
   src/Writer.cxx
   src/Tree.cxx

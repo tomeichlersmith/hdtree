@@ -62,7 +62,7 @@ void Writer::structure(const std::string& branch_name,
          << "     Type Already on Disk: " << t << " (version " << v << ")\n"
          << "     Type to Write: " << type.first << " (version " << type.second
          << ")";
-      throw std::runtime_error(ss.str());
+      throw HDTreeException(ss.str());
     }
   } else {
     // group structure doesn't exist yet, put in this type

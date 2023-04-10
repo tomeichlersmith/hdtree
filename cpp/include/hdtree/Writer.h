@@ -8,6 +8,7 @@
 
 #include "hdtree/Atomic.h"
 #include "hdtree/Constants.h"
+#include "hdtree/Exception.h"
 
 namespace hdtree {
 

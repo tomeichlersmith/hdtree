@@ -15,7 +15,7 @@
 // utility functions for example programs
 #include "examples.h"
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv) try {
   /**
    * parse command line for arguments
    */
@@ -27,6 +27,15 @@ int main(int argc, char** argv) {
    * Wrap an existing on-disk HDTree
    */
   auto tree = hdtree::Tree::load(file_name, tree_name);
+
+  std::cout << "This is what a missing branch exception looks like:" << std::endl;
+  try {
+    tree.get<double>("dne");
+  } catch (const hdtree::HDTreeException& e) {
+    // demonstrate what exceptions look like.
+    std::cout << e << std::endl;
+  }
+  std::cout << "--- end of example exception ---" << std::endl;
 
   /**
    * We want to study the average of the random data
@@ -103,4 +112,8 @@ int main(int argc, char** argv) {
    * cleanup procedures will all be handled automatically by
    * deconstruction.
    */
+  return 0;
+} catch (const hdtree::HDTreeException& e) {
+  std::cerr << "ERROR " << e << std::endl;
+  return 1;
 }
