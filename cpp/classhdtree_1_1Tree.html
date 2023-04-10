@@ -32,7 +32,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">HDTree
-   &#160;<span id="projectnumber">0.4.5</span>
+   &#160;<span id="projectnumber">0.5.0</span>
    </div>
    <div id="projectbrief">HDTree C++ API</div>
   </td>
@@ -214,7 +214,7 @@ template&lt;class UnaryFunction &gt; </div>
 </div><div class="memdoc">
 
 <p>loop over all entries in the tree, executing the provided function on each call </p>
-<p>auto&amp; i_entry = tree.branch&lt;int&gt;("i_entry"); auto&amp; two_i_entry = tree.branch&lt;int&gt;("two_i_entry"); tree.for_each([&amp;tree]() { <em>two_i_entry = 2</em>(*i_entry); }, 100); </p>
+<p>auto&amp; i_entry = tree.branch&lt;int&gt;("i_entry"); auto&amp; two_i_entry = tree.branch&lt;int&gt;("two_i_entry"); tree.for_each([&amp;]() { <em>two_i_entry = 2</em>(*i_entry); }); </p>
 
 </div>
 </div>

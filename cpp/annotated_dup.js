@@ -14,6 +14,7 @@ var annotated_dup =
       [ "Branch< std::map< KeyType, ValType > >", "classhdtree_1_1Branch_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html", "classhdtree_1_1Branch_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4" ],
       [ "Branch< std::vector< ContentType > >", "classhdtree_1_1Branch_3_01std_1_1vector_3_01ContentType_01_4_01_4.html", "classhdtree_1_1Branch_3_01std_1_1vector_3_01ContentType_01_4_01_4" ],
       [ "constants", "structhdtree_1_1constants.html", "structhdtree_1_1constants" ],
+      [ "HDTreeException", "classhdtree_1_1HDTreeException.html", "classhdtree_1_1HDTreeException" ],
       [ "Reader", "classhdtree_1_1Reader.html", "classhdtree_1_1Reader" ],
       [ "Tree", "classhdtree_1_1Tree.html", "classhdtree_1_1Tree" ],
       [ "Writer", "classhdtree_1_1Writer.html", "classhdtree_1_1Writer" ]

@@ -9,6 +9,7 @@ var dir_b66bc1162e2ee0440cbd45fc3b3ed483 =
     [ "Constants.h", "Constants_8h.html", [
       [ "constants", "structhdtree_1_1constants.html", "structhdtree_1_1constants" ]
     ] ],
+    [ "Exception.h", "Exception_8h_source.html", null ],
     [ "Reader.h", "Reader_8h_source.html", null ],
     [ "Tree.h", "Tree_8h_source.html", null ],
     [ "Version.h", "Version_8h.html", "Version_8h" ],

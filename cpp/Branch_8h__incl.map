@@ -1,27 +1,29 @@
 <map id="cpp/include/hdtree/Branch.h" name="cpp/include/hdtree/Branch.h">
-<area shape="rect" id="node1" title="Common include for users interacting with Branches." alt="" coords="636,5,779,47"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,95,92,121"/>
-<area shape="rect" id="node3" title=" " alt="" coords="117,95,167,121"/>
-<area shape="rect" id="node4" title=" " alt="" coords="191,95,269,121"/>
-<area shape="rect" id="node5" title=" " alt="" coords="291,319,383,345"/>
-<area shape="rect" id="node6" title=" " alt="" coords="821,95,884,121"/>
-<area shape="rect" id="node7" href="$AbstractBranch_8h_source.html" title=" " alt="" coords="1079,169,1258,196"/>
-<area shape="rect" id="node14" href="$Access_8h_source.html" title=" " alt="" coords="1417,169,1542,196"/>
-<area shape="rect" id="node15" href="$Constants_8h.html" title="Definitions for names of structures required by serialization methods." alt="" coords="684,244,829,271"/>
-<area shape="rect" id="node16" href="$Reader_8h_source.html" title=" " alt="" coords="437,95,562,121"/>
-<area shape="rect" id="node21" href="$Writer_8h_source.html" title=" " alt="" coords="531,169,649,196"/>
-<area shape="rect" id="node22" href="$GeneralBranch_8h_source.html" title=" " alt="" coords="907,95,1131,121"/>
-<area shape="rect" id="node23" href="$AtomicBranch_8h_source.html" title=" " alt="" coords="1155,95,1374,121"/>
-<area shape="rect" id="node24" href="$MapBranch_8h_source.html" title=" " alt="" coords="1399,95,1600,121"/>
-<area shape="rect" id="node25" href="$VectorBranch_8h_source.html" title=" " alt="" coords="1624,95,1839,121"/>
-<area shape="rect" id="node8" title=" " alt="" coords="854,244,1041,271"/>
-<area shape="rect" id="node9" title=" " alt="" coords="1350,244,1409,271"/>
-<area shape="rect" id="node10" title=" " alt="" coords="1065,244,1139,271"/>
-<area shape="rect" id="node11" title=" " alt="" coords="1417,319,1475,345"/>
-<area shape="rect" id="node12" href="$ClassVersion_8h.html" title="Serialization class version deduction." alt="" coords="1163,244,1326,271"/>
-<area shape="rect" id="node13" href="$Version_8h.html" title=" " alt="" coords="1483,244,1611,271"/>
-<area shape="rect" id="node17" title=" " alt="" coords="277,244,337,271"/>
-<area shape="rect" id="node18" title=" " alt="" coords="362,244,509,271"/>
-<area shape="rect" id="node19" href="$Atomic_8h.html" title=" " alt="" coords="533,244,660,271"/>
-<area shape="rect" id="node20" title=" " alt="" coords="504,319,689,345"/>
+<area shape="rect" id="node1" title="Common include for users interacting with Branches." alt="" coords="1279,5,1421,47"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,319,92,345"/>
+<area shape="rect" id="node3" title=" " alt="" coords="1438,95,1489,121"/>
+<area shape="rect" id="node4" title=" " alt="" coords="1513,95,1590,121"/>
+<area shape="rect" id="node5" title=" " alt="" coords="1577,319,1669,345"/>
+<area shape="rect" id="node6" title=" " alt="" coords="1615,95,1677,121"/>
+<area shape="rect" id="node7" href="$AbstractBranch_8h_source.html" title=" " alt="" coords="567,169,746,196"/>
+<area shape="rect" id="node14" href="$Access_8h_source.html" title=" " alt="" coords="351,169,477,196"/>
+<area shape="rect" id="node15" href="$Constants_8h.html" title="Definitions for names of structures required by serialization methods." alt="" coords="1033,244,1179,271"/>
+<area shape="rect" id="node16" href="$Reader_8h_source.html" title=" " alt="" coords="1238,95,1363,121"/>
+<area shape="rect" id="node21" href="$Writer_8h_source.html" title=" " alt="" coords="1144,169,1263,196"/>
+<area shape="rect" id="node24" href="$GeneralBranch_8h_source.html" title=" " alt="" coords="97,169,321,196"/>
+<area shape="rect" id="node25" href="$AtomicBranch_8h_source.html" title=" " alt="" coords="1702,95,1921,121"/>
+<area shape="rect" id="node26" href="$MapBranch_8h_source.html" title=" " alt="" coords="1945,95,2147,121"/>
+<area shape="rect" id="node27" href="$VectorBranch_8h_source.html" title=" " alt="" coords="2171,95,2385,121"/>
+<area shape="rect" id="node8" title=" " alt="" coords="822,244,1009,271"/>
+<area shape="rect" id="node9" title=" " alt="" coords="403,244,462,271"/>
+<area shape="rect" id="node10" title=" " alt="" coords="486,244,561,271"/>
+<area shape="rect" id="node11" title=" " alt="" coords="427,319,486,345"/>
+<area shape="rect" id="node12" href="$ClassVersion_8h.html" title="Serialization class version deduction." alt="" coords="635,244,798,271"/>
+<area shape="rect" id="node13" href="$Version_8h.html" title=" " alt="" coords="251,244,379,271"/>
+<area shape="rect" id="node17" title=" " alt="" coords="1375,244,1435,271"/>
+<area shape="rect" id="node18" title=" " alt="" coords="1203,244,1350,271"/>
+<area shape="rect" id="node19" href="$Atomic_8h.html" title=" " alt="" coords="1459,244,1585,271"/>
+<area shape="rect" id="node20" title=" " alt="" coords="1368,319,1553,345"/>
+<area shape="rect" id="node22" href="$Exception_8h_source.html" title=" " alt="" coords="83,244,227,271"/>
+<area shape="rect" id="node23" title=" " alt="" coords="117,319,193,345"/>
 </map>

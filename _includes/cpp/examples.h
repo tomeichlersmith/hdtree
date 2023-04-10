@@ -118,7 +118,7 @@ int parse_two_file_args(int argc, char** argv,
     return 2;
   }
 
-  if (positionals.size() != 2 or positionals.size() != 4) {
+  if (positionals.size() != 2 and positionals.size() != 4) {
     std::cerr << " ERROR: " << program << " requires two or four arguments." << std::endl;
     return -1;
   }

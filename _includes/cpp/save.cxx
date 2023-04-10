@@ -12,7 +12,7 @@
 // utility functions for example programs
 #include "examples.h"
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv) try {
   /**
    * parse command line for arguments
    */
@@ -64,7 +64,7 @@ int main(int argc, char** argv) {
    * and `rand_nums` * as if it was a properly 
    * initialized `std::vector<double> *`.
    */
-  for (std::size_t i{0}; i < 10; ++i) {
+  for (std::size_t i{0}; i < 100; ++i) {
     *i_entry = i;
     std::size_t size = uniform(rng);
     for (std::size_t j{0}; j < size; j++) {
@@ -82,4 +82,8 @@ int main(int argc, char** argv) {
    * cleanup procedures will all be handled automatically by
    * deconstruction.
    */
+  return 0;
+} catch (const hdtree::HDTreeException& e) {
+  std::cerr << "ERROR " << e << std::endl;
+  return 1;
 }

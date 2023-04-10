@@ -32,7 +32,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">HDTree
-   &#160;<span id="projectnumber">0.4.5</span>
+   &#160;<span id="projectnumber">0.5.0</span>
    </div>
    <div id="projectbrief">HDTree C++ API</div>
   </td>
@@ -275,8 +275,8 @@ class hdtree::Branch&lt; DataType, Enable &gt;</h3>
 <div class="line">};</div>
 <div class="ttc" id="aClassVersion_8h_html_ae3a4b2932c83cd0cd8557ccf139bde20"><div class="ttname"><a href="ClassVersion_8h.html#ae3a4b2932c83cd0cd8557ccf139bde20">fire_class_version</a></div><div class="ttdeci">#define fire_class_version(VERS)</div><div class="ttdoc">define the version number for a class</div><div class="ttdef"><b>Definition:</b> ClassVersion.h:85</div></div>
 <div class="ttc" id="aclasshdtree_1_1AbstractBranch_html_ac3e1f5aa2f30107294c50d829450dd55"><div class="ttname"><a href="classhdtree_1_1AbstractBranch.html#ac3e1f5aa2f30107294c50d829450dd55">hdtree::AbstractBranch::clear</a></div><div class="ttdeci">virtual void clear()</div><div class="ttdoc">Define the clear function here to handle the most common cases.</div><div class="ttdef"><b>Definition:</b> AbstractBranch.h:171</div></div>
-<div class="ttc" id="aclasshdtree_1_1Branch_html_a1a378b87ed173aa9e22d7a54ac979d83"><div class="ttname"><a href="classhdtree_1_1Branch.html#a1a378b87ed173aa9e22d7a54ac979d83">hdtree::Branch::Branch</a></div><div class="ttdeci">Branch(const std::string &amp;branch_name, DataType *handle=nullptr)</div><div class="ttdoc">Attach ourselves to the input type after construction.</div><div class="ttdef"><b>Definition:</b> GeneralBranch.h:71</div></div>
-<div class="ttc" id="aclasshdtree_1_1Branch_html_a82d186ba8cd761dee272c9951e4333af"><div class="ttname"><a href="classhdtree_1_1Branch.html#a82d186ba8cd761dee272c9951e4333af">hdtree::Branch::attach</a></div><div class="ttdeci">void attach(Reader &amp;f) final override</div><div class="ttdoc">pure virtual method for loading data from the input file</div><div class="ttdef"><b>Definition:</b> GeneralBranch.h:109</div></div>
+<div class="ttc" id="aclasshdtree_1_1Branch_html_a1a378b87ed173aa9e22d7a54ac979d83"><div class="ttname"><a href="classhdtree_1_1Branch.html#a1a378b87ed173aa9e22d7a54ac979d83">hdtree::Branch::Branch</a></div><div class="ttdeci">Branch(const std::string &amp;branch_name, DataType *handle=nullptr)</div><div class="ttdoc">Attach ourselves to the input type after construction.</div><div class="ttdef"><b>Definition:</b> GeneralBranch.h:73</div></div>
+<div class="ttc" id="aclasshdtree_1_1Branch_html_a82d186ba8cd761dee272c9951e4333af"><div class="ttname"><a href="classhdtree_1_1Branch.html#a82d186ba8cd761dee272c9951e4333af">hdtree::Branch::attach</a></div><div class="ttdeci">void attach(Reader &amp;f) final override</div><div class="ttdoc">pure virtual method for loading data from the input file</div><div class="ttdef"><b>Definition:</b> GeneralBranch.h:110</div></div>
 <div class="ttc" id="astructhdtree_1_1access_html"><div class="ttname"><a href="structhdtree_1_1access.html">hdtree::access</a></div><div class="ttdoc">empty struct for connecting a instance of Data and the type it wraps</div><div class="ttdef"><b>Definition:</b> Access.h:21</div></div>
 </div><!-- fragment --> </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a530136de1374e3e65c02025e4866c6f4"></a>
@@ -525,7 +525,7 @@ template&lt;typename DataType , typename Enable  = void&gt; </div>
 <p>We catch a HighFive exception early here so that we can detail to the user which class is causing the read issue. This is especially helpful in the case of containers of user types since the issue is (probably) not coming from serialization of the container.</p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::runtime_error</td><td>if HighFive is unable to load any of the members.</td></tr>
+    <tr><td class="paramname"><a class="el" href="classhdtree_1_1HDTreeException.html" title="user-facing exception class for hdtree">HDTreeException</a></td><td>if HighFive is unable to load any of the members.</td></tr>
   </table>
   </dd>
 </dl>
