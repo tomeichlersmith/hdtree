@@ -1,0 +1,34 @@
+
+name: Pages Build and Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'gh-pages'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get Jekyll Page Source
+      uses: actions/checkout@v3
+    - name: Build
+      run: ./build.sh
+    - name: Upload Pages
+      uses: actions/upload-pages-artifact@v1
+      with:
+        path: "_site/"
+  deploy:
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v1
