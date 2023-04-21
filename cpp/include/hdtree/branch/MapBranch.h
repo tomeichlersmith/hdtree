@@ -17,7 +17,7 @@ namespace hdtree {
 template <typename KeyType, typename ValType>
 class Branch<std::map<KeyType, ValType>>
     : public AbstractBranch<std::map<KeyType, ValType>> {
-  fire_class_version(1);
+  hdtree_class_version(1);
 
  public:
   /**
