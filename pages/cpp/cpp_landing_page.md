@@ -139,13 +139,24 @@ hdtree-eg-load my-first-hdtree.h5 the-tree
 0.9 |
 > 1 |
 ```
-{% comment %}
 {% highlight cpp %}
 {% include cpp/load.cxx %}
 {% endhighlight %}
-{% endcomment %}
 
 ## User-Defined Data Structures
+User-defined objects can also be serialized within HDTree. Simplified
+schema evolution (a la ROOT's `ClassDef` macro) is also available; however,
+this example merely shows the required boiler-plate.
+
+HDTree's C++ API has chosen to avoid automatically deducing the on-disk naming
+from the in-memory class member names. This introduces more boilerplate, but,
+in my opinion, is helpful for essentially documenting how on-disk data was
+generated.
+
+{% highlight cpp %}
+{% include cpp/user_class.cxx %}
+{% endhighlight %}
+
 
 ## More Intense Use Case
 The C++ HDTree API is mainly implemented through its
