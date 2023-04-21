@@ -27,6 +27,7 @@ var hierarchy =
       [ "hdtree::HDTreeException", "classhdtree_1_1HDTreeException.html", null ]
     ] ],
     [ "hdtree::Reader::MirrorObject", "classhdtree_1_1Reader_1_1MirrorObject.html", null ],
+    [ "MyData", "classMyData.html", null ],
     [ "hdtree::Branch< AtomicType, std::enable_if_t< is_atomic_v< AtomicType > > >::ReadBuffer", "classhdtree_1_1Branch_3_01AtomicType_00_01std_1_1enable__if__t_3_01is__atomic__v_3_01AtomicType_01_4_01_4_01_4_1_1ReadBuffer.html", null ],
     [ "hdtree::Reader", "classhdtree_1_1Reader.html", null ],
     [ "hdtree::Tree", "classhdtree_1_1Tree.html", null ],

@@ -5,5 +5,6 @@ var searchData=
   ['message_5f_73',['message_',['../classhdtree_1_1HDTreeException.html#a449ea92bfa007436d32428420fd5dcee',1,'hdtree::HDTreeException']]],
   ['mirror_74',['mirror',['../classhdtree_1_1Reader.html#a9b766238ce4fd58ba0c41ec9c65df6a6',1,'hdtree::Reader']]],
   ['mirror_5fobjects_5f_75',['mirror_objects_',['../classhdtree_1_1Reader.html#a84ed8346fa53625e889530b146ee15b2',1,'hdtree::Reader']]],
-  ['mirrorobject_76',['MirrorObject',['../classhdtree_1_1Reader_1_1MirrorObject.html',1,'hdtree::Reader::MirrorObject'],['../classhdtree_1_1Reader_1_1MirrorObject.html#a279b0dc0c0b2e335eb6662ec62d4d349',1,'hdtree::Reader::MirrorObject::MirrorObject()']]]
+  ['mirrorobject_76',['MirrorObject',['../classhdtree_1_1Reader_1_1MirrorObject.html',1,'hdtree::Reader::MirrorObject'],['../classhdtree_1_1Reader_1_1MirrorObject.html#a279b0dc0c0b2e335eb6662ec62d4d349',1,'hdtree::Reader::MirrorObject::MirrorObject()']]],
+  ['mydata_77',['MyData',['../classMyData.html',1,'']]]
 ];

@@ -18,5 +18,6 @@ var annotated_dup =
       [ "Reader", "classhdtree_1_1Reader.html", "classhdtree_1_1Reader" ],
       [ "Tree", "classhdtree_1_1Tree.html", "classhdtree_1_1Tree" ],
       [ "Writer", "classhdtree_1_1Writer.html", "classhdtree_1_1Writer" ]
-    ] ]
+    ] ],
+    [ "MyData", "classMyData.html", "classMyData" ]
 ];

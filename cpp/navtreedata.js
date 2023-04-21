@@ -75,7 +75,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "AbstractBranch_8h_source.html",
-"structhdtree_1_1class__version__impl_1_1deducer.html"
+"namespacemembers_enum.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

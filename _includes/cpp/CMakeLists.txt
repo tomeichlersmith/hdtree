@@ -7,3 +7,6 @@ target_link_libraries(hdtree-eg-transform PRIVATE HDTree)
 
 add_executable(hdtree-eg-load load.cxx)
 target_link_libraries(hdtree-eg-load PRIVATE HDTree)
+
+add_executable(hdtree-eg-user-class user_class.cxx)
+target_link_libraries(hdtree-eg-user-class PRIVATE HDTree)

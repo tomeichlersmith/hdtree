@@ -32,7 +32,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">HDTree
-   &#160;<span id="projectnumber">0.5.0</span>
+   &#160;<span id="projectnumber">0.5.1</span>
    </div>
    <div id="projectbrief">HDTree C++ API</div>
   </td>
@@ -250,10 +250,10 @@ class hdtree::Branch&lt; DataType, Enable &gt;</h3>
 <p>General data set. </p>
 <p>This is the top-level data set that will be used most often. It is meant to be used by a class which registers its member variables to this set via the io::DataSet&lt;DataType&gt;::attach method.</p>
 <p>More complete documentation is kept in the documentation of the hdtree namespace; nevertheless, a short example is kept here.</p>
-<div class="fragment"><div class="line"><span class="keyword">class </span>MyData {</div>
+<div class="fragment"><div class="line"><span class="keyword">class </span><a class="code" href="classMyData.html">MyData</a> {</div>
 <div class="line"> <span class="keyword">public</span>:</div>
-<div class="line">  <a class="code" href="ClassVersion_8h.html#ae3a4b2932c83cd0cd8557ccf139bde20">fire_class_version</a>(2);</div>
-<div class="line">  MyData() = <span class="keywordflow">default</span>; <span class="comment">// required by serialization technique</span></div>
+<div class="line">  <a class="code" href="ClassVersion_8h.html#abd62319e1e46024db8f5c2ac340be843">hdtree_class_version</a>(2);</div>
+<div class="line">  <a class="code" href="classMyData.html">MyData</a>() = <span class="keywordflow">default</span>; <span class="comment">// required by serialization technique</span></div>
 <div class="line">  <span class="comment">// other public members</span></div>
 <div class="line"> <span class="keyword">private</span>:</div>
 <div class="line">  <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="structhdtree_1_1access.html">hdtree::access</a>;</div>
@@ -273,7 +273,8 @@ class hdtree::Branch&lt; DataType, Enable &gt;</h3>
 <div class="line">  <span class="comment">// this member doesn&#39;t appear in &#39;attach&#39; so it won&#39;t end up on disk</span></div>
 <div class="line">  <span class="keywordtype">int</span> i_wont_be_on_disk_;</div>
 <div class="line">};</div>
-<div class="ttc" id="aClassVersion_8h_html_ae3a4b2932c83cd0cd8557ccf139bde20"><div class="ttname"><a href="ClassVersion_8h.html#ae3a4b2932c83cd0cd8557ccf139bde20">fire_class_version</a></div><div class="ttdeci">#define fire_class_version(VERS)</div><div class="ttdoc">define the version number for a class</div><div class="ttdef"><b>Definition:</b> ClassVersion.h:85</div></div>
+<div class="ttc" id="aClassVersion_8h_html_abd62319e1e46024db8f5c2ac340be843"><div class="ttname"><a href="ClassVersion_8h.html#abd62319e1e46024db8f5c2ac340be843">hdtree_class_version</a></div><div class="ttdeci">#define hdtree_class_version(VERS)</div><div class="ttdoc">define the version number for a class</div><div class="ttdef"><b>Definition:</b> ClassVersion.h:85</div></div>
+<div class="ttc" id="aclassMyData_html"><div class="ttname"><a href="classMyData.html">MyData</a></div><div class="ttdoc">Example user class.</div><div class="ttdef"><b>Definition:</b> user_class.cxx:18</div></div>
 <div class="ttc" id="aclasshdtree_1_1AbstractBranch_html_ac3e1f5aa2f30107294c50d829450dd55"><div class="ttname"><a href="classhdtree_1_1AbstractBranch.html#ac3e1f5aa2f30107294c50d829450dd55">hdtree::AbstractBranch::clear</a></div><div class="ttdeci">virtual void clear()</div><div class="ttdoc">Define the clear function here to handle the most common cases.</div><div class="ttdef"><b>Definition:</b> AbstractBranch.h:171</div></div>
 <div class="ttc" id="aclasshdtree_1_1Branch_html_a1a378b87ed173aa9e22d7a54ac979d83"><div class="ttname"><a href="classhdtree_1_1Branch.html#a1a378b87ed173aa9e22d7a54ac979d83">hdtree::Branch::Branch</a></div><div class="ttdeci">Branch(const std::string &amp;branch_name, DataType *handle=nullptr)</div><div class="ttdoc">Attach ourselves to the input type after construction.</div><div class="ttdef"><b>Definition:</b> GeneralBranch.h:73</div></div>
 <div class="ttc" id="aclasshdtree_1_1Branch_html_a82d186ba8cd761dee272c9951e4333af"><div class="ttname"><a href="classhdtree_1_1Branch.html#a82d186ba8cd761dee272c9951e4333af">hdtree::Branch::attach</a></div><div class="ttdeci">void attach(Reader &amp;f) final override</div><div class="ttdoc">pure virtual method for loading data from the input file</div><div class="ttdef"><b>Definition:</b> GeneralBranch.h:110</div></div>
