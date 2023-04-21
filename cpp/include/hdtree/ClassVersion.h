@@ -79,8 +79,8 @@ inline constexpr int class_version =
  * define the version number for a class
  *
  * Put this macro within the class declaration in order to define
- * its version number as a class used for data serialization in fire.
+ * its version number as a class used for data serialization in hdtree.
  * Without this macro, the version will default to zero.
  */
-#define fire_class_version(VERS) \
+#define hdtree_class_version(VERS) \
   using version = std::integral_constant<int, VERS>

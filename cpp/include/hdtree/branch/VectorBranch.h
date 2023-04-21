@@ -16,7 +16,7 @@ namespace hdtree {
 template <typename ContentType>
 class Branch<std::vector<ContentType>>
     : public AbstractBranch<std::vector<ContentType>> {
-  fire_class_version(1);
+  hdtree_class_version(1);
 
  public:
   /**

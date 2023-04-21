@@ -19,7 +19,7 @@ namespace hdtree {
  * ```cpp
  * class MyData {
  *  public:
- *   fire_class_version(2);
+ *   hdtree_class_version(2);
  *   MyData() = default; // required by serialization technique
  *   // other public members
  *  private:
