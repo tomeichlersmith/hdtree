@@ -32,4 +32,4 @@ interaction with HDTrees that ROOT's ecosystem provides for TTrees.
 - Reference open issue for writing a C++ program
 
 ## awkward and pandas interface
-- Reference open issue for Python package, how it is modeled after uproot's interface.
+- [Issue #11](https://github.com/tomeichlersmith/hdtree/issues/11) is aiming to define a HDTree Python API modeled after `uproot`'s interface for ROOT TTrees
