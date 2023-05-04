@@ -19,6 +19,6 @@ topnav_dropdowns:
     - title: API Reference
       folderitems:
         - title: C++
-          external_url: /cpp
+          external_url: /hdtree/cpp
 
 # Copyright 2021 Google LLC
