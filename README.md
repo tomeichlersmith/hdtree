@@ -1,4 +1,5 @@
-# HDTree
+![HDTree](docs/hdtree_logo_alt.png)
+
 columnar, ragged data with a dynamic, run-time defined schema
 
 A TTree-like data organization schema stored within the HDF5 data format.
