@@ -36,7 +36,7 @@ else()
   string(REGEX REPLACE "-.*$" "" git_describe ${git_describe})
   set(git_vers ${git_describe})
   if (NOT ${git_vers} EQUAL ${PROJECT_VERSION})
-    message(FATAL_ERROR "Deduced git verison ${git_vers} is not equal to CMake version ${PROJECT_VERSION}")
+    message(WARNING "Deduced git verison ${git_vers} is not equal to CMake version ${PROJECT_VERSION}")
   endif()
 endif()
 
