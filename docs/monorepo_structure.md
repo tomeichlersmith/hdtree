@@ -15,4 +15,8 @@ structure of the mono-repo's root directory is very simple:
 - `test/` : Integration tests to make sure files from one API can be read by another
 - `cpp/` : CPP API Implementation
 - `Xlang/` : some language X API implementation
+- `metaformat/` : documentation about the meta-format/schema itself, not specific to any language
+- `docs/` : general documentation about the HDTree project
 - `README.md` : GitHub README
+- `SUMMARY.md` : outline of mdBook-based documentation website
+- `book.toml` : configuration file for mdBook-based site

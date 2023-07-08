@@ -1,1 +1,5 @@
+# this gitignore is for mdbook /and/ the entire monorepo
+.git
+.github
+*.swp
 book

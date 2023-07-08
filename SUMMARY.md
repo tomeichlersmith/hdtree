@@ -15,4 +15,3 @@
   - [Getting Started](./cpp/docs/getting_started.md)
   - [Performance](./cpp/docs/performance.md)
   - [Making the Docs](./cpp/docs/README.md)
-  - [Doxygen Reference](./cpp/docs/html/index.html)
