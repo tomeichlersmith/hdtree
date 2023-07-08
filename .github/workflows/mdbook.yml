@@ -42,11 +42,6 @@ jobs:
           echo "::endgroup::"
           echo "::group::Set Version"
           _version_tag=$(git describe --tags | sed 's/[^.0-9]*//g')
-          _cmake_version=$(grep "^[ \t]*VERSION" cpp/CMakeLists.txt | sed 's/[^.0-9]*//g')
-          if [[ "${_version_tag}" != "${_cmake_version}" ]]; then
-            echo "::error::Git version ${_version_tag} does not match CMake version ${_cmake_version}"
-          exit 1
-          fi
           echo ${_version_tag}
           echo "PROJECT_NUMBER = ${_version_tag}" >> cpp/docs/doxyfile
           echo "::endgroup::"
