@@ -5,6 +5,8 @@ hdtree-cpp is a C++17 library with support for
 - serial read/write of an HDTree
 - schema evolution of user-defined structures stored in branches of the HDTree
 
+> [Online Reference Manual](docs/html/index.html)
+
 ## Installation
 ### Depedencies
 - HDF5

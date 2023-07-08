@@ -1,4 +1,5 @@
 # Generating hdtree-cpp docs
+
 The hdtree-cpp documentation is generated with [Doxygen](https://www.doxygen.nl/index.html)
 using the fancy [doxygen-awesome](https://github.com/jothepro/doxygen-awesome-css) theme
 In order to obtain the same styling as the online documentation,

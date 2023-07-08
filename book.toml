@@ -1,0 +1,13 @@
+[book]
+authors = ["tomeichlersmith"]
+language = "en"
+multilingual = false
+src = "."
+title = "HDTree"
+
+[output.html]
+mathjax-support = true
+site-url = "/hdtree/"
+git-repository-url = "https://github.com/tomeichlersmith/hdtree/tree/main/"
+edit-url-template = "https://github.com/tomeichlersmith/hdtree/edit/main/{path}"
+
